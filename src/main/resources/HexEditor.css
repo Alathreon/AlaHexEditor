@@ -1,0 +1,17 @@
+.table-view {
+    -fx-font-family: 'Courier New';
+}
+
+.table-view .column-header .label,
+.table-view .column-header,
+.table-view .filler,
+.table-view .column-header-background {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-color: white;
+}
+.table-view .text-field {
+    -fx-padding: 0;
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+}
