@@ -10,6 +10,25 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class IOUtil {
+    private IOUtil() {
+    }
+
+    private static void alertFileError(String title, IOException ex) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("En error happened");
+        alert.setContentText(ex.getMessage());
+        alert.show();
+    }
+    public static FileData read(Path path) {
+        try {
+            byte[] bytes = Files.readAllBytes(path);
+            return new FileData(path, new ByteView(bytes));
+        } catch (IOException e) {
+            alertFileError("Opening a file", e);
+        }
+        return null;
+    }
     public static FileData promptOpen(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load a binary file");
@@ -21,11 +40,7 @@ public class IOUtil {
                 byte[] bytes = Files.readAllBytes(path);
                 return new FileData(selectedFile.toPath(), new ByteView(bytes));
             } catch (IOException e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Opening a file");
-                alert.setHeaderText("En error happened");
-                alert.setContentText(e.getMessage());
-                alert.show();
+                alertFileError("Opening a file", e);
             }
         }
         return null;
@@ -52,11 +67,7 @@ public class IOUtil {
         try {
             Files.write(fileData.path(), fileData.data().getBytes());
         } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Saving a file");
-            alert.setHeaderText("En error happened");
-            alert.setContentText(e.getMessage());
-            alert.show();
+            alertFileError("Saving a file", e);
         }
         return fileData;
     }

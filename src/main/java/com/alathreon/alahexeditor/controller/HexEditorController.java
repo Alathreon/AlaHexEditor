@@ -13,12 +13,17 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 import java.net.URL;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class HexEditorController implements Initializable {
     @FXML private TableView<ByteView> table;
+    @FXML private Menu openRecentMenu;
     private Runnable onPromptOpen;
+    private Consumer<Path> onRecentOpen;
     private Runnable onPromptSave;
     private Runnable onSave;
     @FXML
@@ -37,6 +42,9 @@ public class HexEditorController implements Initializable {
     public void setOnPromptOpen(Runnable onPromptOpen) {
         this.onPromptOpen = onPromptOpen;
     }
+    public void setOnRecentOpen(Consumer<Path> onRecentOpen) {
+        this.onRecentOpen = onRecentOpen;
+    }
     public void setOnPromptSave(Runnable onPromptSave) {
         this.onPromptSave = onPromptSave;
     }
@@ -49,6 +57,14 @@ public class HexEditorController implements Initializable {
         ByteView view = fileData.data();
         for(int i = 0; i <= view.length() / 16; i++) {
             table.getItems().add(view.subView(i * 16, Math.min(16, view.length() - i * 16)));
+        }
+    }
+    public void setRecentlyOpened(List<Path> recentlyOpened) {
+        openRecentMenu.getItems().clear();
+        for (Path path : recentlyOpened) {
+            MenuItem menuItem = new MenuItem(path.getFileName().toString());
+            menuItem.setOnAction(e -> onRecentOpen.accept(path));
+            openRecentMenu.getItems().add(menuItem);
         }
     }
     @Override
