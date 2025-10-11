@@ -26,6 +26,8 @@ public class HexEditorController implements Initializable {
     private Consumer<Path> onRecentOpen;
     private Runnable onPromptSave;
     private Runnable onSave;
+    private Consumer<Integer> onLengthIncremented;
+
     @FXML
     private void onPromptOpen(ActionEvent event) {
         this.onPromptOpen.run();
@@ -51,13 +53,19 @@ public class HexEditorController implements Initializable {
     public void setOnSave(Runnable onSave) {
         this.onSave = onSave;
     }
+    public void setOnLengthIncremented(Consumer<Integer> onLengthIncremented) {
+        this.onLengthIncremented = onLengthIncremented;
+    }
+
     public void setData(FileData fileData) {
         table.getItems().clear();
         if(fileData == null) return;
-        ByteView view = fileData.data();
-        for(int i = 0; i <= view.length() / 16; i++) {
-            table.getItems().add(view.subView(i * 16, Math.min(16, view.length() - i * 16)));
+        ByteView byteView = fileData.data();
+        for(int i = 0; i <= byteView.length() / 16; i++) {
+            if(i == byteView.length() / 16 && byteView.length() % 16 == 0) break;
+            table.getItems().add(byteView.subView(i * 16, Math.min(16, byteView.length() - i * 16)));
         }
+        table.getItems().add(new ByteView(new byte[0]));    // Ghost row, to scroll past last row
     }
     public void setRecentlyOpened(List<Path> recentlyOpened) {
         openRecentMenu.getItems().clear();
@@ -74,7 +82,7 @@ public class HexEditorController implements Initializable {
         table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         table.setColumnResizePolicy(p -> true);
         table.setSortPolicy(byteViewTableView -> false);
-        addColumn("    ", 4, v -> "%04X".formatted(v.offset()));
+        addColumn("    ", 4, v -> "%04X".formatted(v.length() != 0 ? v.offset() : table.getItems().size() * 16 - 16));
         for(int i = 0; i < 16; i++) {
             int j = i;
             TableColumn<ByteView, String> column = addColumn("%X".formatted(i), 2, v -> v.length() <= j ? "  " : v.subView(j, 1).toString());
@@ -90,13 +98,23 @@ public class HexEditorController implements Initializable {
         return cell;
     }
     private void actionSetOnEditCommit(int col, TableColumn.CellEditEvent<ByteView, String> event) {
-        String s = switch (event.getNewValue().length()) {
+        String newValue = event.getNewValue().trim();
+        String s = switch (newValue.length()) {
             case 0 -> "00";
-            case 1 -> "0" + event.getNewValue();
-            case 2 -> event.getNewValue();
-            default -> event.getNewValue().substring(0, 2);
+            case 1 -> "0" + newValue;
+            case 2 -> newValue;
+            default -> newValue.substring(0, 2);
         };
-        event.getRowValue().set(col, s);
+        ByteView view = event.getRowValue();
+        int toFit = view.neededToFit(col, s);
+        if(view.length() == 0) {
+            toFit += event.getTableView().getItems().get(event.getTablePosition().getRow()-1).neededToFit(15, "00");
+        }
+        if(toFit > 0) {
+            onLengthIncremented.accept(toFit);
+            view = event.getTableView().getItems().get(event.getTablePosition().getRow());
+        }
+        view.set(col, s);
         table.refresh();
     }
     private TableColumn<ByteView, String> addColumn(String text, int expectedChars, Function<ByteView, String> mapper) {

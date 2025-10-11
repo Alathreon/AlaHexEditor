@@ -38,6 +38,10 @@ public class App extends Application {
         });
         controller.setOnSave(() -> fileData = IOUtil.save(primaryStage, fileData));
         controller.setOnPromptSave(() -> fileData = IOUtil.promptSave(primaryStage, fileData));
+        controller.setOnLengthIncremented(toAdd -> {
+            fileData = new FileData(fileData.path(), fileData.data().withIncreasedLength(toAdd));
+            controller.setData(fileData);
+        });
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
         primaryStage.show();

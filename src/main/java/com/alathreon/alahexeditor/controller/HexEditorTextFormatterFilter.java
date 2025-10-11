@@ -39,7 +39,7 @@ public record HexEditorTextFormatterFilter(int col, TableView<ByteView> table, C
             }
             return null;
         }
-        if(change.getControlNewText().matches("[0-9a-fA-F]*")) {
+        if(change.getControlNewText().matches("[0-9a-fA-F]*| {2}")) {
             change.setText(change.getText().toUpperCase());
             return change;
         }
