@@ -107,7 +107,7 @@ public class HexEditorController implements Initializable {
         };
         ByteView view = event.getRowValue();
         int toFit = view.neededToFit(col, s);
-        if(view.length() == 0) {
+        if(view.length() == 0 && event.getTablePosition().getRow() > 0) {
             toFit += event.getTableView().getItems().get(event.getTablePosition().getRow()-1).neededToFit(15, "00");
         }
         if(toFit > 0) {

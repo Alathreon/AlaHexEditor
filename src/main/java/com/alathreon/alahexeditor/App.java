@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
-    private FileData fileData = new FileData(null, new ByteView(new byte[1024]));
+    private FileData fileData = new FileData(null, new ByteView(new byte[0]));
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -42,6 +42,7 @@ public class App extends Application {
             fileData = new FileData(fileData.path(), fileData.data().withIncreasedLength(toAdd));
             controller.setData(fileData);
         });
+        controller.setData(fileData);
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
         primaryStage.show();
