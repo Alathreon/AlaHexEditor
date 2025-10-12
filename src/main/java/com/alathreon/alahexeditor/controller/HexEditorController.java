@@ -40,6 +40,38 @@ public class HexEditorController implements Initializable {
     private void onSave(ActionEvent event) {
         this.onSave.run();
     }
+    @FXML
+    private void onUndo(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onRedo(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onCut(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onCopy(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onPaste(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onDelete(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onSelectAll(ActionEvent actionEvent) {
+        // TODO
+    }
+    @FXML
+    private void onUnselectAll(ActionEvent actionEvent) {
+        // TODO
+    }
 
     public void setOnPromptOpen(Runnable onPromptOpen) {
         this.onPromptOpen = onPromptOpen;
@@ -135,4 +167,5 @@ public class HexEditorController implements Initializable {
         label.applyCss();
         return label.prefWidth(-1) + 10;
     }
+
 }
