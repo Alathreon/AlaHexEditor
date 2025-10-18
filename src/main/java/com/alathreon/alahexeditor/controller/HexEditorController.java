@@ -131,6 +131,23 @@ public class HexEditorController implements Initializable {
         this.onQuit = onQuit;
     }
 
+    public void fireEvent(EventKind eventKind) {
+        switch (eventKind) {
+            case NEW -> onNew(null);
+            case PROMPT_OPEN -> onPromptOpen(null);
+            case PROMPT_SAVE -> onPromptSave(null);
+            case SAVE -> onSave(null);
+            case CUT -> onCut(null);
+            case COPY -> onCopy(null);
+            case PASTE -> onPaste(null);
+            case DELETE -> onDelete(null);
+            case SELECT_ALL -> onSelectAll(null);
+            case UNSELECT_ALL -> onUnselectAll(null);
+            case QUIT -> onQuit(null);
+            case null -> throw new NullPointerException();
+        }
+    }
+
     public void setOnLengthIncremented(Consumer<Integer> onLengthIncremented) {
         this.onLengthIncremented = onLengthIncremented;
     }

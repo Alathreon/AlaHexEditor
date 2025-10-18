@@ -54,18 +54,18 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#onNew" text="New" />
-            <MenuItem mnemonicParsing="false" onAction="#onPromptOpen" text="Open…" />
+            <MenuItem mnemonicParsing="false" onAction="#onNew" text="New (Ctrl+N)" />
+            <MenuItem mnemonicParsing="false" onAction="#onPromptOpen" text="Open… (Ctrl+O)" />
             <Menu fx:id="openRecentMenu" mnemonicParsing="false" text="Open Recent" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" onAction="#onSave" text="Save" />
-            <MenuItem mnemonicParsing="false" onAction="#onPromptSave" text="Save As…" />
+            <MenuItem mnemonicParsing="false" onAction="#onSave" text="Save  (Ctrl+S)" />
+            <MenuItem mnemonicParsing="false" onAction="#onPromptSave" text="Save As… (Ctrl+Shift+S)" />
             <MenuItem mnemonicParsing="false" text="Revert" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Preferences…" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#onQuit" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#onQuit" text="Quit (Ctrl+Q)" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
@@ -73,13 +73,13 @@
             <MenuItem mnemonicParsing="false" onAction="#onUndo" text="Undo" />
             <MenuItem mnemonicParsing="false" onAction="#onRedo" text="Redo" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#onCut" text="Cut" />
-            <MenuItem mnemonicParsing="false" onAction="#onCopy" text="Copy" />
-            <MenuItem mnemonicParsing="false" onAction="#onPaste" text="Paste" />
-            <MenuItem mnemonicParsing="false" onAction="#onDelete" text="Delete" />
+            <MenuItem mnemonicParsing="false" onAction="#onCut" text="Cut (Ctrl+X)" />
+            <MenuItem mnemonicParsing="false" onAction="#onCopy" text="Copy (Ctrl+C)" />
+            <MenuItem mnemonicParsing="false" onAction="#onPaste" text="Paste (Ctrl+P)" />
+            <MenuItem mnemonicParsing="false" onAction="#onDelete" text="Delete (Delete)" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#onSelectAll" text="Select All" />
-            <MenuItem mnemonicParsing="false" onAction="#onUnselectAll" text="Unselect All" />
+            <MenuItem mnemonicParsing="false" onAction="#onSelectAll" text="Select All (Ctrl+A)" />
+            <MenuItem mnemonicParsing="false" onAction="#onUnselectAll" text="Unselect All (Ctrl+Shift+A)" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
