@@ -5,7 +5,6 @@ import com.alathreon.alahexeditor.component.CustomTextFieldTableCell;
 import com.alathreon.alahexeditor.util.FileData;
 import com.alathreon.alahexeditor.util.Position;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -38,6 +37,7 @@ public class HexEditorController implements Initializable {
     private Consumer<Stream<Position>> onCut;
     private Consumer<Stream<Position>> onCopy;
     private Consumer<Position> onPaste;
+    private Consumer<Stream<Position>> onDelete;
     private Consumer<Integer> onLengthIncremented;
 
     @FXML
@@ -79,15 +79,15 @@ public class HexEditorController implements Initializable {
     }
     @FXML
     private void onDelete(ActionEvent actionEvent) {
-        // TODO
+        this.onDelete.accept(findSelected());
     }
     @FXML
     private void onSelectAll(ActionEvent actionEvent) {
-        // TODO
+        table.getSelectionModel().selectAll();
     }
     @FXML
     private void onUnselectAll(ActionEvent actionEvent) {
-        // TODO
+        table.getSelectionModel().clearSelection();
     }
 
     public void setOnPromptOpen(Runnable onPromptOpen) {
@@ -110,6 +110,9 @@ public class HexEditorController implements Initializable {
     }
     public void setOnPaste(Consumer<Position> onPaste) {
         this.onPaste = onPaste;
+    }
+    public void setOnDelete(Consumer<Stream<Position>> onDelete) {
+        this.onDelete = onDelete;
     }
     public void setOnLengthIncremented(Consumer<Integer> onLengthIncremented) {
         this.onLengthIncremented = onLengthIncremented;

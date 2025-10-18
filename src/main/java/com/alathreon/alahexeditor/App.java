@@ -69,6 +69,12 @@ public class App extends Application {
             fileData = new FileData(fileData.path(), cut);
             controller.setData(fileData);
         });
+        controller.setOnDelete(positions -> {
+            List<Position> toCopy = positions.toList();
+            ByteView cut = fileData.data().withoutAll(new HashSet<>(toCopy));
+            fileData = new FileData(fileData.path(), cut);
+            controller.setData(fileData);
+        });
         controller.setData(fileData);
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
