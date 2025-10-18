@@ -3,7 +3,9 @@ package com.alathreon.alahexeditor.controller;
 import com.alathreon.alahexeditor.util.ByteView;
 import com.alathreon.alahexeditor.component.CustomTextFieldTableCell;
 import com.alathreon.alahexeditor.util.FileData;
+import com.alathreon.alahexeditor.util.Position;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,17 +17,27 @@ import javafx.scene.text.Font;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class HexEditorController implements Initializable {
+    private static Position fromTablePosition(TablePosition tablePosition) {
+        if(tablePosition.getColumn() < 1 || tablePosition.getColumn() > 16) return null;
+        return new Position(tablePosition.getRow(), tablePosition.getColumn()-1);
+    }
+
     @FXML private TableView<ByteView> table;
     @FXML private Menu openRecentMenu;
     private Runnable onPromptOpen;
     private Consumer<Path> onRecentOpen;
     private Runnable onPromptSave;
     private Runnable onSave;
+    private Consumer<Stream<Position>> onCut;
+    private Consumer<Stream<Position>> onCopy;
+    private Consumer<Position> onPaste;
     private Consumer<Integer> onLengthIncremented;
 
     @FXML
@@ -50,15 +62,20 @@ public class HexEditorController implements Initializable {
     }
     @FXML
     private void onCut(ActionEvent actionEvent) {
-        // TODO
+        this.onCut.accept(findSelected());
     }
     @FXML
     private void onCopy(ActionEvent actionEvent) {
-        // TODO
+        this.onCopy.accept(findSelected());
     }
     @FXML
     private void onPaste(ActionEvent actionEvent) {
-        // TODO
+        Position position = table.getSelectionModel().getSelectedCells()
+                .stream()
+                .findFirst()    // Empty if no selection
+                .map(HexEditorController::fromTablePosition)    // Empty if invalid selection
+                .orElse(new Position(0, 0));
+        this.onPaste.accept(position);
     }
     @FXML
     private void onDelete(ActionEvent actionEvent) {
@@ -84,6 +101,15 @@ public class HexEditorController implements Initializable {
     }
     public void setOnSave(Runnable onSave) {
         this.onSave = onSave;
+    }
+    public void setOnCut(Consumer<Stream<Position>> onCut) {
+        this.onCut = onCut;
+    }
+    public void setOnCopy(Consumer<Stream<Position>> onCopy) {
+        this.onCopy = onCopy;
+    }
+    public void setOnPaste(Consumer<Position> onPaste) {
+        this.onPaste = onPaste;
     }
     public void setOnLengthIncremented(Consumer<Integer> onLengthIncremented) {
         this.onLengthIncremented = onLengthIncremented;
@@ -167,5 +193,7 @@ public class HexEditorController implements Initializable {
         label.applyCss();
         return label.prefWidth(-1) + 10;
     }
-
+    private Stream<Position> findSelected() {
+        return table.getSelectionModel().getSelectedCells().stream().map(HexEditorController::fromTablePosition).filter(Objects::nonNull);
+    }
 }

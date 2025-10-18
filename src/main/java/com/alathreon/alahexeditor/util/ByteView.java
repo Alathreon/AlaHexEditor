@@ -2,9 +2,7 @@ package com.alathreon.alahexeditor.util;
 
 import com.alathreon.alahexeditor.parsing.Endianness;
 
-import java.util.Arrays;
-import java.util.BitSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -12,13 +10,13 @@ import java.util.stream.Stream;
 
 public class ByteView implements Iterable<Byte> {
     public static byte[] parseFormattedString(String s) throws IllegalArgumentException{
-        int[] array = s.lines().filter(l -> l.matches("[\\da-f]{8} {2}(([\\da-f]{2})  ?){0,16} {0,49} \\|.{0,16}\\|"))
-                .map(l -> l.replaceAll("^[\\da-f]{8} *", "").replaceAll(" *\\|.{0,16}\\|$", ""))
+        int[] array = s.lines().filter(l -> l.matches("[\\da-fA-F]{8} {2}(([\\da-fA-F]{2})  ?){0,16} {0,49} \\|.{0,16}\\|"))
+                .map(l -> l.replaceAll("^[\\da-fA-F]{8} *", "").replaceAll(" *\\|.{0,16}\\|$", ""))
                 .flatMap(l -> Stream.of(l.split(" +")))
                 .mapToInt(c -> Integer.parseInt(c, 16))
                 .toArray();
         if(array.length == 0) {
-            throw new IllegalArgumentException("Nothing to parse in:%n%s".formatted(s));
+            return s.getBytes();
         }
         byte[] bytes = new byte[array.length];
         for(int i = 0; i < array.length; i++) {
@@ -28,6 +26,16 @@ public class ByteView implements Iterable<Byte> {
     }
     public static ByteView fromFormattedString(String s) throws IllegalArgumentException {
         return  new ByteView(parseFormattedString(s));
+    }
+    public static ByteView fromStream(Stream<Byte> stream) {
+        return fromList(stream.toList());
+    }
+    public static ByteView fromList(List<Byte> list) {
+        byte[] bytes = new byte[list.size()];
+        for(int i = 0; i < list.size(); i++) {
+            bytes[i] = list.get(i);
+        }
+        return new ByteView(bytes);
     }
 
     private final byte[] content;
@@ -61,9 +69,15 @@ public class ByteView implements Iterable<Byte> {
         if(i >= length) throw new IllegalArgumentException();
         return content[offset + i];
     }
+    public byte get(Position pos) {
+        return get(Position.positionToIndex(pos));
+    }
     public void set(int i, byte val) {
         if(i >= length) throw new IllegalArgumentException();
         content[offset + i] = val;
+    }
+    public void set(Position pos, byte val) {
+        set(Position.positionToIndex(pos), val);
     }
     public void set(String s) {
         set(0, s);
@@ -102,6 +116,39 @@ public class ByteView implements Iterable<Byte> {
         }
         return subView(i);
     }
+    public ByteView withAll(List<Position> positions) {
+        byte[] result = new byte[positions.size()];
+        for(int i = 0; i < result.length; i++) {
+            result[i] = get(positions.get(i));
+        }
+        return new ByteView(result);
+    }
+    public ByteView withoutAll(Set<Position> positions) {
+        byte[] result = new byte[length];
+        int len = 0;
+        for(int i = 0; i < length; i++) {
+            Position position = Position.indexToPosition(i);
+            if(!positions.contains(position)) {
+                result[len++] = content[offset + i];
+            }
+        }
+        return new ByteView(Arrays.copyOf(result, len));
+    }
+
+    public ByteView withInsert(ByteView toInsert, Position position) {
+        int start = Position.positionToIndex(position);
+        if(start >= length) {   // if position > this.length
+            byte[] result = new byte[start + toInsert.length]; // [this, other]
+            System.arraycopy(content, offset, result, 0, length); // This
+            System.arraycopy(toInsert.content, toInsert.offset, result, start, toInsert.length);    // Other
+            return new ByteView(result);
+        }
+        byte[] result = new byte[length + toInsert.length]; // [this1, other, this2]
+        System.arraycopy(content, offset, result, 0, start);    // This1
+        System.arraycopy(toInsert.content, toInsert.offset, result, start, toInsert.length);    // Other
+        System.arraycopy(content, offset + start, result, start + toInsert.length, length - start);   // This2
+        return new ByteView(result);
+    }
 
     public ByteView leftover(ByteView subView) {
         if(subView.content != this.content) throw new IllegalArgumentException();
@@ -139,8 +186,8 @@ public class ByteView implements Iterable<Byte> {
     }
     public String toFormmatedString() {
         StringBuilder sb = new StringBuilder();
-        for(int row = 0; row * 16 < length + 16; row++) {
-            sb.append(String.format("%08X", row * 16));
+        for(int row = 0; row * 16 < length; row++) {
+            sb.append(String.format("%08X  ", row * 16));
             int size = Math.min(offset + length, offset + row * 16 + 16);
             StringBuilder rowBuilder = new StringBuilder();
             int col = 0;

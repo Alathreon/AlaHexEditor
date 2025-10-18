@@ -4,6 +4,11 @@ import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,10 +18,10 @@ public class IOUtil {
     private IOUtil() {
     }
 
-    private static void alertFileError(String title, IOException ex) {
+    private static void alertError(String title, Exception ex) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
-        alert.setHeaderText("En error happened");
+        alert.setHeaderText("An error happened");
         alert.setContentText(ex.getMessage());
         alert.show();
     }
@@ -25,7 +30,7 @@ public class IOUtil {
             byte[] bytes = Files.readAllBytes(path);
             return new FileData(path, new ByteView(bytes));
         } catch (IOException e) {
-            alertFileError("Opening a file", e);
+            alertError("Opening a file", e);
         }
         return null;
     }
@@ -40,7 +45,7 @@ public class IOUtil {
                 byte[] bytes = Files.readAllBytes(path);
                 return new FileData(selectedFile.toPath(), new ByteView(bytes));
             } catch (IOException e) {
-                alertFileError("Opening a file", e);
+                alertError("Opening a file", e);
             }
         }
         return null;
@@ -67,8 +72,23 @@ public class IOUtil {
         try {
             Files.write(fileData.path(), fileData.data().getBytes());
         } catch (IOException e) {
-            alertFileError("Saving a file", e);
+            alertError("Saving a file", e);
         }
         return fileData;
+    }
+    public static void copyToClipboard(ByteView byteView) {
+        StringSelection stringSelection = new StringSelection(byteView.toFormmatedString());
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        clipboard.setContents(stringSelection, null);
+    }
+    public static ByteView pasteFromClipboard() {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        try {
+            String clipboardText = (String) clipboard.getData(DataFlavor.stringFlavor);
+            return ByteView.fromFormattedString(clipboardText);
+        } catch (UnsupportedFlavorException | IOException e) {
+            alertError("Pasting from clipboard", e);
+            return null;
+        }
     }
 }
