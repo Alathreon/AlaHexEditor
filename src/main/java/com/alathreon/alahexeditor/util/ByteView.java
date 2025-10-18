@@ -1,7 +1,5 @@
 package com.alathreon.alahexeditor.util;
 
-import com.alathreon.alahexeditor.parsing.Endianness;
-
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -214,22 +212,6 @@ public class ByteView implements Iterable<Byte> {
     public byte[] getBytes() {
         byte[] result = new byte[length];
         System.arraycopy(content, offset, result, 0, length);
-        return result;
-    }
-
-    public DataSegment toDataSegment() {
-        return new DataSegment(offset, length, toString());
-    }
-    public BitSet toBitset() {
-        return BitSet.valueOf(Arrays.copyOfRange(content, offset, offset + length));
-    }
-
-    public long parseInt(Endianness endianness) {
-        long result = 0;
-        for(int i = 0; i < length; i++) {
-            byte b = get(i);
-            result |= (long) (b & 0xFF) << ((endianness == Endianness.BIG ? length - 1 - i : i) * 8);
-        }
         return result;
     }
 }
