@@ -26,6 +26,8 @@ public class HexEditorController implements Initializable {
 
     @FXML private TableView<ByteView> table;
     @FXML private Menu openRecentMenu;
+
+    private Runnable onNew;
     private Runnable onPromptOpen;
     private Consumer<Path> onRecentOpen;
     private Runnable onPromptSave;
@@ -34,10 +36,16 @@ public class HexEditorController implements Initializable {
     private Consumer<Stream<Position>> onCopy;
     private Consumer<Position> onPaste;
     private Consumer<Stream<Position>> onDelete;
+    private Runnable onQuit;
+
     private Consumer<Integer> onLengthIncremented;
 
     private ByteView bytes;
 
+    @FXML
+    private void onNew(ActionEvent actionEvent) {
+        this.onNew.run();
+    }
     @FXML
     private void onPromptOpen(ActionEvent event) {
         this.onPromptOpen.run();
@@ -87,7 +95,14 @@ public class HexEditorController implements Initializable {
     private void onUnselectAll(ActionEvent actionEvent) {
         table.getSelectionModel().clearSelection();
     }
+    @FXML
+    private void onQuit(ActionEvent actionEvent) {
+        this.onQuit.run();
+    }
 
+    public void setOnNew(Runnable onNew) {
+        this.onNew = onNew;
+    }
     public void setOnPromptOpen(Runnable onPromptOpen) {
         this.onPromptOpen = onPromptOpen;
     }
@@ -112,6 +127,10 @@ public class HexEditorController implements Initializable {
     public void setOnDelete(Consumer<Stream<Position>> onDelete) {
         this.onDelete = onDelete;
     }
+    public void setOnQuit(Runnable onQuit) {
+        this.onQuit = onQuit;
+    }
+
     public void setOnLengthIncremented(Consumer<Integer> onLengthIncremented) {
         this.onLengthIncremented = onLengthIncremented;
     }
