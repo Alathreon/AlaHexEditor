@@ -63,15 +63,21 @@ public class ByteView implements Iterable<Byte> {
     public byte[] content() {
         return content;
     }
+    public boolean isIn(int i) {
+        return i < length;
+    }
+    public boolean isIn(Position position) {
+        return isIn(Position.positionToIndex(position));
+    }
     public byte get(int i) {
-        if(i >= length) throw new IllegalArgumentException();
+        if(!isIn(i)) throw new IllegalArgumentException();
         return content[offset + i];
     }
     public byte get(Position pos) {
         return get(Position.positionToIndex(pos));
     }
     public void set(int i, byte val) {
-        if(i >= length) throw new IllegalArgumentException();
+        if(!isIn(i)) throw new IllegalArgumentException();
         content[offset + i] = val;
     }
     public void set(Position pos, byte val) {

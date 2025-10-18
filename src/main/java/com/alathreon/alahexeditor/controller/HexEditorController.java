@@ -23,10 +23,6 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class HexEditorController implements Initializable {
-    private static Position fromTablePosition(TablePosition tablePosition) {
-        if(tablePosition.getColumn() < 1 || tablePosition.getColumn() > 16) return null;
-        return new Position(tablePosition.getRow(), tablePosition.getColumn()-1);
-    }
 
     @FXML private TableView<ByteView> table;
     @FXML private Menu openRecentMenu;
@@ -39,6 +35,8 @@ public class HexEditorController implements Initializable {
     private Consumer<Position> onPaste;
     private Consumer<Stream<Position>> onDelete;
     private Consumer<Integer> onLengthIncremented;
+
+    private ByteView bytes;
 
     @FXML
     private void onPromptOpen(ActionEvent event) {
@@ -62,24 +60,24 @@ public class HexEditorController implements Initializable {
     }
     @FXML
     private void onCut(ActionEvent actionEvent) {
-        this.onCut.accept(findSelected());
+        this.onCut.accept(findSelectedBytes());
     }
     @FXML
     private void onCopy(ActionEvent actionEvent) {
-        this.onCopy.accept(findSelected());
+        this.onCopy.accept(findSelectedBytes());
     }
     @FXML
     private void onPaste(ActionEvent actionEvent) {
         Position position = table.getSelectionModel().getSelectedCells()
                 .stream()
                 .findFirst()    // Empty if no selection
-                .map(HexEditorController::fromTablePosition)    // Empty if invalid selection
+                .map(this::fromByteTablePosition)    // Empty if invalid selection
                 .orElse(new Position(0, 0));
         this.onPaste.accept(position);
     }
     @FXML
     private void onDelete(ActionEvent actionEvent) {
-        this.onDelete.accept(findSelected());
+        this.onDelete.accept(findSelectedBytes());
     }
     @FXML
     private void onSelectAll(ActionEvent actionEvent) {
@@ -121,6 +119,7 @@ public class HexEditorController implements Initializable {
     public void setData(FileData fileData) {
         table.getItems().clear();
         if(fileData == null) return;
+        this.bytes = fileData.data();
         ByteView byteView = fileData.data();
         for(int i = 0; i <= byteView.length() / 16; i++) {
             if(i == byteView.length() / 16 && byteView.length() % 16 == 0) break;
@@ -196,7 +195,18 @@ public class HexEditorController implements Initializable {
         label.applyCss();
         return label.prefWidth(-1) + 10;
     }
-    private Stream<Position> findSelected() {
-        return table.getSelectionModel().getSelectedCells().stream().map(HexEditorController::fromTablePosition).filter(Objects::nonNull);
+    private Stream<Position> findSelectedBytes() {
+        return table.getSelectionModel().getSelectedCells().stream().map(this::fromValidByteTablePosition).filter(Objects::nonNull);
+    }
+    private Position fromValidByteTablePosition(TablePosition tablePosition) {
+        Position position = fromByteTablePosition(tablePosition);
+        if(position != null && !bytes.isIn(position)) {
+            position = null;
+        }
+        return position;
+    }
+    private Position fromByteTablePosition(TablePosition tablePosition) {
+        if(tablePosition.getColumn() < 1 || tablePosition.getColumn() > 16) return null;
+        return new Position(tablePosition.getRow(), tablePosition.getColumn()-1);
     }
 }
