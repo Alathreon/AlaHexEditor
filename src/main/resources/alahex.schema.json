@@ -1,0 +1,330 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://github.com/Alathreon/AlaHexEditor/blob/master/src/main/resources/alahex.schema.json",
+    "title": "AlaHexEditor parse format",
+    "type": "object",
+    "required": ["references", "endianness", "types", "schema"],
+    "properties": {
+        "references": {
+            "type": "array",
+            "items": { "type": "string", "format": "uri" }
+        },
+        "endianness": {
+            "type": "string",
+            "enum": ["BIG", "LITTLE"]
+        },
+        "types": {
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "\\w+": {
+                    "$ref": "#/$defs/SchemaType"
+                }
+            }
+        },
+        "schema": {
+            "type": "object",
+            "additionalProperties": false,
+            "patternProperties": {
+                "\\w+": {
+                    "$ref": "#/$defs/SchemaElement"
+                }
+            }
+        }
+    },
+    "$defs": {
+        "SchemaType": {
+            "oneOf": [
+                {
+                    "type": "object",
+                    "required": ["@type", "names"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "BitsetType" },
+                        "names": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size", "constants"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "EnumType" },
+                        "size": { "type": "integer" },
+                        "constants": { "type": "object", "$ref": "#/$defs/Bindings" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "members"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "StructType" },
+                        "members": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "patternProperties": {
+                                "\\w+": {
+                                    "$ref": "#/$defs/SchemaElement"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "classifier"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "UnionType" },
+                        "classifier": { "type": "object", "$ref": "#/$defs/Classifier" }
+                    }
+                }
+            ]
+        },
+        "SchemaElement": {
+            "oneOf": [
+                {
+                    "type": "object",
+                    "required": ["@type", "variable", "size"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "ArrayReferenceElement" },
+                        "variable": { "type": "string" },
+                        "size": { "type":  "integer" },
+                        "zeroIsNull": { "type": "boolean", "default": false }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "against", "operator", "schema"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "DynamicSizeArrayElement" },
+                        "structField": { "type": "string", "default": null },
+                        "against": { "$ref": "#/$defs/Decimal" },
+                        "operator": { "type": "string", "enum": ["EQUALS", "NOT_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "MORE_THAN", "MORE_THAN_OR_EQUALS"] },
+                        "schema": { "$ref": "#/$defs/SchemaElement" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "fieldSize", "schema"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "VariableSizeArrayElement" },
+                        "fieldSize": { "type": "integer" },
+                        "schema": { "$ref": "#/$defs/SchemaElement" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "sizeVarName", "schema"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "VariableRefSizeArrayElement" },
+                        "sizeVarName": { "type": "string" },
+                        "schema": { "$ref": "#/$defs/SchemaElement" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "fieldSize"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "VariableSizeStringElement" },
+                        "fieldSize": { "type": "integer" },
+                        "charset": { "type": "string", "default": "UTF-8" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "NullEndStringElement" },
+                        "charset": { "type": "string", "default": "UTF-8" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "FixedSizeBlobElement" },
+                        "size": { "type":  "integer" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "FixedSizeStringElement" },
+                        "size": { "type":  "integer" },
+                        "charset": { "type": "string", "default": "UTF-8" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size", "schema"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "FixedSizeArrayElement" },
+                        "size": { "type":  "integer" },
+                        "schema": { "$ref": "#/$defs/SchemaElement" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "variables"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "ComputedIntElement" },
+                        "variables": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": { "type": "string" }
+                        },
+                        "expression": { "$ref": "#/$defs/Expression" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "format", "variables"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "ComputedStringFormatElement" },
+                        "format": { "type": "string" },
+                        "variables": {
+                            "type": "array",
+                            "items": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": { "type": "string" }
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "IntElement" },
+                        "size": { "type":  "integer" },
+                        "signed": { "type": "boolean", "default": false },
+                        "expression": { "$ref": "#/$defs/Expression" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "FloatElement" },
+                        "size": { "type":  "integer" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "name"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "TypeElement" },
+                        "name": { "type": "string" }
+                    }
+                }
+            ]
+        },
+        "Classifier": {
+            "oneOf": [
+                {
+                    "type": "object",
+                    "required": ["@type", "enumClassifierName"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "EnumClassifier" },
+                        "enumClassifierName": { "type": "string" },
+                        "overrideBindings": { "type": "object", "$ref": "#/$defs/Bindings", "default": [] }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size", "bindings"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "SelfEnumClassifier" },
+                        "size": { "type": "integer" },
+                        "bindings": { "type": "object", "$ref": "#/$defs/Bindings" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "size", "rangeBindings"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "IntRangeClassifier" },
+                        "size": { "type": "integer" },
+                        "rangeBindings": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": ["name", "from", "to"],
+                                "properties": {
+                                    "name": { "type": "string" },
+                                    "from": { "$ref": "#/$defs/Decimal" },
+                                    "to": { "$ref": "#/$defs/Decimal" }
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "variable", "size"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "ArrayStringRefClassifier" },
+                        "variable": { "type": "string" },
+                        "size": { "type": "integer" },
+                        "zeroIsNull": { "type": "boolean", "default": false }
+                    }
+                }
+            ]
+        },
+        "Bindings": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["key", "value"],
+                "additionalProperties": false,
+                "properties": {
+                    "key": { "$ref": "#/$defs/Decimal" },
+                    "value": { "type": "string" }
+                }
+            }
+        },
+        "Decimal": {
+            "description": "test",
+            "oneOf": [
+                {
+                    "type": "integer"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^(0x[0-9A-F]{1,16})|(0b[01]{1,64})|('.')$"
+                }
+            ]
+        },
+        "Expression": {
+            "type": "string",
+            "pattern": "^(\\w+|\\d+|[+\\-*\/%])( (\\w+|\\d+|[+\\-*\/%]))*$"
+        }
+    }
+}

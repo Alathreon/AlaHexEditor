@@ -1,5 +1,9 @@
 package com.alathreon.alahexeditor.util;
 
+import com.alathreon.alahexeditor.parsing.template.Template;
+import com.alathreon.alahexeditor.persistence.Persistence;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -11,14 +15,17 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class IOUtil {
+    public static final String TEMPLATE_EXTENSION = ".alahex.template.json";
+
     private IOUtil() {
     }
 
-    private static void alertError(String title, Exception ex) {
+    public static void alertError(String title, Exception ex) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText("An error happened");
@@ -89,6 +96,73 @@ public class IOUtil {
         } catch (UnsupportedFlavorException | IOException e) {
             alertError("Pasting from clipboard", e);
             return null;
+        }
+    }
+
+    public static FileTemplate readTemplate(ObjectMapper mapper,Path path) {
+        try {
+            String json = Files.readString(path);
+            return new FileTemplate(path, parseTemplate(mapper, json));
+        } catch (IOException e) {
+            alertError("Opening a template file", e);
+        }
+        return null;
+    }
+    public static FileTemplate promptOpenTemplate(ObjectMapper mapper, Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load a template");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AlaHxEditor Templates", "*" + TEMPLATE_EXTENSION));
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        if (selectedFile != null) {
+            Path path = selectedFile.toPath();
+            try {
+                String json = Files.readString(path);
+                return new FileTemplate(path, parseTemplate(mapper, json));
+            } catch (IOException | UncheckedIOException e) {
+                alertError("Opening a template", e);
+            }
+        }
+        return null;
+    }
+    public static FileTemplate promptSaveTemplate(ObjectMapper mapper, FileTemplate fileTemplate, Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save a fileTemplate");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("AlaHxEditor Templates", "*" + TEMPLATE_EXTENSION));
+        if(fileTemplate.path() != null) {
+            fileChooser.setInitialDirectory(fileTemplate.path().getParent().toFile());
+            fileChooser.setInitialFileName(fileTemplate.path().getFileName().toString());
+        }
+        File selectedFile = fileChooser.showSaveDialog(stage);
+        if(selectedFile != null) {
+            return saveTemplate(mapper, new FileTemplate(selectedFile.toPath(), fileTemplate.template()), stage);
+        } else {
+            return fileTemplate;
+        }
+    }
+    public static FileTemplate saveTemplate(ObjectMapper mapper, FileTemplate fileTemplate, Stage stage) {
+        if(fileTemplate.path() == null) {
+            return promptSaveTemplate(mapper, fileTemplate, stage);
+        }
+        try {
+            Files.writeString(fileTemplate.path(), writeTemplate(mapper, fileTemplate.template()));
+        } catch (IOException e) {
+            alertError("Saving a file", e);
+        }
+        return fileTemplate;
+    }
+
+    public static Template parseTemplate(ObjectMapper mapper, String json) {
+        try {
+            return mapper.readValue(json, Template.class);
+        } catch (JsonProcessingException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+    public static String writeTemplate(ObjectMapper mapper, Template template) {
+        try {
+            return mapper.writeValueAsString(template);
+        } catch (JsonProcessingException e) {
+            throw new UncheckedIOException(e);
         }
     }
 }
