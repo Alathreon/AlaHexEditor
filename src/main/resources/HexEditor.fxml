@@ -41,6 +41,7 @@
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -56,7 +57,9 @@
           <items>
             <MenuItem mnemonicParsing="false" onAction="#onNew" text="New (Ctrl+N)" />
             <MenuItem mnemonicParsing="false" onAction="#onPromptOpen" text="Open… (Ctrl+O)" />
+                  <MenuItem mnemonicParsing="false" onAction="#onPromptOpenTemplate" text="Open template… (Ctrl+Alt + O)" />
             <Menu fx:id="openRecentMenu" mnemonicParsing="false" text="Open Recent" />
+                  <Menu fx:id="openRecentTemplateMenu" mnemonicParsing="false" text="Open Recent Template" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Close" />
             <MenuItem mnemonicParsing="false" onAction="#onSave" text="Save  (Ctrl+S)" />
@@ -89,20 +92,8 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.2505567928730512, 0.7505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane dividerPositions="0.2505567928730512" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
-        <AnchorPane prefHeight="551.0">
-          <children>
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" minWidth="60.0" prefWidth="-1.0" style="&#10;" text="Master" textAlignment="CENTER" wrapText="false">
-              <font>
-                <Font size="18.0" fx:id="x1" />
-              </font>
-              <textFill>
-                <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
-              </textFill>
-            </Label>
-          </children>
-        </AnchorPane>
       <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
         <children>
               <ScrollPane prefHeight="-1.0" prefWidth="-1.0">
@@ -115,7 +106,7 @@
       </AnchorPane>
         <AnchorPane prefHeight="551.0" prefWidth="265.0">
           <children>
-            <Label alignment="CENTER" font="$x1" layoutX="14.0" layoutY="14.0" style="&#10;" text="Details" textAlignment="CENTER" textFill="$x2" wrapText="false" />
+                  <TreeView fx:id="treeView" prefHeight="551.0" prefWidth="486.0" />
           </children>
         </AnchorPane>
       </items>

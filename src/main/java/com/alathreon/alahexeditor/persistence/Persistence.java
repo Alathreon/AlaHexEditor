@@ -1,8 +1,14 @@
 package com.alathreon.alahexeditor.persistence;
 
-public record Persistence(RecentlyOpenedModule recentlyOpened) {
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public record Persistence(ObjectMapper mapper, RecentlyOpenedModule recentlyOpened, RecentlyOpenedModule recentlyOpenedTemplates, AutoTemplateModule autoTemplate) {
     public static Persistence create() {
         PersistenceAPI persistenceAPI = new PersistenceAPI();
-        return new Persistence(new RecentlyOpenedModule(persistenceAPI));
+        ObjectMapper objectMapper = new ObjectMapper();
+        return new Persistence(objectMapper,
+                new RecentlyOpenedModule(persistenceAPI, null),
+                new RecentlyOpenedModule(persistenceAPI, "template"),
+                new AutoTemplateModule(persistenceAPI, objectMapper));
     }
 }

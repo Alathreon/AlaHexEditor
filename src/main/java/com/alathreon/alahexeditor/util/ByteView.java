@@ -1,5 +1,8 @@
 package com.alathreon.alahexeditor.util;
 
+import com.alathreon.alahexeditor.parsing.Endianness;
+
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -156,7 +159,11 @@ public class ByteView implements Iterable<Byte> {
 
     public ByteView leftover(ByteView subView) {
         if(subView.content != this.content) throw new IllegalArgumentException();
-        return subView(this.offset + subView.offset + subView.length, length - (subView.offset + subView.length));
+        if(subView.offset < this.offset) throw new IllegalArgumentException();
+        if(subView.offset + subView.length > this.offset + this.length) throw new IllegalArgumentException();
+        int start = subView.offset + subView.length - this.offset;
+        int end =  this.length - start;
+        return subView(start, end);
     }
 
     public Stream<Byte> stream() {
@@ -188,9 +195,12 @@ public class ByteView implements Iterable<Byte> {
         }
         return sb.toString();
     }
+    public String toTextString(Charset charset) {
+        return new String(content, offset, length, charset);
+    }
     public String toFormmatedString() {
         StringBuilder sb = new StringBuilder();
-        for(int row = 0; row * 16 < length; row++) {
+        for(int row = 0; row * 16 < length; row++) {    // row += 16 instead of row*16
             sb.append(String.format("%08X  ", row * 16));
             int size = Math.min(offset + length, offset + row * 16 + 16);
             StringBuilder rowBuilder = new StringBuilder();
@@ -218,6 +228,23 @@ public class ByteView implements Iterable<Byte> {
     public byte[] getBytes() {
         byte[] result = new byte[length];
         System.arraycopy(content, offset, result, 0, length);
+        return result;
+    }
+
+    public DataSegment toDataSegment() {
+        return new DataSegment(offset, length, toString());
+    }
+
+    public BitSet toBitset() {
+        return BitSet.valueOf(Arrays.copyOfRange(content, offset, offset + length));
+    }
+
+    public long parseInt(Endianness endianness) {
+        long result = 0;
+        for(int i = 0; i < length; i++) {
+            byte b = get(i);
+            result |= (long) (b & 0xFF) << ((endianness == Endianness.BIG ? length - 1 - i : i) * 8);
+        }
         return result;
     }
 }
