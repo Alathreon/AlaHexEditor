@@ -8,10 +8,13 @@ import com.alathreon.alahexeditor.util.Pair;
 import com.alathreon.alahexeditor.util.Position;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -228,17 +231,22 @@ public class HexEditorController implements Initializable {
         }
         addColumn("0123456789ABCDEF", ROW_WIDTH, ByteView::toUTF8String);
         table.addEventFilter(ScrollEvent.SCROLL, e -> {
-            TablePosition<ByteView, ?> editingCell = table.getEditingCell();
+            TablePosition<ByteView, String> editingCell = (TablePosition<ByteView, String>) table.getEditingCell();
             if(editingCell != null) {
+                e.consume();
                 int delta = e.getDeltaY() > 0 ? 1 : -1;
                 if(e.isShortcutDown()) {
                     delta *= 16;
                 }
                 int col = editingCell.getColumn() - START_COL_HEX;
                 ByteView view = table.getItems().get(editingCell.getRow());
-                view.set(col, (byte) ((view.get(col) + delta) % 256));
-                e.consume();
-                table.refresh();
+                int val = view.isIn(col) ? view.get(col) & 0xFF : 0;
+                int result = (val + delta) % 256;
+                actionSetOnEditCommit(col, new TableColumn.CellEditEvent<>(table, editingCell, TableColumn.editCommitEvent(), Integer.toHexString(result).toUpperCase()));
+                if(table.getEditingCell() == null) {
+                    table.edit(editingCell.getRow(), editingCell.getTableColumn());
+                    table.getFocusModel().focus(editingCell);
+                }
             }
         });
         treeView.setRoot(new TreeItem<>());
