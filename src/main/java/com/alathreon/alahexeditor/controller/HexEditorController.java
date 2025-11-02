@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
@@ -226,6 +227,20 @@ public class HexEditorController implements Initializable {
             column.setOnEditCommit(event -> actionSetOnEditCommit(j, event));
         }
         addColumn("0123456789ABCDEF", ROW_WIDTH, ByteView::toUTF8String);
+        table.addEventFilter(ScrollEvent.SCROLL, e -> {
+            TablePosition<ByteView, ?> editingCell = table.getEditingCell();
+            if(editingCell != null) {
+                int delta = e.getDeltaY() > 0 ? 1 : -1;
+                if(e.isShortcutDown()) {
+                    delta *= 16;
+                }
+                int col = editingCell.getColumn() - START_COL_HEX;
+                ByteView view = table.getItems().get(editingCell.getRow());
+                view.set(col, (byte) ((view.get(col) + delta) % 256));
+                e.consume();
+                table.refresh();
+            }
+        });
         treeView.setRoot(new TreeItem<>());
         treeView.setFixedCellSize(Region.USE_COMPUTED_SIZE);treeView.setFixedCellSize(-1);
         treeView.setCellFactory(tv -> new TreeCell<>() {
