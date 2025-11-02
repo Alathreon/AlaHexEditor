@@ -245,7 +245,7 @@ public class HexEditorController implements Initializable {
                 actionSetOnEditCommit(col, new TableColumn.CellEditEvent<>(table, editingCell, TableColumn.editCommitEvent(), Integer.toHexString(result).toUpperCase()));
                 if(table.getEditingCell() == null) {
                     table.edit(editingCell.getRow(), editingCell.getTableColumn());
-                    table.getFocusModel().focus(editingCell);
+                    table.getSelectionModel().select(editingCell.getRow(), editingCell.getTableColumn());
                 }
             }
         });
