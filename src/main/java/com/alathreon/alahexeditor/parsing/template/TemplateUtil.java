@@ -16,6 +16,16 @@ public class TemplateUtil {
             throw new IllegalArgumentException(actualSize + " is larger than " + maxSize + " or isn't a power of two");
         }
     }
+    public static void ensureNonNegative(int value) {
+        if(value < 0) {
+            throw new IllegalArgumentException(value + " is negative");
+        }
+    }
+    public static void ensurePositive(int value) {
+        if(value <= 0) {
+            throw new IllegalArgumentException(value + " is negative or zero");
+        }
+    }
 
     public static ByteView safeSubView(ByteView data, int length) throws ParseException {
         if(length > data.length()) {

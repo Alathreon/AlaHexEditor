@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.ensureMaxByteSize;
 
@@ -30,6 +31,11 @@ public record SelfEnumClassifier(int size, LinkedHashMap<Integer, String> bindin
     public static ClassifierResult find(String thisName, EnumType enumType, Map<Integer, String> overrideBindings, ByteView data, Template template, ParseObjects objects) throws ParseException {
         SchemaType.ParseTypeResult<EnumData> classifierResult = enumType.parseData(thisName, data, template, objects);
         ByteView leftover = classifierResult.parent().leftover(classifierResult.segment());
+        if(!enumType.constants().keySet().containsAll(overrideBindings.keySet())) {
+            String expected = enumType.constants().keySet().stream().map(String::valueOf).collect(Collectors.joining(", "));
+            String actual = overrideBindings.keySet().stream().map(String::valueOf).collect(Collectors.joining(", "));
+            throw new ParseException(classifierResult.segment(), "Expected subset override for [%s], but got [%s]".formatted(expected, actual));
+        }
         Map<Integer, String> computedBindings = new HashMap<>(enumType.constants());
         computedBindings.putAll(overrideBindings);
         String structName = computedBindings.get(classifierResult.data().code());

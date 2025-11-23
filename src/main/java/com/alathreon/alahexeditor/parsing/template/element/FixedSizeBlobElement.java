@@ -8,12 +8,11 @@ import com.alathreon.alahexeditor.parsing.template.SchemaElement;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.util.ByteView;
 
-import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.ensureMaxByteSize;
-import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.safeSubView;
+import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.*;
 
 public record FixedSizeBlobElement(int size) implements SchemaElement {
     public FixedSizeBlobElement {
-        ensureMaxByteSize(size, 4);
+        ensureNonNegative(size);
     }
 
     @Override
