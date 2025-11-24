@@ -134,12 +134,24 @@
                 },
                 {
                     "type": "object",
+                    "required": ["@type", "sizeVarName"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "VariableRefSizeStringElement" },
+                        "sizeVarName": { "type": "string" },
+                        "charset": { "type": "string", "default": "UTF-8" },
+                        "stopAtNull": { "type":  "boolean", "default": false }
+                    }
+                },
+                {
+                    "type": "object",
                     "required": ["@type", "fieldSize"],
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "VariableSizeStringElement" },
                         "fieldSize": { "type": "integer" },
-                        "charset": { "type": "string", "default": "UTF-8" }
+                        "charset": { "type": "string", "default": "UTF-8" },
+                        "stopAtNull": { "type":  "boolean", "default": false }
                     }
                 },
                 {
@@ -149,6 +161,24 @@
                     "properties": {
                         "@type": { "const": "NullEndStringElement" },
                         "charset": { "type": "string", "default": "UTF-8" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "fieldSize"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "VariableSizeBlobElement" },
+                        "fieldSize": { "type": "integer" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "sizeVarName"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "VariableRefSizeBlobElement" },
+                        "sizeVarName": { "type": "string" }
                     }
                 },
                 {
@@ -167,7 +197,8 @@
                     "properties": {
                         "@type": { "const": "FixedSizeStringElement" },
                         "size": { "type":  "integer" },
-                        "charset": { "type": "string", "default": "UTF-8" }
+                        "charset": { "type": "string", "default": "UTF-8" },
+                        "stopAtNull": { "type":  "boolean", "default": false }
                     }
                 },
                 {
@@ -220,6 +251,14 @@
                         "size": { "type":  "integer" },
                         "signed": { "type": "boolean", "default": false },
                         "expression": { "$ref": "#/$defs/Expression" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "BoolElement" }
                     }
                 },
                 {
