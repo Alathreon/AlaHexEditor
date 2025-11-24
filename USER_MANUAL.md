@@ -580,30 +580,6 @@ Each element is in the form "variable": { specification }.
 The specification must include at least a "@type" tag used to determine which element to use.
 
 
-### FixedSizeBlobElement
-
-Element that can be used by default to take the bytes as is.
-
-| Name    | Type    | Default value if optional | Description                   |
-|---------|---------|---------------------------|-------------------------------|
-| size    | Integer |                           | The size of the blob in bytes |
-
-#### Example
-```json
-{
-    "array": {
-        "@type": "FixedSizeBlobElement",
-        "size": 4
-    }
-}
-```
-```
-0x416E61
-↓
-value = 0x416E61
-```
-
-
 ### IntElement
 
 An integer.
@@ -659,6 +635,36 @@ int_element = -1
 0x05
 ↓
 int_element = 5 * 3 = 15
+```
+
+
+### BoolElement
+
+A boolean.
+
+| Name       | Type       | Default value if optional | Description                                                                                    |
+|------------|------------|---------------------------|------------------------------------------------------------------------------------------------|
+
+#### Example simple
+```json
+{
+    "bool_element": {
+        "@type": "BoolElement"
+    }
+}
+```
+```
+0x00
+↓
+bool_element = false
+
+0x01
+↓
+bool_element = true
+
+0x02
+↓
+bool_element = true
 ```
 
 
@@ -721,10 +727,11 @@ value = "Ana"
 
 A string whose size is fixed.
 
-| Name    | Type    | Default value if optional | Description                     |
-|---------|---------|---------------------------|---------------------------------|
-| size    | Integer |                           | The size of the string in bytes |
-| charset | Charset | "UTF-8"                   | The charset to use.             |
+| Name       | Type    | Default value if optional | Description                                                                                           |
+|------------|---------|---------------------------|-------------------------------------------------------------------------------------------------------|
+| size       | Integer |                           | The size of the string in bytes                                                                       |
+| charset    | Charset | "UTF-8"                   | The charset to use.                                                                                   |
+| stopAtNull | Boolean | false                     | If true, will read the "size" characters but will only form a string until a null character is found. |
 
 #### Example
 ```json
@@ -741,15 +748,33 @@ A string whose size is fixed.
 value = "Ana"
 ```
 
+#### Example
+```json
+{
+    "array": {
+        "@type": "FixedSizeStringElement",
+        "size": 5
+    }
+}
+```
+```
+0x416E610000
+↓
+parsed = 416E610000
+actual string = 416E61
+value = "Ana"
+```
+
 
 ### VariableSizeStringElement
 
 A string whose size depends on the size parsed just before it.
 
-| Name        | Type    | Default value if optional | Description                             |
-|-------------|---------|---------------------------|-----------------------------------------|
-| fieldSize   | 1, 2, 4 |                           | The size of the size attribute in bytes |
-| charset     | Charset | "UTF-8"                   | The charset to use.                     |
+| Name         | Type    | Default value if optional | Description                                                                                           |
+|--------------|---------|---------------------------|-------------------------------------------------------------------------------------------------------|
+| fieldSize    | 1, 2, 4 |                           | The size of the size attribute in bytes                                                               |
+| charset      | Charset | "UTF-8"                   | The charset to use.                                                                                   |
+| stopAtNull   | Boolean | false                     | If true, will read the "size" characters but will only form a string until a null character is found. |
 
 #### Example
 ```json
@@ -764,6 +789,37 @@ A string whose size depends on the size parsed just before it.
 0x03416E61
 ↓
 size = 3
+value = "Ana"
+```
+
+
+### VariableRefSizeStringElement
+
+String whose size depends on the size in another variable.
+
+| Name        | Type     | Default value if optional | Description                                                                                           |
+|-------------|----------|---------------------------|-------------------------------------------------------------------------------------------------------|
+| sizeVarName | String   |                           | The name of the variable which stores the size of this string. Cannot be a forward reference.         |
+| charset     | Charset  | "UTF-8"                   | The charset to use.                                                                                   |
+| stopAtNull  | Boolean  | false                     | If true, will read the "size" characters but will only form a string until a null character is found. |
+
+#### Example
+```json
+{
+    "string_size": {
+        "@type": "IntElement",
+        "size": 1
+    },
+    "string": {
+        "@type": "VariableRefSizeStringElement",
+        "sizeVarName": "string_size"
+    }
+}
+```
+```
+0x03416E61
+↓
+string_size = 3
 value = "Ana"
 ```
 
@@ -827,7 +883,7 @@ size = 4
 ```
 
 
-### VariableRefArrayElement
+### VariableRefSizeArrayElement
 
 Array whose size depends on the size in another variable.
 
@@ -844,7 +900,7 @@ Array whose size depends on the size in another variable.
         "size": 1
     },
     "array": {
-        "@type": "VariableSizeArrayElement",
+        "@type": "VariableRefSizeArrayElement",
         "sizeVarName": "array_size",
         "schema": {
             "@type": "IntElement",
@@ -928,6 +984,84 @@ An array generated by looping on a schema as long as the condition is met. Enums
 0x050203040100
 ↓
 [Pair(a=5, b=2), Pair(a=3, b=4), Pair(a=1, b=0)]
+```
+
+
+### FixedSizeBlobElement
+
+Element that can be used by default to take the bytes as is.
+
+| Name    | Type    | Default value if optional | Description                   |
+|---------|---------|---------------------------|-------------------------------|
+| size    | Integer |                           | The size of the blob in bytes |
+
+#### Example
+```json
+{
+    "array": {
+        "@type": "FixedSizeBlobElement",
+        "size": 4
+    }
+}
+```
+```
+0x416E61
+↓
+value = 0x416E61
+```
+
+
+### VariableSizeBlobElement
+
+A blob whose size depends on the size parsed just before it.
+
+| Name        | Type    | Default value if optional | Description                             |
+|-------------|---------|---------------------------|-----------------------------------------|
+| fieldSize   | 1, 2, 4 |                           | The size of the size attribute in bytes |
+
+#### Example
+```json
+{
+    "array": {
+        "@type": "VariableSizeBlobElement",
+        "fieldSize": 1
+    }
+}
+```
+```
+0x03416E61
+↓
+size = 3
+value = 0x416E61
+```
+
+
+### VariableRefSizeBlobElement
+
+Blob whose size depends on the size in another variable.
+
+| Name        | Type            | Default value if optional | Description                                                                                 |
+|-------------|-----------------|---------------------------|---------------------------------------------------------------------------------------------|
+| sizeVarName | String          |                           | The name of the variable which stores the size of this blob. Cannot be a forward reference. |
+
+#### Example
+```json
+{
+    "blob_size": {
+        "@type": "IntElement",
+        "size": 1
+    },
+    "array": {
+        "@type": "VariableRefSizeBlobElement",
+        "sizeVarName": "blob_size"
+    }
+}
+```
+```
+0x0408060902
+↓
+blob_size = 4
+value = 0x08060902
 ```
 
 
