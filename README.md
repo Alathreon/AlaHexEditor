@@ -3,20 +3,22 @@ Powerful Hex Editor
 
 # Prerequisites
 - Java 25
-- Maven
 
 # How to build
-```
-mvn install
+```shell
+./mvnw install
 ```
 
 # How to run
-```
-mvn exec:java
+```shell
+./mvnw exec:java
 ```
 
 # How to run as jar
+```shell
+./mvnw install
 ```
-mvn install
+Then
+```shell
 java -jar .\target\AlaHexEditor-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
