@@ -25,8 +25,8 @@ public record VariableSizeStringElement(int fieldSize, Charset charset) implemen
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
         ByteView view = safeSubView(data, fieldSize);
-        ByteView subView = safeSubView(view, (int)view.parseInt(template.endianness()));
+        ByteView subView = safeSubView(data, fieldSize, (int)view.parseInt(template.endianness()));
         String string = subView.toTextString(charset);
-        return new ParseStepResult(data, view, new StringData(string));
+        return new ParseStepResult(data, subView, new StringData(string));
     }
 }

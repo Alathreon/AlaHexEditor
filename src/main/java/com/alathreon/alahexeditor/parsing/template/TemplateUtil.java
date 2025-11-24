@@ -33,6 +33,12 @@ public class TemplateUtil {
         }
         return data.subView(length);
     }
+    public static ByteView safeSubView(ByteView data, int offset, int length) throws ParseException {
+        if(offset + length > data.length()) {
+            throw new ParseException(data, (offset + length) + " > " + data.length());
+        }
+        return data.subView(offset, length);
+    }
     public static <T extends SchemaType<?>> T findType(Template template, ByteView data, String name, Class<T> clazz) throws ParseException {
         return template.findType(name, clazz, () -> new ParseException(data, "%s %s not found".formatted(clazz.getSimpleName(), name)));
     }
