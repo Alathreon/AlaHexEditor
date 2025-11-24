@@ -37,6 +37,7 @@ public record ComputedStringFormatElement(String format, List<List<String>> vari
         }
         return switch (object.data()) {
             case IntData(var raw, _, _) -> raw;
+            case BoolData(var value) -> value;
             case FloatData(var value) -> value;
             case BitsetData b -> new ByteView(b.bitSet().toByteArray()).toString();
             case BlobData(var hex) -> hex;

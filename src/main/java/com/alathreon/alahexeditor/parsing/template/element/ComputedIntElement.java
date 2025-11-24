@@ -38,6 +38,7 @@ public record ComputedIntElement(String expression, List<String> variables) impl
         return switch (object.data()) {
             case IntData(var raw, var signed, _) -> new IntValue(raw, signed);
             case FloatData(var value) -> new IntValue((long)value, true);
+            case BoolData(var value) -> new IntValue(value ? 1 : 0, false);
             case BitsetData b -> {
                 long[] longs = b.bitSet().toLongArray();
                 long l = longs.length > 0 ? longs[longs.length-1] : 0;

@@ -53,6 +53,7 @@ public record DynamicSizeArrayElement(
         }
         long value = switch (object) {
             case IntData(long raw, _, _) -> raw;
+            case BoolData(boolean v) -> v ? 1 : 0;
             case EnumData(int code, _) -> code;
             case UnionData(_, int intClassifier, _) -> intClassifier;
             default -> throw new ParseException(data, "Expected int data, enum data, or union data, but got: %s".formatted(object.getClass().getSimpleName()));

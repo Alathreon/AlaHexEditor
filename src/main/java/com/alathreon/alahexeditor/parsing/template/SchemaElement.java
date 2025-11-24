@@ -26,6 +26,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = ComputedIntElement.class),
         @JsonSubTypes.Type(value = IntElement.class),
         @JsonSubTypes.Type(value = FloatElement.class),
+        @JsonSubTypes.Type(value = BoolElement.class),
         @JsonSubTypes.Type(value = TypeElement.class),
 })
 public interface SchemaElement {
