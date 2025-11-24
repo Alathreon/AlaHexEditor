@@ -13,12 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.ensureMaxByteSize;
-
 public record FixedSizeArrayElement(int size, SchemaElement schema) implements SchemaElement {
     public FixedSizeArrayElement {
         Objects.requireNonNull(schema);
-        ensureMaxByteSize(size, 4);
     }
 
     @Override
