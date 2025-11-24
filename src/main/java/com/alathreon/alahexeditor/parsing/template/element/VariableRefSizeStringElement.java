@@ -9,6 +9,7 @@ import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.parsing.template.SchemaElement;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.util.ByteView;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +17,13 @@ import java.util.Objects;
 
 import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.safeSubView;
 
-public record VariableRefSizeStringElement(String sizeVarName, Charset charset) implements SchemaElement {
+public record VariableRefSizeStringElement(String sizeVarName, Charset charset, boolean stopAtNull) implements SchemaElement {
+
+    public static VariableRefSizeStringElement jsonCreator(
+            @JsonProperty("sizeVarName") String sizeVarName, @JsonProperty("charset") Charset charset, @JsonProperty("stopAtNull") Boolean stopAtNull) {
+        return new VariableRefSizeStringElement(sizeVarName, charset, stopAtNull != null && stopAtNull);
+    }
+
     public VariableRefSizeStringElement {
         Objects.requireNonNull(sizeVarName);
         if(charset == null) {
@@ -32,7 +39,7 @@ public record VariableRefSizeStringElement(String sizeVarName, Charset charset) 
         if(!(parseObject.data() instanceof IntData(long size, _, _))) throw new ParseException(data, "Expected string size data for variable %s, but got: %s".formatted(sizeVarName, parseObject.data().getClass().getSimpleName()));
         if(size > Integer.MAX_VALUE) throw new ParseException(data, "Blob size too large: " + size);
         ByteView subView = safeSubView(data, (int)size);
-        String string = subView.toTextString(charset);
+        String string = subView.toTextString(charset, stopAtNull);
         return new ParseStepResult(data, subView, new StringData(string));
     }
 }

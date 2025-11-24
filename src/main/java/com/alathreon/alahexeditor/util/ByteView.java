@@ -195,8 +195,15 @@ public class ByteView implements Iterable<Byte> {
         }
         return sb.toString();
     }
-    public String toTextString(Charset charset) {
-        return new String(content, offset, length, charset);
+    public String toTextString(Charset charset, boolean stopAtNull) {
+        String s = new String(content, offset, length, charset);
+        if(stopAtNull) {
+            int idx = s.indexOf('\0');
+            if(idx != -1) {
+                s = s.substring(0, idx);
+            }
+        }
+        return s;
     }
     public String toFormmatedString() {
         StringBuilder sb = new StringBuilder();
