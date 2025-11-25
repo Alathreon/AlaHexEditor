@@ -54,39 +54,6 @@ Templates are JSON files that define binary file structures. Example:
 }
 ```
 
-### Supported Elements
-
-- **Primitives**: IntElement, FloatElement, BoolElement
-- **Strings**: NullEndStringElement, FixedSizeStringElement, VariableSizeStringElement
-- **Arrays**: Fixed/variable/dynamic size arrays with flexible element types
-- **Blobs**: Raw byte sequences with fixed or variable sizes
-- **Computed**: ComputedIntElement, ComputedStringFormatElement (derived values)
-- **References**: ArrayReferenceElement (index into parsed arrays)
-
-### Supported Types
-
-- **StructType**: Named fields parsed sequentially
-- **EnumType**: Integer to string mappings
-- **BitsetType**: Bit flags with named constants
-- **UnionType**: Discriminated unions with classifiers
-
-### Integer Formats
-
-Integers in templates support multiple formats:
-
-- Decimal: `42`
-- Hex: `"0x2A"`
-- Binary: `"0b101010"`
-- ASCII char: `"'*'"`
-
 ## Template Schema
 
 Full JSON schema: `src/main/resources/alahex.schema.json`
-
-## Architecture
-
-- `HexEditorController`: Main UI controller managing TableView (hex display) and TreeView (parsed data)
-- `Template`: Schema definition loaded from JSON
-- `Parser`: Converts binary data into ParseObject hierarchy using templates
-- `SchemaElement`/`SchemaType`: Interfaces for parseable elements and type definitions
-- `ByteView`: Wrapper for byte arrays with offset tracking and subview support
