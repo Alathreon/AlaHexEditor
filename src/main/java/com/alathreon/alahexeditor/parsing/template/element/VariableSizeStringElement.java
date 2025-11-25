@@ -7,6 +7,7 @@ import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.parsing.template.SchemaElement;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.util.ByteView;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.nio.charset.Charset;
@@ -17,6 +18,7 @@ import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.safeSubVi
 
 public record VariableSizeStringElement(int fieldSize, Charset charset, boolean stopAtNull) implements SchemaElement {
 
+    @JsonCreator
     public static VariableSizeStringElement jsonCreator(
             @JsonProperty("fieldSize") int fieldSize, @JsonProperty("charset") Charset charset, @JsonProperty("stopAtNull") Boolean stopAtNull) {
         return new VariableSizeStringElement(fieldSize, charset, stopAtNull != null && stopAtNull);

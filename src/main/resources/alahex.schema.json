@@ -187,7 +187,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "FixedSizeBlobElement" },
-                        "size": { "type":  "integer" }
+                        "size": { "$ref": "#/$defs/Decimal" }
                     }
                 },
                 {
@@ -196,7 +196,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "FixedSizeStringElement" },
-                        "size": { "type":  "integer" },
+                        "size": { "$ref": "#/$defs/Decimal" },
                         "charset": { "type": "string", "default": "UTF-8" },
                         "stopAtNull": { "type":  "boolean", "default": false }
                     }
@@ -207,7 +207,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "FixedSizeArrayElement" },
-                        "size": { "type":  "integer" },
+                        "size": { "$ref": "#/$defs/Decimal" },
                         "schema": { "$ref": "#/$defs/SchemaElement" }
                     }
                 },
