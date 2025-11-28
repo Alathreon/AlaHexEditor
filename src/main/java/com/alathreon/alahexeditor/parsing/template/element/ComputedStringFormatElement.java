@@ -38,10 +38,10 @@ public record ComputedStringFormatElement(String format, List<List<String>> vari
         return switch (object.data()) {
             case IntData(var raw, _, _) -> raw;
             case BoolData(var value) -> value;
-            case FloatData(var value) -> value;
+            case FloatData(var value, _) -> value;
             case BitsetData b -> new ByteView(b.bitSet().toByteArray()).toString();
             case BlobData(var hex) -> hex;
-            case EnumData(_, var name) -> name;
+            case EnumData(_, var name, _) -> name;
             case NullData _ -> null;
             case UnionData(_, var intClassifier, _) -> intClassifier;
             case StructData(var members) -> {

@@ -2,6 +2,7 @@ package com.alathreon.alahexeditor.parsing.template.type.union;
 
 import com.alathreon.alahexeditor.parsing.ParseException;
 import com.alathreon.alahexeditor.parsing.object.EnumData;
+import com.alathreon.alahexeditor.parsing.object.IntData;
 import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.parsing.template.SchemaType;
 import com.alathreon.alahexeditor.parsing.template.Template;
@@ -40,7 +41,7 @@ public record SelfEnumClassifier(int size, LinkedHashMap<Integer, String> bindin
         computedBindings.putAll(overrideBindings);
         String structName = computedBindings.get(classifierResult.data().code());
         if(structName == null) throw new ParseException(classifierResult.segment(), "No struct binding in union %s".formatted(thisName));
-        return new ClassifierResult(structName, classifierResult.data(), classifierResult.data().code(), classifierResult.segment(), leftover);
+        return new ClassifierResult(structName, classifierResult.data(), new IntData(classifierResult.data().code(), false, classifierResult.data().size()), classifierResult.segment(), leftover);
     }
 
     @Override

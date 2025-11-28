@@ -3,7 +3,6 @@ package com.alathreon.alahexeditor.parsing.object;
 import com.alathreon.alahexeditor.util.Pair;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public record ArrayRefData(int index, ParseObject data) implements Data {
     @Override

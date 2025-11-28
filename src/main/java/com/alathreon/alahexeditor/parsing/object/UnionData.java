@@ -4,10 +4,10 @@ import com.alathreon.alahexeditor.util.Pair;
 
 import java.util.List;
 
-public record UnionData(ParseObject classifier, int intClassifier, ParseObject data) implements Data {
+public record UnionData(ParseObject classifier, IntData intClassifier, ParseObject data) implements Data {
     @Override
     public List<Pair<String, String>> displayFields() {
-        return List.of(new Pair<>("ClassifierValue", String.valueOf(intClassifier)));
+        return List.of(new Pair<>("ClassifierValue", intClassifier.toString()));
     }
 
     @Override

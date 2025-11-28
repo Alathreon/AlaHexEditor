@@ -21,10 +21,10 @@ public record IntElement(int size, boolean signed, String expression) implements
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
         ByteView view = safeSubView(data, size);
-        long l = view.parseInt(template.endianness());
+        IntData l = new IntData(view.parseInt(template.endianness()), signed, size);
         if(expression != null) {
-            l = MathParser.evalPostfix(expression, signed, objects, view.toDataSegment(), l);
+            l = MathParser.evalPostfix(expression, objects, view.toDataSegment(), l);
         }
-        return new ParseStepResult(data, view, new IntData(l, signed));
+        return new ParseStepResult(data, view, l);
     }
 }

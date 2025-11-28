@@ -9,6 +9,7 @@ import com.alathreon.alahexeditor.parsing.template.SchemaElement;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.util.ByteView;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,33 +22,48 @@ public record ComputedIntElement(String expression, List<String> variables) impl
 
     private record IntValue(long v, boolean signed) {}
 
+    private int bitsToSize(int length) {
+        if(length <= 8) return 1;
+        if(length <= 16) return 2;
+        if(length <= 32) return 4;
+        return 8;
+    }
+    private int bytesToSize(int length) {
+        if(length <= 1) return 1;
+        if(length == 2) return 2;
+        if(length <= 4) return 4;
+        return 8;
+    }
+
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
         ParseObject parseObject = objects.get(variables.getFirst());
-        IntValue value = find(parseObject, data, 1);
-        long longValue = value.v();
+        IntData value = find(parseObject, data, 1);
         if(expression != null) {
-            longValue = MathParser.evalPostfix(expression, value.signed(), objects, parseObject.metadata(), longValue);
+            value = MathParser.evalPostfix(expression, objects, parseObject.metadata(), value);
         }
-        return new ParseStepResult(data, new ParseObject(parseObject.metadata(), new IntData(longValue, value.signed())));
+        return new ParseStepResult(data, new ParseObject(parseObject.metadata(), value));
     }
-    private IntValue find(ParseObject object, ByteView data, int structIndex) throws ParseException {
+    private IntData find(ParseObject object, ByteView data, int structIndex) throws ParseException {
         if(object == null) {
             throw new ParseException(data, "Expected int data for variable chain %s but got: null".formatted(String.join("->", variables)));
         }
         return switch (object.data()) {
-            case IntData(var raw, var signed, _) -> new IntValue(raw, signed);
-            case FloatData(var value) -> new IntValue((long)value, true);
-            case BoolData(var value) -> new IntValue(value ? 1 : 0, false);
+            case IntData d -> d;
+            case FloatData(var value, var size) -> new IntData((long) value, true, size);
+            case BoolData(var value) -> new IntData(value ? BigInteger.ONE : BigInteger.ZERO, false, 1);
             case BitsetData b -> {
                 long[] longs = b.bitSet().toLongArray();
                 long l = longs.length > 0 ? longs[longs.length-1] : 0;
-                yield new IntValue(l, false);
+                yield new IntData(l, false, bitsToSize(b.bitSet().size()));
             }
-            case BlobData(var hex) -> new IntValue(Long.parseUnsignedLong(hex.transform(h -> h.length() > 16 ? h.substring(h.length()-16) : h), 16), false);
-            case EnumData(var code, _) -> new IntValue(code, false);
-            case NullData _ -> new IntValue(0, false);
-            case UnionData(_, var intClassifier, _) -> new IntValue(intClassifier, false);
+            case BlobData(var hex) -> {
+                int size = bytesToSize(hex.length()/2);
+                yield new IntData(IntData.constraints(new BigInteger(hex.substring(0, size*2), 16), false, size), false, size);
+            }
+            case EnumData(var code, var size, _) -> new IntData(code, false, size);
+            case NullData _ -> new IntData(0, false, 1);
+            case UnionData(_, var intClassifier, _) -> intClassifier;
             case StructData(var members) -> {
                 if(variables.size() <= structIndex) throw new ParseException(data, "Expected int data for variable chain %s but got nothing".formatted(String.join("->", variables)));
                 ParseObject structObject = members.get(variables.get(structIndex));

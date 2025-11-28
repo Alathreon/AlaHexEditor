@@ -5,7 +5,6 @@ import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.parsing.template.type.EnumType;
 import com.alathreon.alahexeditor.util.ByteView;
-import com.alathreon.alahexeditor.util.Pair;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

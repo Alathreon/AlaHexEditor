@@ -7,6 +7,7 @@ import com.alathreon.alahexeditor.parsing.object.UnionData;
 import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.util.DataSegment;
 
+import java.math.BigInteger;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.regex.Pattern;
@@ -17,46 +18,43 @@ public class MathParser {
     private static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
     private static final Pattern OP_PATTERN = Pattern.compile("^[+\\-*/%]$");
 
-    private static long op(char op, long left, long right) {
-        return switch (op) {
-            case '+' -> left + right;
-            case '-' -> left - right;
-            case '*' -> left * right;
-            case '/' -> left / right;
-            case '%' -> left % right;
+    private static BigInteger op(char op, BigInteger left, BigInteger right, boolean signed, int size) {
+        return IntData.constraints(switch (op) {
+            case '+' -> left.add(right);
+            case '-' -> left.subtract(right);
+            case '*' -> left.multiply(right);
+            case '/' -> left.divide(right);
+            case '%' -> left.mod(right);
             default -> throw new IllegalArgumentException("Illegal char %c".formatted(op));
-        };
+        }, signed, size);
     }
-    private static long parse(String s, boolean signed) {
-        return signed ? Long.parseLong(s) : Long.parseUnsignedLong(s);
-    }
-    public static long evalPostfix(String expression, boolean signed, ParseObjects objects, DataSegment segment, long value) throws ParseException {
+    public static IntData evalPostfix(String expression, ParseObjects objects, DataSegment segment, IntData value) throws ParseException {
         objects.startScope();
-        objects.add("x", new ParseObject(segment, new IntData(value, signed)));
+        objects.add("x", new ParseObject(segment, value));
         try {
-            return internalEvalPostfix(expression, signed, objects, segment);
+            return new IntData(internalEvalPostfix(expression, value.signed(), value.size(), objects, segment), value.signed(), value.size());
         } finally {
             objects.endScope();
         }
     }
-    private static long internalEvalPostfix(String expression, boolean signed, ParseObjects objects, DataSegment segment) throws ParseException {
-        Deque<Long> stack = new ArrayDeque<>();
+    private static BigInteger internalEvalPostfix(String expression, boolean signed, int size, ParseObjects objects, DataSegment segment) throws ParseException {
+        Deque<BigInteger> stack = new ArrayDeque<>();
         for (String element : expression.split(" ")) {
             if(OP_PATTERN.matcher(element).matches()) {
                 if(stack.size() < 2) throw new ParseException(segment, "Only one operand for operator %s, for expression %s".formatted(element, expression));
-                long right = stack.pop();
-                long left = stack.pop();
-                long result = op(element.charAt(0), left, right);
+                BigInteger right = stack.pop();
+                BigInteger left = stack.pop();
+                BigInteger result = op(element.charAt(0), left, right, signed, size);
                 stack.push(result);
             } else if(INT_PATTERN.matcher(element).matches()) {
-                stack.push(parse(element, signed));
+                stack.push(IntData.constraints(new BigInteger(element), signed, size));
             } else if(Parser.IDENTIFIER_PATTERN.matcher(element).matches()) {
                 ParseObject parseObject = objects.get(element);
                 if(parseObject == null) throw new ParseException(segment, "Variable %s doesn't exist in expression %s".formatted(element, expression));
                 switch (parseObject.data()) {
-                    case IntData i -> stack.push(i.raw());
-                    case EnumData e -> stack.push((long)e.code());
-                    case UnionData u -> stack.push((long)u.intClassifier());
+                    case IntData i -> stack.push(i.value());
+                    case EnumData e -> stack.push(BigInteger.valueOf(e.code()));
+                    case UnionData u -> stack.push(u.intClassifier().value());
                     default -> throw new ParseException(segment, "Unsupported type %s for variable %s in expression %s".formatted(parseObject.data().type(), element, expression));
                 }
             } else {

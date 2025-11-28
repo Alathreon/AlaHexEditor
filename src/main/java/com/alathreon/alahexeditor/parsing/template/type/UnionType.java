@@ -39,7 +39,7 @@ public record UnionType(Classifier classifier) implements SchemaType<UnionData> 
         StructType structType = findType(template, leftover, structName, StructType.class);
 
         objects.startScope();
-        objects.add(thisName, new ParseObject(classifierResult.segment().toDataSegment(), new IntData(classifierResult.intData(), false)));
+        objects.add(thisName, new ParseObject(classifierResult.segment().toDataSegment(), classifierResult.intData()));
         ParseTypeResult<StructData> structResult = structType.parseData(structName, leftover, template, objects);
         objects.endScope();
 

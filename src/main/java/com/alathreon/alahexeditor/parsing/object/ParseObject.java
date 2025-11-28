@@ -5,6 +5,9 @@ import com.alathreon.alahexeditor.util.DataSegment;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 public record ParseObject(DataSegment metadata, @JsonUnwrapped Data data) {
+    public ParseObject(String hex, Data data) {
+        this(ByteView.fromHexString(hex), data);
+    }
     public ParseObject(ByteView metadata, Data data) {
         this(metadata.toDataSegment(), data);
     }

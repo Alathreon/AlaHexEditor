@@ -35,6 +35,6 @@ public record EnumType(int size, LinkedHashMap<Integer, String> constants) imple
         int code = (int) view.parseInt(template.endianness());
         String constantName = constants().get(code);
         if(constantName == null) throw new ParseException(view, "Error in Enum %s: constant %s not found".formatted(thisName, view));
-        return new ParseTypeResult<>(data, view, new EnumData(code, constantName));
+        return new ParseTypeResult<>(data, view, new EnumData(code, size, constantName));
     }
 }

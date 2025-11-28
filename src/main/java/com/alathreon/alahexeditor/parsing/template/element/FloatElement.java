@@ -91,6 +91,6 @@ public record FloatElement(int size) implements SchemaElement {
             case 8 -> Double.longBitsToDouble(bits);
             default ->  throw new IllegalArgumentException();
         };
-        return new ParseStepResult(data, view, new FloatData(value));
+        return new ParseStepResult(data, view, new FloatData(value, size));
     }
 }

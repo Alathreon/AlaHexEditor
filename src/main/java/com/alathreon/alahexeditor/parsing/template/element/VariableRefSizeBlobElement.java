@@ -10,6 +10,7 @@ import com.alathreon.alahexeditor.parsing.template.SchemaElement;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.util.ByteView;
 
+import java.math.BigInteger;
 import java.util.Objects;
 
 import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.safeSubView;
@@ -24,9 +25,10 @@ public record VariableRefSizeBlobElement(String sizeVarName) implements SchemaEl
         ParseObject parseObject = objects.get(sizeVarName);
         if(parseObject == null) throw new ParseException(data, "Expected blob size data for variable %s, but got: null".formatted(sizeVarName));
         parseObject = parseObject.resolveReferences();
-        if(!(parseObject.data() instanceof IntData(long size, _, _))) throw new ParseException(data, "Expected blob size data for variable %s, but got: %s".formatted(sizeVarName, parseObject.data().getClass().getSimpleName()));
-        if(size > Integer.MAX_VALUE) throw new ParseException(data, "Blob size too large: " + size);
-        ByteView subView = safeSubView(data, (int)size);
+        if(!(parseObject.data() instanceof IntData(var size, _, _))) throw new ParseException(data, "Expected blob size data for variable %s, but got: %s".formatted(sizeVarName, parseObject.data().getClass().getSimpleName()));
+        if(size.compareTo(BigInteger.ZERO) < 0) throw new ParseException(data, "Array size negative: " + size);
+        if(size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) throw new ParseException(data, "Array size too large: " + size);
+        ByteView subView = safeSubView(data, size.intValue());
         String utf8String = subView.toString();
         return new ParseStepResult(data, subView, new BlobData(utf8String));
     }

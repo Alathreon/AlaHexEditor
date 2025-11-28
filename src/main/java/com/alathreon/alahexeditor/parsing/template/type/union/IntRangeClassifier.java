@@ -1,6 +1,7 @@
 package com.alathreon.alahexeditor.parsing.template.type.union;
 
 import com.alathreon.alahexeditor.parsing.ParseException;
+import com.alathreon.alahexeditor.parsing.object.IntData;
 import com.alathreon.alahexeditor.parsing.object.IntRangeBindingData;
 import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.parsing.template.Template;
@@ -28,6 +29,6 @@ public record IntRangeClassifier(int size, List<IntRangeBindingData> rangeBindin
         ByteView view = safeSubView(data, size);
         long value = view.parseInt(template.endianness());
         IntRangeBindingData binding = rangeBindings.stream().filter(b -> b.from() <= value && value < b.to()).findFirst().orElseThrow(() -> new ParseException(view, "Error in Union %s: No binding found for value %d".formatted(thisName, value)));
-        return new ClassifierResult(binding.name(), binding, (int)value, view, data.leftover(view));
+        return new ClassifierResult(binding.name(), binding, new IntData(value, false, size), view, data.leftover(view));
     }
 }

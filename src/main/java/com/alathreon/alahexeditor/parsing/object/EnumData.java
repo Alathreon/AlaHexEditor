@@ -4,11 +4,12 @@ import com.alathreon.alahexeditor.util.Pair;
 
 import java.util.List;
 
-public record EnumData(int code, String name) implements Data {
+public record EnumData(int code, int size, String name) implements Data {
     @Override
     public List<Pair<String, String>> displayFields() {
         return List.of(
                 new Pair<>("Code", String.valueOf(code)),
+                new Pair<>("Size", String.valueOf(size)),
                 new Pair<>("Name", name)
         );
     }
