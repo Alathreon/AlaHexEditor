@@ -18,7 +18,7 @@ public record ArrayStringRefClassifier(String variable, int size, boolean zeroIs
 
     @Override
     public ClassifierResult find(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, size());
+        ByteView view = safeSubView(data, size);
         int index = (int) view.parseInt(template.endianness());
         ParseObject parseObject = objects.get(variable);
         if(parseObject == null) throw new ParseException(data, "Expected array data for variable %s, but got: null".formatted(variable));
@@ -34,6 +34,6 @@ public record ArrayStringRefClassifier(String variable, int size, boolean zeroIs
         if(index < 0 || index >= innerObjects.size()) throw new ParseException(view, "Error in Union %s: index %d not found in array %s".formatted(thisName, index, variable));
         Data structNameObject = innerObjects.get(index).data();
         if(!(structNameObject instanceof StringData(String val))) throw new ParseException(view, "Error in Union %s: element found in array %s at index %d is not a string: %s".formatted(thisName, variable, index, structNameObject.type()));
-        return new ClassifierResult(val, structNameObject, new IntData(size, false, size), view, data.leftover(view));
+        return new ClassifierResult(val, structNameObject, new IntData(index, false, size), view, data.leftover(view));
     }
 }

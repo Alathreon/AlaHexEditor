@@ -37,6 +37,6 @@ public record VariableSizeArrayElement(int fieldSize, SchemaElement schema) impl
             result.add(stepResult.object());
         }
         objects.endScope();
-        return new ParseStepResult(data, view, arrayData);
+        return new ParseStepResult(data, data.subView(view.offset() - data.offset()), arrayData);
     }
 }

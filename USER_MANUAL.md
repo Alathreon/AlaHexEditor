@@ -1,44 +1,46 @@
 # Summary
 
 - **[Using the app](#Using-the-app)**
-  - **[File actions](#File-actions)**
-    - **[Create a file](#Create-a-file)**
-    - **[Load a file](#Load-a-file)**
-    - **[Save in a file](#Save-in-a-file)**
-    - **[Quit](#Quit)**
-    - **[The view](#The-view)**
-  - **[Editor Actions](#Editor-actions)**
-    - **[Edition](#Edit)**
-    - **[Selection](#Selection)**
-    - **[Clipboard](#Clipboard)**
+    - **[File actions](#File-actions)**
+        - **[Create a file](#Create-a-file)**
+        - **[Load a file](#Load-a-file)**
+        - **[Save in a file](#Save-in-a-file)**
+        - **[Quit](#Quit)**
+        - **[The view](#The-view)**
+    - **[Editor Actions](#Editor-actions)**
+        - **[Edition](#Edit)**
+        - **[Selection](#Selection)**
+        - **[Clipboard](#Clipboard)**
 
 - **[The parser](#The-parser)**
-  - **[Idea](#idea)**
-  - **[Format](#format)**
-      - **[Integer](#integer)**
-  - **[Types](#types)**
-    - **[StructType](#structtype)**
-    - **[EnumType](#enumtype)**
-    - **[BitsetType](#bitsettype)**
-    - **[UnionType](#uniontype)**
-      - **[SelfEnumClassifier](#selfenumclassifier)**
-      - **[EnumClassifier](#enumclassifier)**
-      - **[IntRangeClassifier](#intrangeclassifier)**
-      - **[ArrayStringRefClassifier](#arraystringrefclassifier)**
-  - **[Elements](#elements)**
-    - **[FixedSizeBlobElement](#fixedsizeblobelement)**
-    - **[IntElement](#intelement)**
-    - **[FloatElement](#floatelement)**
-    - **[NullEndStringElement](#nullendstringelement)**
-    - **[FixedSizeStringElement](#fixedsizestringelement)**
-    - **[VariableSizeStringElement](#variablesizestringelement)**
-    - **[FixedSizeArrayElement](#fixedsizearrayelement)**
-    - **[VariableSizeArrayElement](#variablesizearrayelement)**
-    - **[VariableRefArrayElement](#variablerefarrayelement)**
-    - **[DynamicSizeArrayElement](#dynamicsizearrayelement)**
-    - **[ArrayReferenceElement](#arrayreferenceelement)**
-    - **[ComputedIntElement](#computedintelement)**
-    - **[ComputedStringFormatElement](#computedstringformatelement)**
+    - **[Idea](#idea)**
+    - **[Format](#format)**
+        - **[Integer](#integer)**
+    - **[Types](#types)**
+        - **[StructType](#structtype)**
+        - **[EnumType](#enumtype)**
+        - **[BitsetType](#bitsettype)**
+        - **[UnionType](#uniontype)**
+            - **[SelfEnumClassifier](#selfenumclassifier)**
+            - **[EnumClassifier](#enumclassifier)**
+            - **[IntRangeClassifier](#intrangeclassifier)**
+            - **[ArrayStringRefClassifier](#arraystringrefclassifier)**
+    - **[Elements](#elements)**
+        - **[IntElement](#intelement)**
+        - **[FloatElement](#floatelement)**
+        - **[NullEndStringElement](#nullendstringelement)**
+        - **[FixedSizeStringElement](#fixedsizestringelement)**
+        - **[VariableSizeStringElement](#variablesizestringelement)**
+        - **[FixedSizeArrayElement](#fixedsizearrayelement)**
+        - **[VariableSizeArrayElement](#variablesizearrayelement)**
+        - **[VariableRefSizeArrayElement](#variablerefsizearrayelement)**
+        - **[DynamicSizeArrayElement](#dynamicsizearrayelement)**
+        - **[FixedSizeBlobElement](#fixedsizeblobelement)**
+        - **[VariableSizeBlobElement](#variablesizeblobelement)**
+        - **[VariableRefSizeBlobElement](#variablerefsizeblobelement)**
+        - **[ArrayReferenceElement](#arrayreferenceelement)**
+        - **[ComputedIntElement](#computedintelement)**
+        - **[ComputedStringFormatElement](#computedstringformatelement)**
 
 ---
 
@@ -117,6 +119,11 @@ When pasting, it will expect this format too, if it can't find this format, it w
 It uses a declarative format using json to parse a file, you will have to declare types and elements.
 There is a schema file available locally [here](src/main/resources/alahex.schema.json) or [in the web](https://github.com/Alathreon/AlaHexEditor/blob/master/src/main/resources/alahex.schema.json)
 
+- $schema: the schema to verify the JSON, unused.
+- references: useful references, unused.
+- types: see **[Types](#types)**, default to [].
+- schema: see **[Elements](#elements)**, mandatory.
+
 ```json
 {
     "$schema": "https://github.com/Alathreon/AlaHexEditor/blob/master/src/main/resources/alahex.schema.json",
@@ -172,25 +179,35 @@ Defines a struct type, fields are described in the members element in the same w
 #### Example
 ```json
 {
-    "Person": {
-        "@type": "StructType",
-        "members": {
-            "name": {
-                "@type": "NullEndStringElement"
-            },
-            "age": {
-                "@type": "IntElement",
-                "size": 2
+    "types": {
+        "Person": {
+            "@type": "StructType",
+            "members": {
+                "name": {
+                    "@type": "NullEndStringElement"
+                },
+                "age": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
             }
+        }
+    },
+    "schema": {
+        "person": {
+            "@type": "TypeElement",
+            "name": "Person"
         }
     }
 }
 ```
 ```
-0x416E61000009
+0x416E61000F
 ↓
-name = 0x416E6100 = Ana
-age = 0x0009 = 9
+person = {
+    name = 0x416E6100 = Ana
+    age = 0x0F = 15
+}
 ```
 
 ### EnumType
@@ -205,19 +222,27 @@ Defines an enum type.
 #### Example
 ```json
 {
-    "Color": {
-        "@type": "EnumType",
-        "size": 1,
-        "constants": [
-            { "key":  0, "value":  "Black" },
-            { "key":  1, "value":  "White" }
-        ]
+    "types": {
+        "Color": {
+            "@type": "EnumType",
+            "size": 1,
+            "constants": [
+                { "key":  0, "value":  "Black" },
+                { "key":  1, "value":  "White" }
+            ]
+        }
+    },
+    "schema": {
+        "color": {
+            "@type": "TypeElement",
+            "name": "Color"
+        }
     }
 }
 ```
 ```
-Ox01 -> Black
-0x02 -> White
+Ox00 -> Black
+0x01 -> White
 ```
 
 ### BitsetType
@@ -231,12 +256,20 @@ Define a bitset type, where each bit correspond to a constant.
 #### Example
 ```json
 {
-    "Color": {
-        "@type": "BitsetType",
-        "size": 1,
-        "names": [
-            "Black", "White"
-        ]
+    "types": {
+        "Color": {
+            "@type": "BitsetType",
+            "size": 1,
+            "names": [
+                "Black", "White"
+            ]
+        }
+    },
+    "schema": {
+        "color": {
+            "@type": "TypeElement",
+            "name": "Color"
+        }
     }
 }
 ```
@@ -269,45 +302,53 @@ Classify by using a self-contained enum, the name of the constant is the name of
 ###### Example
 ```json
 {
-    "Entry": {
-        "@type": "UnionType",
-        "classifier": {
-            "@type": "SelfEnumClassifier",
-            "size": 1,
-            "constants": [
-                { "key":  0, "value":  "IntegerEntry" },
-                { "key":  1, "value":  "StringEntry" }
-            ]
-        }
-    },
-    "IntegerEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "IntElement",
-                "size": 1
+    "types": {
+        "Entry": {
+            "@type": "UnionType",
+            "classifier": {
+                "@type": "SelfEnumClassifier",
+                "size": 1,
+                "constants": [
+                    { "key":  0, "value":  "IntegerEntry" },
+                    { "key":  1, "value":  "StringEntry" }
+                ]
+            }
+        },
+        "IntegerEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
+            }
+        },
+        "StringEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "NullEndStringElement"
+                }
             }
         }
     },
-    "StringEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "NullEndStringElement"
-            }
+    "schema": {
+        "entry": {
+            "@type": "TypeElement",
+            "name": "Entry"
         }
     }
 }
 ```
 ```
-0x0105
+0x0005
 ↓
-0x01 = IntegerEntry
+0x00 = IntegerEntry
 0x05 = 5
 
-0x02416E6100
+0x01416E6100
 ↓
-0x02 = StringEntry
+0x01 = StringEntry
 0x416E6100 = Ana
 ```
 
@@ -322,49 +363,57 @@ Classify by using an enum, the name of the constant is the name of type to use.
 ###### Example
 ```json
 {
-    "Entry": {
-        "@type": "UnionType",
-        "classifier": {
-            "@type": "EnumClassifier",
-            "enumClassifierName": "EntryKind"
-        }
-    },
-    "EntryKind": {
-        "@type": "EnumType",
-        "size": 1,
-        "constants": [
-            { "key":  0, "value":  "IntegerEntry" },
-            { "key":  1, "value":  "StringEntry" }
-        ]
-    },
-    "IntegerEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "IntElement",
-                "size": 1
+    "types": {
+        "Entry": {
+            "@type": "UnionType",
+            "classifier": {
+                "@type": "EnumClassifier",
+                "enumClassifierName": "EntryKind"
+            }
+        },
+        "EntryKind": {
+            "@type": "EnumType",
+            "size": 1,
+            "constants": [
+                { "key":  0, "value":  "IntegerEntry" },
+                { "key":  1, "value":  "StringEntry" }
+            ]
+        },
+        "IntegerEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
+            }
+        },
+        "StringEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "NullEndStringElement"
+                }
             }
         }
     },
-    "StringEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "NullEndStringElement"
-            }
+    "schema": {
+        "entry": {
+            "@type": "TypeElement",
+            "name": "Entry"
         }
     }
 }
 ```
 ```
-0x0105
+0x0005
 ↓
-0x01 = IntegerEntry
+0x00 = IntegerEntry
 0x05 = 5
 
-0x02416E6100
+0x01416E6100
 ↓
-0x02 = StringEntry
+0x01 = StringEntry
 0x416E6100 = Ana
 ```
 ##### IntRangeClassifier
@@ -378,32 +427,40 @@ Classify by using a range of integers. Ranges must be from smallest to largest w
 ###### Example
 ```json
 {
-    "Entry": {
-        "@type": "UnionType",
-        "classifier": {
-            "@type": "IntRangeClassifier",
-            "size": 1,
-            "rangeBindings": [
-                { "from": 0, "to":  10, "name": "IntegerEntry" },
-                { "from": 10, "to":  20, "name": "StringEntry" }
-            ]
-        }
-    },
-    "IntegerEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "IntElement",
-                "size": 1
+    "types": {
+        "Entry": {
+            "@type": "UnionType",
+            "classifier": {
+                "@type": "IntRangeClassifier",
+                "size": 1,
+                "rangeBindings": [
+                    { "from": 0, "to":  10, "name": "IntegerEntry" },
+                    { "from": 10, "to":  20, "name": "StringEntry" }
+                ]
+            }
+        },
+        "IntegerEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
+            }
+        },
+        "StringEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "NullEndStringElement"
+                }
             }
         }
     },
-    "StringEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "NullEndStringElement"
-            }
+    "schema": {
+        "entry": {
+            "@type": "TypeElement",
+            "name": "Entry"
         }
     }
 }
@@ -436,59 +493,118 @@ Will parse an index, which will then reference a string in an array, and this st
 | zeroIsNull | Boolean     | false                     | If false, nothing special. If true, 0 means null and will not correspond to any type, while any other index will be reduced by 1 to correspond to the array. So 0 -> null, 1 -> 0, 2 -> 1, etc. |
 
 ###### Example
+Structless
 ```json
 {
-    "Data": {
-        "@type": "StructType",
-        "members": {
-            "list": {
-                "@type": "FixedSizeArrayElement",
-                "fieldSize": 1,
-                "schema": {
+    "types": {
+        "Entry": {
+            "@type": "UnionType",
+            "classifier": {
+                "@type": "ArrayStringRefClassifier",
+                "size": 1,
+                "variable": "list"
+            }
+        },
+        "IntegerEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
+            }
+        },
+        "StringEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
                     "@type": "NullEndStringElement"
                 }
-            },
-            "entry1": {
-                "@type": "TypeElement",
-                "name": "Entry"
-            },
-            "entry2": {
-                "@type": "TypeElement",
-                "name": "Entry"
             }
         }
     },
-    "Entry": {
-        "@type": "UnionType",
-        "classifier": {
-            "@type": "ArrayStringRefClassifier",
-            "size": 1,
-            "variable": "list"
-        }
-    },
-    "IntegerEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "IntElement",
-                "size": 1
-            }
-        }
-    },
-    "StringEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
+    "schema": {
+        "list": {
+            "@type": "VariableSizeArrayElement",
+            "fieldSize": 1,
+            "schema": {
                 "@type": "NullEndStringElement"
             }
+        },
+        "entry1": {
+            "@type": "TypeElement",
+            "name": "Entry"
+        },
+        "entry2": {
+            "@type": "TypeElement",
+            "name": "Entry"
         }
     }
 }
 ```
+With struct
+```json
+{
+    "types": {
+        "Data": {
+            "@type": "StructType",
+            "members": {
+                "list": {
+                    "@type": "VariableSizeArrayElement",
+                    "fieldSize": 1,
+                    "schema": {
+                        "@type": "NullEndStringElement"
+                    }
+                },
+                "entry1": {
+                    "@type": "TypeElement",
+                    "name": "Entry"
+                },
+                "entry2": {
+                    "@type": "TypeElement",
+                    "name": "Entry"
+                }
+            }
+        },
+        "Entry": {
+            "@type": "UnionType",
+            "classifier": {
+                "@type": "ArrayStringRefClassifier",
+                "size": 1,
+                "variable": "list"
+            }
+        },
+        "IntegerEntry": {
+            "@type": "StructType",
+            "members": {
+            "value": {
+                "@type": "IntElement",
+                "size": 1
+                }
+            }
+        },
+        "StringEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "NullEndStringElement"
+                }
+            }
+        }
+    },
+    "schema": {
+        "data": {
+            "@type": "TypeElement",
+            "name": "Data"
+        }
+    }
+}
+```
+Both above are equivalent an can parse the following the same way:
 ```
 0x02496e7465676572456e74727900537472696e67456e74727900000501416E6100
 ↓
-0x01 = length 1
+0x02 = length 2
 0x496e7465676572456e74727900 = "IntegerEntry" (the string value)
 0x537472696e67456e74727900 = "StringEntry" (the string value)
 list = [IntegerEntry, StringEntry]
@@ -499,50 +615,53 @@ entry2 = 0x01 -> StringEntry, 0x416E6100 -> value = "Ana"
 ###### Example zero is null
 ```json
 {
-    "Data": {
-        "@type": "StructType",
-        "members": {
-            "list": {
-                "@type": "FixedSizeArrayElement",
-                "fieldSize": 1,
-                "schema": {
+    "types": {
+        "Entry": {
+            "@type": "UnionType",
+            "classifier": {
+                "@type": "ArrayStringRefClassifier",
+                "size": 1,
+                "variable": "list",
+                "zeroIsNull": true
+            }
+        },
+        "IntegerEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
+            }
+        },
+        "StringEntry": {
+            "@type": "StructType",
+            "members": {
+                "value": {
                     "@type": "NullEndStringElement"
                 }
-            },
-            "entry1": {
-                "@type": "TypeElement",
-                "name": "Entry"
-            },
-            "entry2": {
-                "@type": "TypeElement",
-                "name": "Entry"
             }
         }
     },
-    "Entry": {
-        "@type": "UnionType",
-        "classifier": {
-            "@type": "ArrayStringRefClassifier",
-            "size": 1,
-            "variable": "list",
-            "zeroIsNull": true
-        }
-    },
-    "IntegerEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
-                "@type": "IntElement",
-                "size": 1
-            }
-        }
-    },
-    "StringEntry": {
-        "@type": "StructType",
-        "members": {
-            "value": {
+    "schema": {
+        "list": {
+            "@type": "VariableSizeArrayElement",
+            "fieldSize": 1,
+            "schema": {
                 "@type": "NullEndStringElement"
             }
+        },
+        "entry1": {
+            "@type": "TypeElement",
+            "name": "Entry"
+        },
+        "entry2": {
+            "@type": "TypeElement",
+            "name": "Entry"
+        },
+        "entry3": {
+            "@type": "TypeElement",
+            "name": "Entry"
         }
     }
 }
@@ -593,9 +712,11 @@ An integer.
 #### Example simple
 ```json
 {
-    "int_element": {
-        "@type": "IntElement",
-        "size": 1
+    "schema": {
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1
+        }
     }
 }
 ```
@@ -608,10 +729,12 @@ int_element = 5
 #### Example signed
 ```json
 {
-    "int_element": {
-        "@type": "IntElement",
-        "size": 1,
-        "signed": true
+    "schema": {
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1,
+            "signed": true
+        }
     }
 }
 ```
@@ -624,10 +747,12 @@ int_element = -1
 #### Example expression
 ```json
 {
-    "int_element": {
-        "@type": "IntElement",
-        "size": 1,
-        "expression": "x 3 *"
+    "schema": {
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1,
+            "expression": "x 3 *"
+        }
     }
 }
 ```
@@ -648,8 +773,10 @@ A boolean.
 #### Example simple
 ```json
 {
-    "bool_element": {
-        "@type": "BoolElement"
+    "schema": {
+        "bool_element": {
+            "@type": "BoolElement"
+        }
     }
 }
 ```
@@ -710,16 +837,34 @@ A string ended by the null character (`\\0`).
 #### Example
 ```json
 {
-    "array": {
-        "@type": "VariableSizeStringElement",
-        "fieldSize": 1
+    "schema": {
+        "string": {
+            "@type": "NullEndStringElement"
+        }
     }
 }
 ```
 ```
 0x416E6100
 ↓
-value = "Ana"
+string = "Ana"
+```
+
+#### Example SJIS charset
+```json
+{
+    "schema": {
+        "string": {
+            "@type": "NullEndStringElement",
+            "charset": "SJIS"
+        }
+    }
+}
+```
+```
+0x82B182F182C982BF82CD00
+↓
+string = "こんにちは"
 ```
 
 
@@ -736,24 +881,29 @@ A string whose size is fixed.
 #### Example
 ```json
 {
-    "array": {
-        "@type": "FixedSizeStringElement",
-        "size": 3
+    "schema": {
+        "string": {
+            "@type": "FixedSizeStringElement",
+            "size": 3
+        }
     }
 }
 ```
 ```
 0x416E61
 ↓
-value = "Ana"
+string = "Ana"
 ```
 
 #### Example
 ```json
 {
-    "array": {
-        "@type": "FixedSizeStringElement",
-        "size": 5
+    "schema": {
+        "string": {
+            "@type": "FixedSizeStringElement",
+            "size": 5,
+            "stopAtNull": true
+        }
     }
 }
 ```
@@ -762,7 +912,7 @@ value = "Ana"
 ↓
 parsed = 416E610000
 actual string = 416E61
-value = "Ana"
+string = "Ana"
 ```
 
 
@@ -779,9 +929,11 @@ A string whose size depends on the size parsed just before it.
 #### Example
 ```json
 {
-    "array": {
-        "@type": "VariableSizeStringElement",
-        "fieldSize": 1
+    "schema": {
+        "string": {
+            "@type": "VariableSizeStringElement",
+            "fieldSize": 1
+        }
     }
 }
 ```
@@ -789,7 +941,7 @@ A string whose size depends on the size parsed just before it.
 0x03416E61
 ↓
 size = 3
-value = "Ana"
+string = "Ana"
 ```
 
 
@@ -806,13 +958,15 @@ String whose size depends on the size in another variable.
 #### Example
 ```json
 {
-    "string_size": {
-        "@type": "IntElement",
-        "size": 1
-    },
-    "string": {
-        "@type": "VariableRefSizeStringElement",
-        "sizeVarName": "string_size"
+    "schema": {
+        "string_size": {
+            "@type": "IntElement",
+            "size": 1
+        },
+        "string": {
+            "@type": "VariableRefSizeStringElement",
+            "sizeVarName": "string_size"
+        }
     }
 }
 ```
@@ -820,7 +974,7 @@ String whose size depends on the size in another variable.
 0x03416E61
 ↓
 string_size = 3
-value = "Ana"
+string = "Ana"
 ```
 
 
@@ -836,12 +990,14 @@ An array whose size is fixed.
 #### Example
 ```json
 {
-    "array": {
-        "@type": "FixedSizeArrayElement",
-        "size": 4,
-        "schema": {
-            "@type": "IntElement",
-            "size": 1
+    "schema": {
+        "array": {
+            "@type": "FixedSizeArrayElement",
+            "size": 4,
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
         }
     }
 }
@@ -849,9 +1005,34 @@ An array whose size is fixed.
 ```
 0x08060902
 ↓
-[8, 6, 9, 2]
+array = [8, 6, 9, 2]
 ```
 
+#### Example leftover
+```json
+{
+    "schema": {
+        "array": {
+            "@type": "FixedSizeArrayElement",
+            "size": 4,
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
+        },
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1
+        }
+    }
+}
+```
+```
+0x0806090206
+↓
+array = [8, 6, 9, 2]
+int_element = 6
+```
 
 ### VariableSizeArrayElement
 
@@ -865,12 +1046,14 @@ Array whose size depends on the size parsed just before it.
 #### Example
 ```json
 {
-    "array": {
-        "@type": "VariableSizeArrayElement",
-        "fieldSize": 1,
-        "schema": {
-            "@type": "IntElement",
-            "size": 1
+    "schema": {
+        "array": {
+            "@type": "VariableSizeArrayElement",
+            "fieldSize": 1,
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
         }
     }
 }
@@ -879,7 +1062,7 @@ Array whose size depends on the size parsed just before it.
 0x0408060902
 ↓
 size = 4
-[8, 6, 9, 2]
+array = [8, 6, 9, 2]
 ```
 
 
@@ -895,16 +1078,18 @@ Array whose size depends on the size in another variable.
 #### Example
 ```json
 {
-    "array_size": {
-        "@type": "IntElement",
-        "size": 1
-    },
-    "array": {
-        "@type": "VariableRefSizeArrayElement",
-        "sizeVarName": "array_size",
-        "schema": {
+    "schema": {
+        "array_size": {
             "@type": "IntElement",
             "size": 1
+        },
+        "array": {
+            "@type": "VariableRefSizeArrayElement",
+            "sizeVarName": "array_size",
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
         }
     }
 }
@@ -913,7 +1098,7 @@ Array whose size depends on the size in another variable.
 0x0408060902
 ↓
 array_size = 4
-[8, 6, 9, 2]
+array = [8, 6, 9, 2]
 ```
 
 
@@ -983,7 +1168,7 @@ An array generated by looping on a schema as long as the condition is met. Enums
 ```
 0x050203040100
 ↓
-[Pair(a=5, b=2), Pair(a=3, b=4), Pair(a=1, b=0)]
+array = [Pair(a=5, b=2), Pair(a=3, b=4), Pair(a=1, b=0)]
 ```
 
 
@@ -998,16 +1183,40 @@ Element that can be used by default to take the bytes as is.
 #### Example
 ```json
 {
-    "array": {
-        "@type": "FixedSizeBlobElement",
-        "size": 4
+    "schema": {
+        "blob": {
+            "@type": "FixedSizeBlobElement",
+            "size": 4
+        }
     }
 }
 ```
 ```
-0x416E61
+0x416E61AF
 ↓
-value = 0x416E61
+blob = 41 6E 61 AF
+```
+
+#### Example leftover
+```json
+{
+    "schema": {
+        "blob": {
+            "@type": "FixedSizeBlobElement",
+            "size": 4
+        },
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1
+        }
+    }
+}
+```
+```
+0x416E61AF06
+↓
+blob = 41 6E 61 AF
+int_element = 6
 ```
 
 
@@ -1022,17 +1231,19 @@ A blob whose size depends on the size parsed just before it.
 #### Example
 ```json
 {
-    "array": {
-        "@type": "VariableSizeBlobElement",
-        "fieldSize": 1
+    "schema": {
+        "blob": {
+            "@type": "VariableSizeBlobElement",
+            "fieldSize": 1
+        }
     }
 }
 ```
 ```
-0x03416E61
+0x04416E61AF
 ↓
-size = 3
-value = 0x416E61
+size = 4
+blob = 41 6E 61 AF
 ```
 
 
@@ -1047,21 +1258,23 @@ Blob whose size depends on the size in another variable.
 #### Example
 ```json
 {
-    "blob_size": {
-        "@type": "IntElement",
-        "size": 1
-    },
-    "array": {
-        "@type": "VariableRefSizeBlobElement",
-        "sizeVarName": "blob_size"
+    "schema": {
+        "blob_size": {
+            "@type": "IntElement",
+            "size": 1
+        },
+        "blob": {
+            "@type": "VariableRefSizeBlobElement",
+            "sizeVarName": "blob_size"
+        }
     }
 }
 ```
 ```
-0x0408060902
+0x04416E61AF
 ↓
 blob_size = 4
-value = 0x08060902
+blob = 41 6E 61 AF
 ```
 
 
@@ -1078,17 +1291,19 @@ References an array by the given variable to the given index.
 #### Example
 ```json
 {
-    "list": {
-        "@type": "FixedSizeArrayElement",
-        "fieldSize": 1,
-        "schema": {
-            "@type": "NullEndStringElement"
+    "schema": {
+        "array": {
+            "@type": "VariableSizeArrayElement",
+            "fieldSize": 1,
+            "schema": {
+                "@type": "NullEndStringElement"
+            }
+        },
+        "reference": {
+            "@type": "ArrayReferenceElement",
+            "size": 1,
+            "variable": "array"
         }
-    },
-    "reference": {
-        "@type": "ArrayReferenceElement",
-        "size": 1,
-        "variable": "list"
     }
 }
 ```
@@ -1098,25 +1313,27 @@ References an array by the given variable to the given index.
 0x01 = length 1
 0x496e7465676572456e74727900 = "IntegerEntry" (the string value)
 0x537472696e67456e74727900 = "StringEntry" (the string value)
-list = [IntegerEntry, StringEntry]
+array = [IntegerEntry, StringEntry]
 reference = 0x01 -> "StringEntry"
 ```
 
 #### Example zero is null
 ```json
 {
-    "list": {
-        "@type": "FixedSizeArrayElement",
-        "fieldSize": 1,
-        "schema": {
-            "@type": "NullEndStringElement"
+    "schema": {
+        "array": {
+            "@type": "VariableSizeArrayElement",
+            "fieldSize": 1,
+            "schema": {
+                "@type": "NullEndStringElement"
+            }
+        },
+        "reference": {
+            "@type": "ArrayReferenceElement",
+            "size": 1,
+            "variable": "array",
+            "zeroIsNull": true
         }
-    },
-    "reference": {
-        "@type": "ArrayReferenceElement",
-        "size": 1,
-        "variable": "list",
-        "zeroIsNull": true
     }
 }
 ```
@@ -1152,13 +1369,15 @@ Compute integer operations in postfix notation.
 #### Example simple
 ```json
 {
-    "int_element": {
-        "@type": "IntElement",
-        "size": 1
-    },
-    "display": {
-        "@type": "ComputedIntElement",
-        "variables": [ "int_element" ]
+    "schema": {
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1
+        },
+        "display": {
+            "@type": "ComputedIntElement",
+            "variables": [ "int_element" ]
+        }
     }
 }
 ```
@@ -1166,20 +1385,22 @@ Compute integer operations in postfix notation.
 0x05
 ↓
 int_element = 5
-display = 5
+display = "5"
 ```
 
 #### Example expression
 ```json
 {
-    "int_element": {
-        "@type": "IntElement",
-        "size": 1
-    },
-    "display": {
-        "@type": "ComputedIntElement",
-        "variables": [ "int_element" ],
-        "expression": "x 3 *"
+    "schema": {
+        "int_element": {
+            "@type": "IntElement",
+            "size": 1
+        },
+        "display": {
+            "@type": "ComputedIntElement",
+            "variables": [ "int_element" ],
+            "expression": "x 3 *"
+        }
     }
 }
 ```
@@ -1232,25 +1453,27 @@ display = pair.b = 5
 
 Format a string.
 
-| Name   | Type            | Default value if optional | Description                                                                                                                                       |
-|--------|-----------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| format | String          |                           | The format string, in the same syntax as [Java Formatter](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html). |
-| items  | Array of String |                           | Array of variables to inject into the format.                                                                                                     |
+| Name      | Type            | Default value if optional | Description                                                                                                                                       |
+|-----------|-----------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| format    | String          |                           | The format string, in the same syntax as [Java Formatter](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html). |
+| variables | Array of String |                           | Array of variables to inject into the format.                                                                                                     |
 
-#### Example
+#### Example variables
 ```json
 {
-    "name": {
-        "@type": "NullEndStringElement"
-    },
-    "age": {
-        "@type": "IntElement",
-        "size": 1
-    },
-    "display": {
-        "@type": "ComputedStringFormatElement",
-        "format": "Name: %s, age: %d.",
-        "items": [ "name", "age" ]
+    "schema": {
+        "name": {
+            "@type": "NullEndStringElement"
+        },
+        "age": {
+            "@type": "IntElement",
+            "size": 1
+        },
+        "display": {
+            "@type": "ComputedStringFormatElement",
+            "format": "Name: %s, age: %d.",
+            "variables": [ [ "name" ], [ "age" ] ]
+        }
     }
 }
 ```
@@ -1259,5 +1482,45 @@ Format a string.
 ↓
 name = "Ana"
 age = 15
+display = "Name: Ana, age: 15."
+```
+
+#### Example struct
+```json
+{
+    "types": {
+        "Person": {
+            "@type": "StructType",
+            "members": {
+                "name": {
+                    "@type": "NullEndStringElement"
+                },
+                "age": {
+                    "@type": "IntElement",
+                    "size": 1
+                }
+            }
+        }
+    },
+    "schema": {
+        "person": {
+            "@type": "TypeElement",
+            "name": "Person"
+        },
+        "display": {
+            "@type": "ComputedStringFormatElement",
+            "format": "Name: %s, age: %d.",
+            "variables": [ [ "person", "name" ], [ "person", "age" ] ]
+        }
+    }
+}
+```
+```
+0x416E61000F
+↓
+person = {
+    name = "Ana"
+    age = 15
+}
 display = "Name: Ana, age: 15."
 ```

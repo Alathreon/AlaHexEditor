@@ -20,8 +20,8 @@ public record NullEndStringElement(Charset charset) implements SchemaElement {
 
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = data.takeWhile(b -> b != '\0');
-        String string = view.toTextString(charset, false);
+        ByteView view = data.takeWhile(b -> b != '\0', true); // Includes the \0
+        String string = view.toTextString(charset, true);
         return new ParseStepResult(data, view, new StringData(string));
     }
 }

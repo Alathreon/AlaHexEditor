@@ -25,6 +25,7 @@ public record StructType(LinkedHashMap<String, SchemaElement> members) implement
             ParseStepResult stepResult = entry.getValue().parse(entry.getKey(), view, template, objects);
             view = stepResult.leftover();
             result.put(entry.getKey(), stepResult.object());
+            objects.add(entry.getKey(), stepResult.object());
         }
         objects.endScope();
         return new ParseTypeResult<>(data, data.subView(0, view.offset() - data.offset()), structData);

@@ -53,9 +53,8 @@ public record ComputedIntElement(String expression, List<String> variables) impl
             case FloatData(var value, var size) -> new IntData((long) value, true, size);
             case BoolData(var value) -> new IntData(value ? BigInteger.ONE : BigInteger.ZERO, false, 1);
             case BitsetData b -> {
-                long[] longs = b.bitSet().toLongArray();
-                long l = longs.length > 0 ? longs[longs.length-1] : 0;
-                yield new IntData(l, false, bitsToSize(b.bitSet().size()));
+                long l = Long.parseUnsignedLong(b.bits(), 2);
+                yield new IntData(l, false, bitsToSize(b.bits().length()));
             }
             case BlobData(var hex) -> {
                 int size = bytesToSize(hex.length()/2);

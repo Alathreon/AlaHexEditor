@@ -29,17 +29,18 @@ public record VariableRefSizeArrayElement(String sizeVarName, SchemaElement sche
         if(!(parseObject.data() instanceof IntData(var size, _, _))) throw new ParseException(data, "Expected array size data for variable %s, but got: %s".formatted(sizeVarName, parseObject.data().getClass().getSimpleName()));
         if(size.compareTo(BigInteger.ZERO) < 0) throw new ParseException(data, "Array size negative: " + size);
         if(size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) throw new ParseException(data, "Array size too large: " + size);
-        ByteView view = safeSubView(data, size.intValue());
+        int intSize = size.intValue();
+        ByteView view = safeSubView(data, intSize);
         List<ParseObject> result = new ArrayList<>();
         objects.startScope();
         ArrayData arrayData = new ArrayData(result);
         objects.add(thisName, new ParseObject(view, arrayData));
-        for(int i = 0; i < view.parseInt(template.endianness()); i++) {
+        for(int i = 0; i < intSize; i++) {
             ParseStepResult stepResult = schema.parse(thisName, view, template, objects);
             view = stepResult.leftover();
             result.add(stepResult.object());
         }
         objects.endScope();
-        return new ParseStepResult(data, view, arrayData);
+        return new ParseStepResult(data, data.subView(view.offset() - data.offset()), arrayData);
     }
 }

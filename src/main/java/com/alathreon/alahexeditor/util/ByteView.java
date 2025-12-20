@@ -28,6 +28,14 @@ public class ByteView implements Iterable<Byte> {
     public static ByteView fromFormattedString(String s) throws IllegalArgumentException {
         return  new ByteView(parseFormattedString(s));
     }
+    public static ByteView fromHexString(String hex) throws IllegalArgumentException {
+        if(hex.length() % 2 != 0) throw new IllegalArgumentException();
+        byte[] bytes = new byte[hex.length() / 2];
+        for(int i = 0; i < hex.length(); i += 2) {
+            bytes[i / 2] = (byte) Integer.parseInt(hex.substring(i, i + 2), 16);
+        }
+        return new ByteView(bytes);
+    }
     public static ByteView fromStream(Stream<Byte> stream) {
         return fromList(stream.toList());
     }
@@ -110,18 +118,21 @@ public class ByteView implements Iterable<Byte> {
     public ByteView subView(int length) {
         return subView(0, length);
     }
+    public ByteView subViewOffset(int offset) {
+        return subView(offset, length - offset);
+    }
     public ByteView subView(int offset, int length) {
-        if(offset < 0 || length < 0 || offset + length > this.length) throw new IllegalArgumentException();
+        if(offset < 0 || length < 0 || offset + length > this.length) throw new IllegalArgumentException("offset=%d, length=%d".formatted(offset, length));
         return new ByteView(content, this.offset + offset, length);
     }
-    public ByteView takeWhile(Predicate<Byte> predicate) {
+    public ByteView takeWhile(Predicate<Byte> predicate, boolean inclusive) {
         int i = 0;
         for(; i < length; i++) {
             if(!predicate.test(get(i))) {
                 break;
             }
         }
-        return subView(i);
+        return subView(i + (i < length && inclusive ? 1 : 0));
     }
     public ByteView withAll(List<Position> positions) {
         byte[] result = new byte[positions.size()];
@@ -183,6 +194,9 @@ public class ByteView implements Iterable<Byte> {
     @Override
     public String toString() {
         return stream().map(b -> String.format("%02X", b)).collect(Collectors.joining(" "));
+    }
+    public String toBinaryString() {
+        return stream().map(b -> String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0')).collect(Collectors.joining(""));
     }
     public String toUTF8String() {
         StringBuilder sb = new StringBuilder();

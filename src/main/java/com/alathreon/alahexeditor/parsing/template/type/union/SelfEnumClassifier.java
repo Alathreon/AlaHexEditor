@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
 
 import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.ensureMaxByteSize;
 
-public record SelfEnumClassifier(int size, LinkedHashMap<Integer, String> bindings) implements Classifier {
+public record SelfEnumClassifier(int size, LinkedHashMap<Integer, String> constants) implements Classifier {
     @JsonCreator
-    public static SelfEnumClassifier jsonFactory(@JsonProperty("size") int size, @JsonProperty("bindings") List<BindingPair> bindings) {
+    public static SelfEnumClassifier jsonFactory(@JsonProperty("size") int size, @JsonProperty("constants") List<BindingPair> constants) {
         LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
-        for (var constant : bindings) {
+        for (var constant : constants) {
             constant.put(map);
         }
         return new SelfEnumClassifier(size, map);
     }
     public SelfEnumClassifier {
-        Objects.requireNonNull(bindings, "rangeBindings cannot be null");
+        Objects.requireNonNull(constants, "constants cannot be null");
         ensureMaxByteSize(size, 4);
     }
     public static ClassifierResult find(String thisName, EnumType enumType, Map<Integer, String> overrideBindings, ByteView data, Template template, ParseObjects objects) throws ParseException {
@@ -46,7 +46,7 @@ public record SelfEnumClassifier(int size, LinkedHashMap<Integer, String> bindin
 
     @Override
     public ClassifierResult find(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        EnumType enumType = new EnumType(size, bindings);
+        EnumType enumType = new EnumType(size, constants);
         return find(thisName, enumType, Map.of(), data, template, objects);
     }
 }

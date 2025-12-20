@@ -10,6 +10,7 @@ import com.alathreon.alahexeditor.util.ByteView;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public record ComputedStringFormatElement(String format, List<List<String>> variables) implements SchemaElement {
 
@@ -36,10 +37,11 @@ public record ComputedStringFormatElement(String format, List<List<String>> vari
             throw new ParseException(data, "Expected int data for variable chain %s but got: null".formatted(String.join("->", vars)));
         }
         return switch (object.data()) {
+            case StringData(var value) -> value;
             case IntData(var raw, _, _) -> raw;
             case BoolData(var value) -> value;
             case FloatData(var value, _) -> value;
-            case BitsetData b -> new ByteView(b.bitSet().toByteArray()).toString();
+            case BitsetData b -> "[" + b.names().stream().collect(Collectors.joining(", ")) + "]";
             case BlobData(var hex) -> hex;
             case EnumData(_, var name, _) -> name;
             case NullData _ -> null;
@@ -49,7 +51,7 @@ public record ComputedStringFormatElement(String format, List<List<String>> vari
                 ParseObject structObject = members.get(vars.get(structIndex));
                 yield find(structObject, data, vars, structIndex+1);
             }
-            default -> throw new ParseException(data, "Expected data that can be transformed into int for variable chain %s but got %s".formatted(String.join("->", vars), object.data().getClass().getSimpleName()));
+            default -> throw new ParseException(data, "Unexpected data type for variable chain %s but got %s".formatted(String.join("->", vars), object.data().getClass().getSimpleName()));
         };
     }
 }

@@ -4,8 +4,10 @@ import com.alathreon.alahexeditor.parsing.Endianness;
 import com.alathreon.alahexeditor.parsing.object.Data;
 
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public record Template(
@@ -14,6 +16,13 @@ public record Template(
                         Endianness endianness,
                         Map<String, SchemaType<?>> types,
                         Map<String, SchemaElement> schema) {
+
+    public Template {
+        if(endianness == null) endianness = Endianness.BIG;
+        if(references == null) references = Collections.emptyList();
+        if(types == null) types = Collections.emptyMap();
+        Objects.requireNonNull(schema, "Schema cannot be null");
+    }
 
     public <T extends SchemaType<Data>> T findType(String name, Class<T> clazz) {
         return findType(name, clazz, () -> new IllegalArgumentException("Type " + name + " doesn't exist"));
