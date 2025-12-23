@@ -125,6 +125,13 @@ public class ByteView implements Iterable<Byte> {
         if(offset < 0 || length < 0 || offset + length > this.length) throw new IllegalArgumentException("offset=%d, length=%d".formatted(offset, length));
         return new ByteView(content, this.offset + offset, length);
     }
+    public ByteView between(ByteView other) {
+        if(this.content != other.content) throw new IllegalArgumentException();
+        if(other.offset < this.offset) {
+            return other.between(this);
+        }
+        return this.subView(other.offset - this.offset);
+    }
     public ByteView takeWhile(Predicate<Byte> predicate, boolean inclusive) {
         int i = 0;
         for(; i < length; i++) {
@@ -209,15 +216,24 @@ public class ByteView implements Iterable<Byte> {
         }
         return sb.toString();
     }
-    public String toTextString(Charset charset, boolean stopAtNull) {
-        String s = new String(content, offset, length, charset);
-        if(stopAtNull) {
-            int idx = s.indexOf('\0');
-            if(idx != -1) {
-                s = s.substring(0, idx);
+    public int findNullChar(Charset charset) {
+        byte[] nul = "\0".getBytes(charset);
+        int i = 0;
+        outer:
+        while (i <= this.length - nul.length) {
+            for (int j = 0; j < nul.length; j++) {
+                if (get(i + j) != nul[j]) {
+                    i++;
+                    continue outer;
+                }
             }
+            return i;
         }
-        return s;
+        return this.length;
+    }
+    public String toTextString(Charset charset, boolean stopAtNull) {
+        int idx = stopAtNull ? findNullChar(charset) : length;
+        return new String(content, offset, idx, charset);
     }
     public String toFormmatedString() {
         StringBuilder sb = new StringBuilder();
