@@ -216,7 +216,13 @@ public class ByteView implements Iterable<Byte> {
         }
         return sb.toString();
     }
-    public int findNullChar(Charset charset) {
+
+    /**
+     * Finds and returns the index of the end of the string, marked by a null character. If no null character is found, returns length.
+     * @param charset the charset to use, since different charsets may behave differently
+     * @return the index of the end of the string
+     */
+    public int findEndOfString(Charset charset) {
         byte[] nul = "\0".getBytes(charset);
         int i = 0;
         outer:
@@ -232,7 +238,7 @@ public class ByteView implements Iterable<Byte> {
         return this.length;
     }
     public String toTextString(Charset charset, boolean stopAtNull) {
-        int idx = stopAtNull ? findNullChar(charset) : length;
+        int idx = stopAtNull ? findEndOfString(charset) : length;
         return new String(content, offset, idx, charset);
     }
     public String toFormmatedString() {

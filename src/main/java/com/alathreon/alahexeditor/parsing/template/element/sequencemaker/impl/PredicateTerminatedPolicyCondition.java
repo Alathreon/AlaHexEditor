@@ -1,12 +1,7 @@
 package com.alathreon.alahexeditor.parsing.template.element.sequencemaker.impl;
 
 import com.alathreon.alahexeditor.parsing.ParseException;
-import com.alathreon.alahexeditor.parsing.object.BoolData;
-import com.alathreon.alahexeditor.parsing.object.Data;
-import com.alathreon.alahexeditor.parsing.object.EnumData;
-import com.alathreon.alahexeditor.parsing.object.IntData;
-import com.alathreon.alahexeditor.parsing.object.ParseObject;
-import com.alathreon.alahexeditor.parsing.object.StructData;
+import com.alathreon.alahexeditor.parsing.object.*;
 import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.parsing.template.Template;
 import com.alathreon.alahexeditor.parsing.template.element.sequencemaker.LengthPolicyCondition;
@@ -14,7 +9,7 @@ import com.alathreon.alahexeditor.util.ByteView;
 
 public class PredicateTerminatedPolicyCondition implements LengthPolicyCondition {
 
-    enum Operator {
+    public enum Operator {
         EQUALS, NOT_EQUALS,
         LESS_THAN, LESS_THAN_OR_EQUALS,
         MORE_THAN, MORE_THAN_OR_EQUALS,

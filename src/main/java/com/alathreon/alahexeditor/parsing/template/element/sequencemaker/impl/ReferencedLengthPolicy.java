@@ -12,8 +12,6 @@ import com.alathreon.alahexeditor.parsing.template.element.sequencemaker.LengthP
 import com.alathreon.alahexeditor.parsing.template.element.sequencemaker.PreparedLengthPolicy;
 import com.alathreon.alahexeditor.util.ByteView;
 
-import static com.alathreon.alahexeditor.parsing.template.TemplateUtil.safeSubView;
-
 public record ReferencedLengthPolicy(String sizeVarName) implements LengthPolicy {
 
     public ReferencedLengthPolicy {

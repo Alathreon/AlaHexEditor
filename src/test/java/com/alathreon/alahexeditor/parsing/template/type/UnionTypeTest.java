@@ -37,7 +37,10 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "value": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         }
                                     }
                                 }
@@ -99,7 +102,10 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "value": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         }
                                     }
                                 }
@@ -157,7 +163,10 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "value": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         }
                                     }
                                 }
@@ -219,17 +228,26 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "value": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         }
                                     }
                                 }
                             },
                             "schema": {
                                 "list": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    },
                                     "schema": {
-                                        "@type": "NullEndStringElement"
+                                        "@type": "StringElement",
+                                        "lengthPolicy": {
+                                            "@type": "NullTerminatedStringPolicy"
+                                        }
                                     }
                                 },
                                 "entry1": {
@@ -272,10 +290,16 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "list": {
-                                            "@type": "VariableSizeArrayElement",
-                                            "fieldSize": 1,
+                                            "@type": "ArrayElement",
+                                            "lengthPolicy": {
+                                                "@type": "PrefixedLengthPolicy",
+                                                "fieldSize": 1
+                                            },
                                             "schema": {
-                                                "@type": "NullEndStringElement"
+                                                "@type": "StringElement",
+                                                "lengthPolicy": {
+                                                    "@type": "NullTerminatedStringPolicy"
+                                                }
                                             }
                                         },
                                         "entry1": {
@@ -309,7 +333,10 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "value": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         }
                                     }
                                 }
@@ -369,17 +396,26 @@ class UnionTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "value": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         }
                                     }
                                 }
                             },
                             "schema": {
                                 "list": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    },
                                     "schema": {
-                                        "@type": "NullEndStringElement"
+                                        "@type": "StringElement",
+                                        "lengthPolicy": {
+                                            "@type": "NullTerminatedStringPolicy"
+                                        }
                                     }
                                 },
                                 "entry1": {

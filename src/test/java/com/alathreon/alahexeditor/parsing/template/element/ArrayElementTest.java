@@ -10,15 +10,18 @@ import java.util.List;
 class ArrayElementTest {
 
     @Test
-    void testFixedSize() {
+    void testFixedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "array": {
-                                    "@type": "FixedSizeArrayElement",
-                                    "size": 4,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 4
+                                    },
                                     "schema": {
                                          "@type": "IntElement",
                                          "size": 1
@@ -37,15 +40,18 @@ class ArrayElementTest {
     }
 
     @Test
-    void testFixedSizeLeftover() {
+    void testFixedLengthLeftover() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "array": {
-                                    "@type": "FixedSizeArrayElement",
-                                    "size": 4,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 4
+                                    },
                                     "schema": {
                                         "@type": "IntElement",
                                         "size": 1
@@ -69,15 +75,18 @@ class ArrayElementTest {
     }
 
     @Test
-    void testVariableSize() {
+    void testPrefixedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "array": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    },
                                     "schema": {
                                         "@type": "IntElement",
                                         "size": 1
@@ -96,7 +105,7 @@ class ArrayElementTest {
     }
 
     @Test
-    void testVariableRefSize() {
+    void testReferencedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
@@ -107,8 +116,11 @@ class ArrayElementTest {
                                    "size": 1
                                 },
                                 "array": {
-                                    "@type": "VariableRefSizeArrayElement",
-                                    "sizeVarName": "array_size",
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "ReferencedLengthPolicy",
+                                        "sizeVarName": "array_size"
+                                    },
                                     "schema": {
                                         "@type": "IntElement",
                                         "size": 1
@@ -128,20 +140,23 @@ class ArrayElementTest {
     }
 
     @Test
-    void testDynamicSize() {
+    void testPredicateTerminated() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "array": {
-                                    "@type": "DynamicSizeArrayElement",
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PredicateTerminatedPolicy",
                                         "against": 0,
-                                        "operator": "NOT_EQUALS",
-                                        "schema": {
-                                           "@type": "IntElement",
-                                           "size": 1
-                                        }
+                                        "operator": "NOT_EQUALS"
+                                    },
+                                    "schema": {
+                                       "@type": "IntElement",
+                                       "size": 1
+                                    }
                                 }
                             }
                         }""",
@@ -175,14 +190,17 @@ class ArrayElementTest {
                             },
                             "schema": {
                                 "array": {
-                                    "@type": "DynamicSizeArrayElement",
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PredicateTerminatedPolicy",
                                         "against": 0,
                                         "operator": "NOT_EQUALS",
-                                        "structField": "b",
-                                        "schema": {
-                                           "@type": "TypeElement",
-                                           "name": "Pair"
-                                        }
+                                        "structField": "b"
+                                    },
+                                    "schema": {
+                                       "@type": "TypeElement",
+                                       "name": "Pair"
+                                    }
                                 }
                             }
                         }""",

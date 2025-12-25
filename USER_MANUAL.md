@@ -28,16 +28,20 @@
     - **[Elements](#elements)**
         - **[IntElement](#intelement)**
         - **[FloatElement](#floatelement)**
-        - **[NullEndStringElement](#nullendstringelement)**
-        - **[FixedSizeStringElement](#fixedsizestringelement)**
-        - **[VariableSizeStringElement](#variablesizestringelement)**
-        - **[FixedSizeArrayElement](#fixedsizearrayelement)**
-        - **[VariableSizeArrayElement](#variablesizearrayelement)**
-        - **[VariableRefSizeArrayElement](#variablerefsizearrayelement)**
-        - **[DynamicSizeArrayElement](#dynamicsizearrayelement)**
-        - **[FixedSizeBlobElement](#fixedsizeblobelement)**
-        - **[VariableSizeBlobElement](#variablesizeblobelement)**
-        - **[VariableRefSizeBlobElement](#variablerefsizeblobelement)**
+        - **[StringElement](#stringelement)**
+            - **[NullTerminatedStringPolicy](#nullterminatedstringpolicy)**
+            - **[FixedLengthPolicy](#string---fixedlengthpolicy)**
+            - **[PrefixedLengthPolicy](#string---prefixedlengthpolicy)**
+            - **[ReferencedLengthPolicy](#string---referencedlengthpolicy)**
+        - **[ArrayElement](#arrayelement)**
+            - **[FixedLengthPolicy](#array---fixedlengthpolicy)**
+            - **[PrefixedLengthPolicy](#array---prefixedlengthpolicy)**
+            - **[ReferencedLengthPolicy](#array---referencedlengthpolicy)**
+            - **[PredicateTerminatedPolicy](#array---predicateterminatedpolicy)**
+        - **[BlobElement](#blobelement)**
+            - **[FixedLengthPolicy](#blob---fixedlengthpolicy)**
+            - **[PrefixedLengthPolicy](#blob---prefixedlengthpolicy)**
+            - **[ReferencedLengthPolicy](#blob---referencedlengthpolicy)**
         - **[ArrayReferenceElement](#arrayreferenceelement)**
         - **[ComputedIntElement](#computedintelement)**
         - **[ComputedStringFormatElement](#computedstringformatelement)**
@@ -148,19 +152,28 @@ Any attribute with the type Integer (not the set 1, 2, 4, etc) can be written in
 
 ## Types
 ```json
-{
+                        {
     "types": {
         "Person": {
             "@type": "StructType",
             "members": {
                 "name": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 },
                 "age": {
                     "@type": "IntElement",
-                    "size": 2
+                    "size": 1
                 }
             }
+        }
+    },
+    "schema": {
+        "person": {
+            "@type": "TypeElement",
+            "name": "Person"
         }
     }
 }
@@ -178,13 +191,16 @@ Defines a struct type, fields are described in the members element in the same w
 
 #### Example
 ```json
-{
+                        {
     "types": {
         "Person": {
             "@type": "StructType",
             "members": {
                 "name": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 },
                 "age": {
                     "@type": "IntElement",
@@ -327,7 +343,10 @@ Classify by using a self-contained enum, the name of the constant is the name of
             "@type": "StructType",
             "members": {
                 "value": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 }
             }
         }
@@ -362,7 +381,7 @@ Classify by using an enum, the name of the constant is the name of type to use.
 
 ###### Example
 ```json
-{
+                        {
     "types": {
         "Entry": {
             "@type": "UnionType",
@@ -392,7 +411,10 @@ Classify by using an enum, the name of the constant is the name of type to use.
             "@type": "StructType",
             "members": {
                 "value": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 }
             }
         }
@@ -426,7 +448,7 @@ Classify by using a range of integers. Ranges must be from smallest to largest w
 
 ###### Example
 ```json
-{
+                        {
     "types": {
         "Entry": {
             "@type": "UnionType",
@@ -452,7 +474,10 @@ Classify by using a range of integers. Ranges must be from smallest to largest w
             "@type": "StructType",
             "members": {
                 "value": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 }
             }
         }
@@ -493,9 +518,9 @@ Will parse an index, which will then reference a string in an array, and this st
 | zeroIsNull | Boolean     | false                     | If false, nothing special. If true, 0 means null and will not correspond to any type, while any other index will be reduced by 1 to correspond to the array. So 0 -> null, 1 -> 0, 2 -> 1, etc. |
 
 ###### Example
-Structless
+Struct-less
 ```json
-{
+                        {
     "types": {
         "Entry": {
             "@type": "UnionType",
@@ -518,17 +543,26 @@ Structless
             "@type": "StructType",
             "members": {
                 "value": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 }
             }
         }
     },
     "schema": {
         "list": {
-            "@type": "VariableSizeArrayElement",
-            "fieldSize": 1,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            },
             "schema": {
-                "@type": "NullEndStringElement"
+                "@type": "StringElement",
+                "lengthPolicy": {
+                    "@type": "NullTerminatedStringPolicy"
+                }
             }
         },
         "entry1": {
@@ -544,16 +578,22 @@ Structless
 ```
 With struct
 ```json
-{
+                        {
     "types": {
         "Data": {
             "@type": "StructType",
             "members": {
                 "list": {
-                    "@type": "VariableSizeArrayElement",
-                    "fieldSize": 1,
+                    "@type": "ArrayElement",
+                    "lengthPolicy": {
+                        "@type": "PrefixedLengthPolicy",
+                        "fieldSize": 1
+                    },
                     "schema": {
-                        "@type": "NullEndStringElement"
+                        "@type": "StringElement",
+                        "lengthPolicy": {
+                            "@type": "NullTerminatedStringPolicy"
+                        }
                     }
                 },
                 "entry1": {
@@ -577,9 +617,9 @@ With struct
         "IntegerEntry": {
             "@type": "StructType",
             "members": {
-            "value": {
-                "@type": "IntElement",
-                "size": 1
+                "value": {
+                    "@type": "IntElement",
+                    "size": 1
                 }
             }
         },
@@ -587,7 +627,10 @@ With struct
             "@type": "StructType",
             "members": {
                 "value": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 }
             }
         }
@@ -614,7 +657,7 @@ entry2 = 0x01 -> StringEntry, 0x416E6100 -> value = "Ana"
 
 ###### Example zero is null
 ```json
-{
+                        {
     "types": {
         "Entry": {
             "@type": "UnionType",
@@ -638,17 +681,26 @@ entry2 = 0x01 -> StringEntry, 0x416E6100 -> value = "Ana"
             "@type": "StructType",
             "members": {
                 "value": {
-                    "@type": "NullEndStringElement"
+                    "@type": "StringElement",
+                    "lengthPolicy": {
+                        "@type": "NullTerminatedStringPolicy"
+                    }
                 }
             }
         }
     },
     "schema": {
         "list": {
-            "@type": "VariableSizeArrayElement",
-            "fieldSize": 1,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            },
             "schema": {
-                "@type": "NullEndStringElement"
+                "@type": "StringElement",
+                "lengthPolicy": {
+                    "@type": "NullTerminatedStringPolicy"
+                }
             }
         },
         "entry1": {
@@ -826,20 +878,47 @@ float_element = 42
 ```
 
 
-### NullEndStringElement
+### StringElement
 
-A string ended by the null character (`\\0`).
-
-| Name        | Type    | Default value if optional | Description                             |
-|-------------|---------|---------------------------|-----------------------------------------|
-| charset     | Charset | "UTF-8"                   | The charset to use.                     |
-
-#### Example
 ```json
 {
     "schema": {
         "string": {
-            "@type": "NullEndStringElement"
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "NullTerminatedStringPolicy"
+            }
+        }
+    }
+}
+```
+
+A string needs a length policy to determine how it will be parsed.
+
+| Name           | Type         | Default value if optional | Description                                                                                           |
+|----------------|--------------|---------------------------|-------------------------------------------------------------------------------------------------------|
+| lengthPolicy   | LengthPolicy |                           | The length policy, see the following sections                                                         |
+| charset        | Charset      | "UTF-8"                   | The charset to use.                                                                                   |
+| stopAtNull     | Boolean      | true                      | If true, will read the "size" characters but will only form a string until a null character is found. |
+
+
+#### NullTerminatedStringPolicy
+
+A string ended by the null character (`\\0`).
+
+| Name | Type | Default value if optional | Description |
+|------|------|---------------------------|-------------|
+| /    | /    | /                         | /           |
+
+##### Example
+```json
+{
+    "schema": {
+        "string": {
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "NullTerminatedStringPolicy"
+            }
         }
     }
 }
@@ -850,12 +929,15 @@ A string ended by the null character (`\\0`).
 string = "Ana"
 ```
 
-#### Example SJIS charset
+##### Example SJIS charset
 ```json
 {
     "schema": {
         "string": {
-            "@type": "NullEndStringElement",
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "NullTerminatedStringPolicy"
+            },
             "charset": "SJIS"
         }
     }
@@ -867,24 +949,24 @@ string = "Ana"
 string = "こんにちは"
 ```
 
-
-### FixedSizeStringElement
+#### String - FixedLengthPolicy
 
 A string whose size is fixed.
 
-| Name       | Type    | Default value if optional | Description                                                                                           |
-|------------|---------|---------------------------|-------------------------------------------------------------------------------------------------------|
-| size       | Integer |                           | The size of the string in bytes                                                                       |
-| charset    | Charset | "UTF-8"                   | The charset to use.                                                                                   |
-| stopAtNull | Boolean | false                     | If true, will read the "size" characters but will only form a string until a null character is found. |
+| Name   | Type    | Default value if optional | Description                       |
+|--------|---------|---------------------------|-----------------------------------|
+| length | Integer |                           | The length of the string in bytes |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
         "string": {
-            "@type": "FixedSizeStringElement",
-            "size": 3
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 3
+            }
         }
     }
 }
@@ -895,14 +977,16 @@ A string whose size is fixed.
 string = "Ana"
 ```
 
-#### Example
+##### Example stopAtNull
 ```json
 {
     "schema": {
         "string": {
-            "@type": "FixedSizeStringElement",
-            "size": 5,
-            "stopAtNull": true
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 5
+            }
         }
     }
 }
@@ -914,25 +998,48 @@ parsed = 416E610000
 actual string = 416E61
 string = "Ana"
 ```
+VS
+```json
+{
+    "schema": {
+        "string": {
+            "@type": "StringElement",
+            "stopAtNull": false,
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 5
+            }
+        }
+    }
+}
+```
+```
+0x416E610000
+↓
+parsed = 416E610000
+actual string = 416E610000
+string = "Ana\0\0"
+```
 
 
-### VariableSizeStringElement
+#### String - PrefixedLengthPolicy
 
 A string whose size depends on the size parsed just before it.
 
 | Name         | Type    | Default value if optional | Description                                                                                           |
 |--------------|---------|---------------------------|-------------------------------------------------------------------------------------------------------|
 | fieldSize    | 1, 2, 4 |                           | The size of the size attribute in bytes                                                               |
-| charset      | Charset | "UTF-8"                   | The charset to use.                                                                                   |
-| stopAtNull   | Boolean | false                     | If true, will read the "size" characters but will only form a string until a null character is found. |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
         "string": {
-            "@type": "VariableSizeStringElement",
-            "fieldSize": 1
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            }
         }
     }
 }
@@ -945,17 +1052,15 @@ string = "Ana"
 ```
 
 
-### VariableRefSizeStringElement
+#### String - ReferencedLengthPolicy
 
 String whose size depends on the size in another variable.
 
 | Name        | Type     | Default value if optional | Description                                                                                           |
 |-------------|----------|---------------------------|-------------------------------------------------------------------------------------------------------|
 | sizeVarName | String   |                           | The name of the variable which stores the size of this string. Cannot be a forward reference.         |
-| charset     | Charset  | "UTF-8"                   | The charset to use.                                                                                   |
-| stopAtNull  | Boolean  | false                     | If true, will read the "size" characters but will only form a string until a null character is found. |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
@@ -964,8 +1069,11 @@ String whose size depends on the size in another variable.
             "size": 1
         },
         "string": {
-            "@type": "VariableRefSizeStringElement",
-            "sizeVarName": "string_size"
+            "@type": "StringElement",
+            "lengthPolicy": {
+                "@type": "ReferencedLengthPolicy",
+                "sizeVarName": "string_size"
+            }
         }
     }
 }
@@ -978,22 +1086,50 @@ string = "Ana"
 ```
 
 
-### FixedSizeArrayElement
+### ArrayElement
 
-An array whose size is fixed.
-
-| Name     | Type            | Default value if optional | Description                             |
-|----------|-----------------|---------------------------|-----------------------------------------|
-| size     | Integer         |                           | The size of array in number of elements |
-| schema   | Schema elements |                           | The schema to parse at each index.      |
-
-#### Example
 ```json
 {
     "schema": {
         "array": {
-            "@type": "FixedSizeArrayElement",
-            "size": 4,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            },
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
+        }
+    }
+}
+```
+
+An array, see length policies.
+
+| Name         | Type            | Default value if optional | Description                                   |
+|--------------|-----------------|---------------------------|-----------------------------------------------|
+| lengthPolicy | LengthPolicy    |                           | The length policy, see the following sections |
+| schema       | Schema elements |                           | The schema to parse at each index.            |
+
+
+#### Array - FixedLengthPolicy
+
+| Name     | Type            | Default value if optional | Description                             |
+|----------|-----------------|---------------------------|-----------------------------------------|
+| size     | Integer         |                           | The size of array in number of elements |
+
+##### Example
+```json
+{
+    "schema": {
+        "array": {
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 4
+            },
             "schema": {
                 "@type": "IntElement",
                 "size": 1
@@ -1008,13 +1144,16 @@ An array whose size is fixed.
 array = [8, 6, 9, 2]
 ```
 
-#### Example leftover
+##### Example leftover
 ```json
 {
     "schema": {
         "array": {
-            "@type": "FixedSizeArrayElement",
-            "size": 4,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 4
+            },
             "schema": {
                 "@type": "IntElement",
                 "size": 1
@@ -1034,22 +1173,24 @@ array = [8, 6, 9, 2]
 int_element = 6
 ```
 
-### VariableSizeArrayElement
+#### Array - PrefixedLengthPolicy
 
 Array whose size depends on the size parsed just before it.
 
 | Name        | Type            | Default value if optional | Description                             |
 |-------------|-----------------|---------------------------|-----------------------------------------|
 | fieldSize   | 1, 2, 4         |                           | The size of the size attribute in bytes |
-| schema      | Schema elements |                           | The schema to parse at each index.      |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
         "array": {
-            "@type": "VariableSizeArrayElement",
-            "fieldSize": 1,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            },
             "schema": {
                 "@type": "IntElement",
                 "size": 1
@@ -1066,16 +1207,15 @@ array = [8, 6, 9, 2]
 ```
 
 
-### VariableRefSizeArrayElement
+#### Array - ReferencedLengthPolicy
 
 Array whose size depends on the size in another variable.
 
 | Name        | Type            | Default value if optional | Description                                                                                  |
 |-------------|-----------------|---------------------------|----------------------------------------------------------------------------------------------|
 | sizeVarName | String          |                           | The name of the variable which stores the size of this array. Cannot be a forward reference. |
-| schema      | Schema elements |                           | The schema to parse at each index.                                                           |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
@@ -1084,8 +1224,11 @@ Array whose size depends on the size in another variable.
             "size": 1
         },
         "array": {
-            "@type": "VariableRefSizeArrayElement",
-            "sizeVarName": "array_size",
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "ReferencedLengthPolicy",
+                "sizeVarName": "array_size"
+            },
             "schema": {
                 "@type": "IntElement",
                 "size": 1
@@ -1102,7 +1245,7 @@ array = [8, 6, 9, 2]
 ```
 
 
-### DynamicSizeArrayElement
+#### Array - PredicateTerminatedPolicy
 
 An array generated by looping on a schema as long as the condition is met. Enums and unions will automatically be converted into an integer, while structs need structField attribute to be set.
 
@@ -1110,19 +1253,23 @@ An array generated by looping on a schema as long as the condition is met. Enums
 |-------------|---------------------|---------------------------|------------------------------------------------------------------------------------------------------------------------|
 | against     | Integer             |                           | The integer value to compare against.                                                                                  |
 | operator    | Comparison operator |                           | The operator to use among EQUALS, NOT\_EQUALS, LESS\_THAN, LESS\_THAN\_OR\_EQUALS, MORE\_THAN, MORE\_THAN\_OR\_EQUALS. |
-| schema      | Schema elements     |                           | The schema to parse at each index.                                                                                     |
 | structField | Schema elements     | null                      | If the schema is a struct, the field to use for the comparison.                                                        |
 
-#### Example simple int array
+##### Example simple int array
 ```json
 {
-    "array": {
-        "@type": "DynamicSizeArrayElement",
-        "against": 0,
-        "operator": "NOT_EQUALS",
-        "schema": {
-            "@type": "IntElement",
-            "size": 1
+    "schema": {
+        "array": {
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PredicateTerminatedPolicy",
+                "against": 0,
+                "operator": "NOT_EQUALS"
+            },
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
         }
     }
 }
@@ -1133,7 +1280,7 @@ An array generated by looping on a schema as long as the condition is met. Enums
 [5, 2, 3, 4, 1, 0]
 ```
 
-#### Example struct array
+##### Example struct array
 ```json
 {
     "types": {
@@ -1153,10 +1300,13 @@ An array generated by looping on a schema as long as the condition is met. Enums
     },
     "schema": {
         "array": {
-            "@type": "DynamicSizeArrayElement",
-            "against": 0,
-            "operator": "NOT_EQUALS",
-            "structField": "b",
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PredicateTerminatedPolicy",
+                "against": 0,
+                "operator": "NOT_EQUALS",
+                "structField": "b"
+            },
             "schema": {
                 "@type": "TypeElement",
                 "name": "Pair"
@@ -1172,21 +1322,44 @@ array = [Pair(a=5, b=2), Pair(a=3, b=4), Pair(a=1, b=0)]
 ```
 
 
-### FixedSizeBlobElement
+### BlobElement
+
+```json
+{
+    "schema": {
+        "blob": {
+            "@type": "BlobElement",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 4
+            }
+        }
+    }
+}
+```
 
 Element that can be used by default to take the bytes as is.
+
+| Name | Type | Default value if optional | Description |
+|------|------|---------------------------|-------------|
+| /    | /    |                           | /           |
+
+#### Blob - FixedLengthPolicy
 
 | Name    | Type    | Default value if optional | Description                   |
 |---------|---------|---------------------------|-------------------------------|
 | size    | Integer |                           | The size of the blob in bytes |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
         "blob": {
-            "@type": "FixedSizeBlobElement",
-            "size": 4
+            "@type": "BlobElement",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 4
+            }
         }
     }
 }
@@ -1197,7 +1370,7 @@ Element that can be used by default to take the bytes as is.
 blob = 41 6E 61 AF
 ```
 
-#### Example leftover
+##### Example leftover
 ```json
 {
     "schema": {
@@ -1220,7 +1393,7 @@ int_element = 6
 ```
 
 
-### VariableSizeBlobElement
+#### Blob - PrefixedLengthPolicy
 
 A blob whose size depends on the size parsed just before it.
 
@@ -1228,13 +1401,16 @@ A blob whose size depends on the size parsed just before it.
 |-------------|---------|---------------------------|-----------------------------------------|
 | fieldSize   | 1, 2, 4 |                           | The size of the size attribute in bytes |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
         "blob": {
-            "@type": "VariableSizeBlobElement",
-            "fieldSize": 1
+            "@type": "BlobElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            }
         }
     }
 }
@@ -1247,7 +1423,7 @@ blob = 41 6E 61 AF
 ```
 
 
-### VariableRefSizeBlobElement
+#### Blob - ReferencedLengthPolicy
 
 Blob whose size depends on the size in another variable.
 
@@ -1255,7 +1431,7 @@ Blob whose size depends on the size in another variable.
 |-------------|-----------------|---------------------------|---------------------------------------------------------------------------------------------|
 | sizeVarName | String          |                           | The name of the variable which stores the size of this blob. Cannot be a forward reference. |
 
-#### Example
+##### Example
 ```json
 {
     "schema": {
@@ -1264,8 +1440,11 @@ Blob whose size depends on the size in another variable.
             "size": 1
         },
         "blob": {
-            "@type": "VariableRefSizeBlobElement",
-            "sizeVarName": "blob_size"
+            "@type": "BlobElement",
+            "lengthPolicy": {
+                "@type": "ReferencedLengthPolicy",
+                "sizeVarName": "blob_size"
+            }
         }
     }
 }
@@ -1293,10 +1472,16 @@ References an array by the given variable to the given index.
 {
     "schema": {
         "array": {
-            "@type": "VariableSizeArrayElement",
-            "fieldSize": 1,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            },
             "schema": {
-                "@type": "NullEndStringElement"
+                "@type": "StringElement",
+                "lengthPolicy": {
+                    "@type": "NullTerminatedStringPolicy"
+                }
             }
         },
         "reference": {
@@ -1322,10 +1507,16 @@ reference = 0x01 -> "StringEntry"
 {
     "schema": {
         "array": {
-            "@type": "VariableSizeArrayElement",
-            "fieldSize": 1,
+            "@type": "ArrayElement",
+            "lengthPolicy": {
+                "@type": "PrefixedLengthPolicy",
+                "fieldSize": 1
+            },
             "schema": {
-                "@type": "NullEndStringElement"
+                "@type": "StringElement",
+                "lengthPolicy": {
+                    "@type": "NullTerminatedStringPolicy"
+                }
             }
         },
         "reference": {
