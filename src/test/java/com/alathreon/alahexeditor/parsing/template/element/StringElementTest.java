@@ -12,14 +12,17 @@ import java.util.List;
 class StringElementTest {
 
     @Test
-    void testNullEnd() {
+    void testNullTerminator() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "string": {
-                                    "@type": "NullEndStringElement"
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    }
                                 }
                             }
                         }""",
@@ -29,14 +32,17 @@ class StringElementTest {
     }
 
     @Test
-    void testNullEndSJISCharset() {
+    void testNullTerminatorSJISCharset() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "string": {
-                                    "@type": "NullEndStringElement",
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    },
                                     "charset": "SJIS"
                                 }
                             }
@@ -47,17 +53,60 @@ class StringElementTest {
     }
 
     @Test
-    void testDoubleNullEnd() {
+    void testNullTerminatorUTF16LECharset() {
+        ParserTester parserTester = new ParserTester();
+        parserTester.test(
+                """
+                        {
+                            "schema": {
+                                "string": {
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    },
+                                    "charset": "UTF_16LE"
+                                }
+                            }
+                        }""",
+                "4300530175007200",
+                List.of(Pair.of("string", new ParseObject("4300530175007200", new StringData("Cœur"))))
+        );
+        parserTester.test(
+                """
+                        {
+                            "schema": {
+                                "string": {
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    },
+                                    "charset": "UTF_16LE"
+                                }
+                            }
+                        }""",
+                "4300530175007200",
+                List.of(Pair.of("string", new ParseObject("4300530175007200", new StringData("Cœur"))))
+        );
+    }
+
+    @Test
+    void testDoubleNullTerminator() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "s1": {
-                                    "@type": "NullEndStringElement"
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    }
                                 },
                                 "s2": {
-                                    "@type": "NullEndStringElement"
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    }
                                 }
                             }
                         }""",
@@ -68,15 +117,18 @@ class StringElementTest {
     }
 
     @Test
-    void testFixedSize() {
+    void testFixedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "string": {
-                                    "@type": "FixedSizeStringElement",
-                                    "size": 3
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 3
+                                    }
                                 }
                             }
                         }""",
@@ -86,15 +138,34 @@ class StringElementTest {
     }
 
     @Test
-    void testFixedSizeLeftover() {
+    void testFixedLengthStopAtNull() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "string": {
-                                    "@type": "FixedSizeStringElement",
-                                    "size": 5,
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 5
+                                    }
+                                }
+                            }
+                        }""",
+                "416E610000",
+                List.of(Pair.of("string", new ParseObject("416E610000", new StringData("Ana"))))
+        );
+        parserTester.test(
+                """
+                        {
+                            "schema": {
+                                "string": {
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 5
+                                    },
                                     "stopAtNull": true
                                 }
                             }
@@ -102,18 +173,38 @@ class StringElementTest {
                 "416E610000",
                 List.of(Pair.of("string", new ParseObject("416E610000", new StringData("Ana"))))
         );
+        parserTester.test(
+                """
+                        {
+                            "schema": {
+                                "string": {
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 5
+                                    },
+                                    "stopAtNull": false
+                                }
+                            }
+                        }""",
+                "416E610000",
+                List.of(Pair.of("string", new ParseObject("416E610000", new StringData("Ana\0\0"))))
+        );
     }
 
     @Test
-    void testVariableSize() {
+    void testPrefixedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "string": {
-                                   "@type": "VariableSizeStringElement",
-                                   "fieldSize": 1
+                                   "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    }
                                 }
                             }
                         }""",
@@ -123,7 +214,7 @@ class StringElementTest {
     }
 
     @Test
-    void testVariableRefSize() {
+    void testReferencedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
@@ -134,8 +225,11 @@ class StringElementTest {
                                     "size": 1
                                 },
                                 "string": {
-                                    "@type": "VariableRefSizeStringElement",
-                                    "sizeVarName": "string_size"
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "ReferencedLengthPolicy",
+                                        "sizeVarName": "string_size"
+                                    }
                                 }
                             }
                         }""",

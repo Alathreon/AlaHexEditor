@@ -11,16 +11,20 @@ class ArrayReferenceElementTest {
 
     @Test
     void test() {
-        ParserTester parserTester = new ParserTester();
-        parserTester.test(
-                """
+        String json = """
                         {
                             "schema": {
                                 "array": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    },
                                     "schema": {
-                                         "@type": "NullEndStringElement"
+                                        "@type": "StringElement",
+                                        "lengthPolicy": {
+                                            "@type": "NullTerminatedStringPolicy"
+                                        }
                                     }
                                 },
                                  "reference": {
@@ -29,7 +33,9 @@ class ArrayReferenceElementTest {
                                      "variable": "array"
                                  }
                             }
-                        }""",
+                        }""";
+        ParserTester parserTester = new ParserTester();
+        parserTester.test(json,
                 "02496e7465676572456e74727900537472696e67456e7472790000",
                 List.of(Pair.of("array", new ParseObject("02496e7465676572456e74727900537472696e67456e74727900", new ArrayData(List.of(
                                 new ParseObject("02496e7465676572456e74727900", 1, 13, new StringData("IntegerEntry")),
@@ -39,24 +45,7 @@ class ArrayReferenceElementTest {
                                 new ParseObject("02496e7465676572456e74727900537472696e67456e7472790000", 1, 13, new StringData("IntegerEntry")))))
                 )
         );
-        parserTester.test(
-                """
-                        {
-                            "schema": {
-                                "array": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
-                                    "schema": {
-                                         "@type": "NullEndStringElement"
-                                    }
-                                },
-                                 "reference": {
-                                     "@type": "ArrayReferenceElement",
-                                     "size": 1,
-                                     "variable": "array"
-                                 }
-                            }
-                        }""",
+        parserTester.test(json,
                 "02496e7465676572456e74727900537472696e67456e7472790001",
                 List.of(Pair.of("array", new ParseObject("02496e7465676572456e74727900537472696e67456e74727900", new ArrayData(List.of(
                         new ParseObject("02496e7465676572456e74727900", 1, 13, new StringData("IntegerEntry")),
@@ -70,16 +59,20 @@ class ArrayReferenceElementTest {
 
     @Test
     void testZeroIsNull() {
-        ParserTester parserTester = new ParserTester();
-        parserTester.test(
-                """
+        String json = """
                         {
                             "schema": {
                                 "array": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
+                                    "@type": "ArrayElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    },
                                     "schema": {
-                                         "@type": "NullEndStringElement"
+                                        "@type": "StringElement",
+                                        "lengthPolicy": {
+                                            "@type": "NullTerminatedStringPolicy"
+                                        }
                                     }
                                 },
                                  "reference": {
@@ -89,7 +82,9 @@ class ArrayReferenceElementTest {
                                      "zeroIsNull": true
                                  }
                             }
-                        }""",
+                        }""";
+        ParserTester parserTester = new ParserTester();
+        parserTester.test(json,
                 "02496e7465676572456e74727900537472696e67456e7472790000",
                 List.of(Pair.of("array", new ParseObject("02496e7465676572456e74727900537472696e67456e74727900", new ArrayData(List.of(
                                 new ParseObject("02496e7465676572456e74727900", 1, 13, new StringData("IntegerEntry")),
@@ -98,25 +93,7 @@ class ArrayReferenceElementTest {
                         Pair.of("reference", new ParseObject("02496e7465676572456e74727900537472696e67456e7472790000", 26, new NullData()))
                 )
         );
-        parserTester.test(
-                """
-                        {
-                            "schema": {
-                                "array": {
-                                    "@type": "VariableSizeArrayElement",
-                                    "fieldSize": 1,
-                                    "schema": {
-                                         "@type": "NullEndStringElement"
-                                    }
-                                },
-                                 "reference": {
-                                     "@type": "ArrayReferenceElement",
-                                     "size": 1,
-                                     "variable": "array",
-                                     "zeroIsNull": true
-                                 }
-                            }
-                        }""",
+        parserTester.test(json,
                 "02496e7465676572456e74727900537472696e67456e7472790001",
                 List.of(Pair.of("array", new ParseObject("02496e7465676572456e74727900537472696e67456e74727900", new ArrayData(List.of(
                                 new ParseObject("02496e7465676572456e74727900", 1, 13, new StringData("IntegerEntry")),

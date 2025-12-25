@@ -22,7 +22,10 @@ class StructTypeTest {
                                     "@type": "StructType",
                                     "members": {
                                         "name": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         },
                                         "age": {
                                             "@type": "IntElement",

@@ -55,7 +55,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "EnumType" },
-                        "size": { "type": "integer" },
+                        "size": { "$ref": "#/$defs/ByteSize" },
                         "constants": { "type": "object", "$ref": "#/$defs/Bindings" }
                     }
                 },
@@ -96,118 +96,37 @@
                     "properties": {
                         "@type": { "const": "ArrayReferenceElement" },
                         "variable": { "type": "string" },
-                        "size": { "type":  "integer" },
+                        "size": { "$ref": "#/$defs/ByteSize" },
                         "zeroIsNull": { "type": "boolean", "default": false }
                     }
                 },
                 {
                     "type": "object",
-                    "required": ["@type", "against", "operator", "schema"],
+                    "required": ["@type", "lengthPolicy"],
                     "additionalProperties": false,
                     "properties": {
-                        "@type": { "const": "DynamicSizeArrayElement" },
-                        "structField": { "type": "string", "default": null },
-                        "against": { "$ref": "#/$defs/Decimal" },
-                        "operator": { "type": "string", "enum": ["EQUALS", "NOT_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "MORE_THAN", "MORE_THAN_OR_EQUALS"] },
-                        "schema": { "$ref": "#/$defs/SchemaElement" }
+                        "@type": { "const": "BlobElement" },
+                        "lengthPolicy": { "$ref": "#/$defs/LengthPolicy" }
                     }
                 },
                 {
                     "type": "object",
-                    "required": ["@type", "fieldSize", "schema"],
+                    "required": ["@type", "size", "lengthPolicy"],
                     "additionalProperties": false,
                     "properties": {
-                        "@type": { "const": "VariableSizeArrayElement" },
-                        "fieldSize": { "type": "integer" },
-                        "schema": { "$ref": "#/$defs/SchemaElement" }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "sizeVarName", "schema"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "VariableRefSizeArrayElement" },
-                        "sizeVarName": { "type": "string" },
-                        "schema": { "$ref": "#/$defs/SchemaElement" }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "sizeVarName"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "VariableRefSizeStringElement" },
-                        "sizeVarName": { "type": "string" },
+                        "@type": { "const": "StringElement" },
+                        "lengthPolicy": { "$ref": "#/$defs/LengthPolicy" },
                         "charset": { "type": "string", "default": "UTF-8" },
                         "stopAtNull": { "type":  "boolean", "default": false }
                     }
                 },
                 {
                     "type": "object",
-                    "required": ["@type", "fieldSize"],
+                    "required": ["@type", "lengthPolicy", "schema"],
                     "additionalProperties": false,
                     "properties": {
-                        "@type": { "const": "VariableSizeStringElement" },
-                        "fieldSize": { "type": "integer" },
-                        "charset": { "type": "string", "default": "UTF-8" },
-                        "stopAtNull": { "type":  "boolean", "default": false }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "NullEndStringElement" },
-                        "charset": { "type": "string", "default": "UTF-8" }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "fieldSize"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "VariableSizeBlobElement" },
-                        "fieldSize": { "type": "integer" }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "sizeVarName"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "VariableRefSizeBlobElement" },
-                        "sizeVarName": { "type": "string" }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "size"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "FixedSizeBlobElement" },
-                        "size": { "$ref": "#/$defs/Decimal" }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "size"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "FixedSizeStringElement" },
-                        "size": { "$ref": "#/$defs/Decimal" },
-                        "charset": { "type": "string", "default": "UTF-8" },
-                        "stopAtNull": { "type":  "boolean", "default": false }
-                    }
-                },
-                {
-                    "type": "object",
-                    "required": ["@type", "size", "schema"],
-                    "additionalProperties": false,
-                    "properties": {
-                        "@type": { "const": "FixedSizeArrayElement" },
-                        "size": { "$ref": "#/$defs/Decimal" },
+                        "@type": { "const": "ArrayElement" },
+                        "lengthPolicy": { "$ref": "#/$defs/LengthPolicy" },
                         "schema": { "$ref": "#/$defs/SchemaElement" }
                     }
                 },
@@ -248,7 +167,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "IntElement" },
-                        "size": { "type":  "integer" },
+                        "size": { "$ref": "#/$defs/LongByteSize" },
                         "signed": { "type": "boolean", "default": false },
                         "expression": { "$ref": "#/$defs/Expression" }
                     }
@@ -267,7 +186,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "FloatElement" },
-                        "size": { "type":  "integer" }
+                        "size": { "$ref": "#/$defs/LongByteSize" }
                     }
                 },
                 {
@@ -299,7 +218,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "SelfEnumClassifier" },
-                        "size": { "type": "integer" },
+                        "size": { "$ref": "#/$defs/ByteSize" },
                         "bindings": { "type": "object", "$ref": "#/$defs/Bindings" }
                     }
                 },
@@ -309,7 +228,7 @@
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "IntRangeClassifier" },
-                        "size": { "type": "integer" },
+                        "size": { "$ref": "#/$defs/ByteSize" },
                         "rangeBindings": {
                             "type": "array",
                             "items": {
@@ -331,8 +250,58 @@
                     "properties": {
                         "@type": { "const": "ArrayStringRefClassifier" },
                         "variable": { "type": "string" },
-                        "size": { "type": "integer" },
+                        "size": { "$ref": "#/$defs/ByteSize" },
                         "zeroIsNull": { "type": "boolean", "default": false }
+                    }
+                }
+            ]
+        },
+        "LengthPolicy": {
+            "oneOf": [
+                {
+                    "type": "object",
+                    "required": ["@type", "length"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "FixedLengthPolicy" },
+                        "length": { "$ref": "#/$defs/Decimal" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "fieldSize"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "PrefixedLengthPolicy" },
+                        "fieldSize": { "$ref": "#/$defs/ByteSize" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "sizeVarName"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "ReferencedLengthPolicy" },
+                        "sizeVarName": { "type": "string" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "against", "operator"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "PredicateTerminatedPolicy" },
+                        "structField": { "type": "string", "default": null },
+                        "against": { "$ref": "#/$defs/Decimal" },
+                        "operator": { "type": "string", "enum": ["EQUALS", "NOT_EQUALS", "LESS_THAN", "LESS_THAN_OR_EQUALS", "MORE_THAN", "MORE_THAN_OR_EQUALS"] }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "NullTerminatedStringPolicy" }
                     }
                 }
             ]
@@ -350,7 +319,6 @@
             }
         },
         "Decimal": {
-            "description": "test",
             "oneOf": [
                 {
                     "type": "integer"
@@ -359,6 +327,21 @@
                     "type": "string",
                     "pattern": "^(0x[0-9A-F]{1,16})|(0b[01]{1,64})|('.')$"
                 }
+            ]
+        },
+        "ByteSize": {
+            "oneOf": [
+                { "const": "1" },
+                { "const": "2" },
+                { "const": "4" }
+            ]
+        },
+        "LongByteSize": {
+            "oneOf": [
+                { "const": "1" },
+                { "const": "2" },
+                { "const": "4" },
+                { "const": "8" }
             ]
         },
         "Expression": {

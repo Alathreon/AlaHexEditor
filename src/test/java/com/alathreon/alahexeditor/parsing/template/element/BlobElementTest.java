@@ -10,15 +10,18 @@ import java.util.List;
 class BlobElementTest {
 
     @Test
-    void testFixedSize() {
+    void testFixedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "blob": {
-                                    "@type": "FixedSizeBlobElement",
-                                    "size": 4
+                                    "@type": "BlobElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 4
+                                    }
                                 }
                             }
                         }""",
@@ -28,15 +31,18 @@ class BlobElementTest {
     }
 
     @Test
-    void testFixedSizeLeftover() {
+    void testFixedLengthLeftover() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "blob": {
-                                    "@type": "FixedSizeBlobElement",
-                                    "size": 4
+                                    "@type": "BlobElement",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 4
+                                    }
                                 },
                                 "int_element": {
                                     "@type": "IntElement",
@@ -51,15 +57,18 @@ class BlobElementTest {
     }
 
     @Test
-    void testVariableSize() {
+    void testPrefixedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
                         {
                             "schema": {
                                 "blob": {
-                                    "@type": "VariableSizeBlobElement",
-                                    "fieldSize": 1
+                                    "@type": "BlobElement",
+                                    "lengthPolicy": {
+                                        "@type": "PrefixedLengthPolicy",
+                                        "fieldSize": 1
+                                    }
                                 }
                             }
                         }""",
@@ -69,7 +78,7 @@ class BlobElementTest {
     }
 
     @Test
-    void testVariableRefSize() {
+    void testReferencedLength() {
         ParserTester parserTester = new ParserTester();
         parserTester.test(
                 """
@@ -80,8 +89,11 @@ class BlobElementTest {
                                    "size": 1
                                 },
                                 "blob": {
-                                    "@type": "VariableRefSizeBlobElement",
-                                    "sizeVarName": "blob_size"
+                                    "@type": "BlobElement",
+                                    "lengthPolicy": {
+                                        "@type": "ReferencedLengthPolicy",
+                                        "sizeVarName": "blob_size"
+                                    }
                                 }
                             }
                         }""",

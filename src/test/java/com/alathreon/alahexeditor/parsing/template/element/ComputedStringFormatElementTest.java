@@ -20,7 +20,10 @@ class ComputedStringFormatElementTest {
                         {
                             "schema": {
                                 "name": {
-                                    "@type": "NullEndStringElement"
+                                    "@type": "StringElement",
+                                    "lengthPolicy": {
+                                        "@type": "NullTerminatedStringPolicy"
+                                    }
                                 },
                                 "age": {
                                     "@type": "IntElement",
@@ -51,7 +54,10 @@ class ComputedStringFormatElementTest {
                                     "@type": "StructType",
                                     "members": {
                                         "name": {
-                                            "@type": "NullEndStringElement"
+                                            "@type": "StringElement",
+                                            "lengthPolicy": {
+                                                "@type": "NullTerminatedStringPolicy"
+                                            }
                                         },
                                         "age": {
                                             "@type": "IntElement",
