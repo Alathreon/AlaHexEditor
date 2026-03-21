@@ -21,12 +21,12 @@ public record ArrayReferenceElement(String variable, int size, boolean zeroIsNul
 
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, size);
+        ByteView view = safeSubView(data, objects, size);
         int index = (int)view.parseInt(template.endianness());
         ParseObject parseObject = objects.get(variable);
-        if(parseObject == null) throw new ParseException(data, "Expected array data for variable %s but got: null".formatted(variable));
+        if(parseObject == null) throw new ParseException(data, objects, "Expected array data for variable %s but got: null".formatted(variable));
         parseObject = parseObject.resolveReferences();
-        if(!(parseObject.data() instanceof ArrayData(var innerObjects))) throw new ParseException(data, "Expected array data for variable %s but got: %s".formatted(variable, parseObject.data().getClass().getSimpleName()));
+        if(!(parseObject.data() instanceof ArrayData(var innerObjects))) throw new ParseException(data, objects, "Expected array data for variable %s but got: %s".formatted(variable, parseObject.data().getClass().getSimpleName()));
         if(zeroIsNull) {
             if(index == 0) {
                 return new ParseStepResult(data, view, new NullData());
@@ -34,7 +34,7 @@ public record ArrayReferenceElement(String variable, int size, boolean zeroIsNul
                 index--;
             }
         }
-        if(index >= innerObjects.size()) throw new ParseException(data, "Index %d out of bounds for array length %d".formatted(index, innerObjects.size()));
+        if(index >= innerObjects.size()) throw new ParseException(data, objects, "Index %d out of bounds for array length %d".formatted(index, innerObjects.size()));
         return new ParseStepResult(data, view, new ArrayRefData(index, innerObjects.get(index)));
     }
 }

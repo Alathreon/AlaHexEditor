@@ -28,14 +28,14 @@ public class PredicateTerminatedPolicyCondition implements LengthPolicyCondition
     @Override
     public boolean hasNext(ParseObject self, String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
         if(self == null) return true;
-        return test(data, self.data());
+        return test(data, objects, self.data());
     }
 
-    private boolean test(ByteView data, Data object) throws ParseException {
+    private boolean test(ByteView data, ParseObjects objects, Data object) throws ParseException {
         if(structField != null) {
-            if(!(object instanceof StructData(var members))) throw new ParseException(data, "Expected struct data with field %s, but got: %s".formatted(structField, data.getClass().getSimpleName()));
+            if(!(object instanceof StructData(var members))) throw new ParseException(data, objects, "Expected struct data with field %s, but got: %s".formatted(structField, data.getClass().getSimpleName()));
             ParseObject parseObject = members.get(structField);
-            if(parseObject == null) throw new ParseException(data, "Field %s not found in struct data".formatted(structField));
+            if(parseObject == null) throw new ParseException(data, objects, "Field %s not found in struct data".formatted(structField));
             object = parseObject.data();
         }
         long value = switch (object) {
@@ -43,7 +43,7 @@ public class PredicateTerminatedPolicyCondition implements LengthPolicyCondition
             case BoolData(boolean v) -> v ? 1 : 0;
             case EnumData(int code, _, _) -> code;
             case UnionData(_, var intClassifier, _) -> intClassifier.value().longValue();
-            default -> throw new ParseException(data, "Expected int data, enum data, or union data, but got: %s".formatted(object.getClass().getSimpleName()));
+            default -> throw new ParseException(data, objects, "Expected int data, enum data, or union data, but got: %s".formatted(object.getClass().getSimpleName()));
         };
         return switch (operator) {
             case EQUALS -> value == against;

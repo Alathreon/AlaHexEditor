@@ -19,6 +19,7 @@ public class ParserTester {
         try {
             Template template = mapper.readValue(templateJson, Template.class);
             List<Pair<String, ParseObject>> parse = parser.parse(template, ByteView.fromHexString(hex));
+            expected.equals(parse);
             assertEquals(expected, parse);
         } catch (JsonProcessingException | ParseException e) {
             fail(e);

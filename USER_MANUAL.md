@@ -130,7 +130,7 @@ There is a schema file available locally [here](src/main/resources/alahex.schema
 
 ```json
 {
-    "$schema": "https://github.com/Alathreon/AlaHexEditor/blob/master/src/main/resources/alahex.schema.json",
+    "$schema": "https://raw.githubusercontent.com/Alathreon/AlaHexEditor/refs/heads/master/src/main/resources/alahex.schema.json",
     "references": [
         "https://myreference.com" // Or any other reference
     ],
@@ -265,9 +265,11 @@ Ox00 -> Black
 
 Define a bitset type, where each bit correspond to a constant.
 
-| Name  | Type             | Default value if optional | Description                                                                                      |
-|-------|------------------|---------------------------|--------------------------------------------------------------------------------------------------|
-| names | Array of strings |                           | An array of names, where each index is the index of the bit corresponding to the constant name.  |
+| Name         | Type             | Default value if optional | Description                                                                                                               |
+|--------------|------------------|---------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| names        | Array of strings |                           | An array of names, where each index is the index of the bit corresponding to the constant name.                           |
+| lengthPolicy | LengthPolicy     |                           | The length policy, see arrays sections                                                                                    |
+| isLengthBits | Boolean          | false                     | If the length is in bytes (default) or bits. Note that the last full byte will be read entirely regardless of this value. |
 
 #### Example
 ```json
@@ -275,7 +277,10 @@ Define a bitset type, where each bit correspond to a constant.
     "types": {
         "Color": {
             "@type": "BitsetType",
-            "size": 1,
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 1
+            },
             "names": [
                 "Black", "White"
             ]
@@ -293,6 +298,31 @@ Define a bitset type, where each bit correspond to a constant.
 Ob01 -> Black
 0b10 -> White
 0b11 -> Black | White
+```
+
+#### Example sub byte
+```json
+{
+    "types": {
+        "Bin": {
+            "@type": "BitsetType",
+            "lengthPolicy": {
+                "@type": "FixedLengthPolicy",
+                "length": 39
+            },
+            "isLengthBits": true
+        }
+    },
+    "schema": {
+        "bin": {
+            "@type": "TypeElement",
+            "name": "Bin"
+        }
+    }
+}
+```
+```
+FFFFFFFFFE -> 111111111111111111111111111111111111111
 ```
 
 ### UnionType
@@ -812,6 +842,36 @@ int_element = -1
 0x05
 ↓
 int_element = 5 * 3 = 15
+```
+
+
+### DynamicSizeIntElement
+
+An integer with a dynamic size.
+
+| Name     | Type   | Default value if optional | Description                     |
+|----------|--------|---------------------------|---------------------------------|
+| encoding | String |                           | The way this integer is encoded |
+
+Available encodings:
+- `ULEB128` (Unsigned Little Endian Base 128)
+
+#### Example ULEB128
+```json
+{
+    "schema": {
+        "int_element": {
+            "@type": "DynamicSizeIntElement",
+            "encoding": "ULEB128"
+        }
+    }
+}
+```
+```
+0x05     → int_element = 5
+0x07     → int_element = 127
+0x8001   → int_element = 128
+0xE58E26 → int_element = 624485
 ```
 
 

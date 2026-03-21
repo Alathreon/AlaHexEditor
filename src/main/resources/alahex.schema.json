@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://github.com/Alathreon/AlaHexEditor/blob/master/src/main/resources/alahex.schema.json",
+    "$id": "https://raw.githubusercontent.com/Alathreon/AlaHexEditor/refs/heads/master/src/main/resources/alahex.schema.json",
     "title": "AlaHexEditor parse format",
     "type": "object",
     "required": ["references", "endianness", "types", "schema"],
@@ -37,15 +37,20 @@
             "oneOf": [
                 {
                     "type": "object",
-                    "required": ["@type", "names"],
+                    "required": ["@type", "lengthPolicy"],
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "BitsetType" },
+                        "lengthPolicy": { "$ref": "#/$defs/LengthPolicy" },
                         "names": {
                             "type": "array",
                             "items": {
                                 "type": "string"
                             }
+                        },
+                        "isLengthBits": {
+                            "type": "boolean",
+                            "default": false
                         }
                     }
                 },
@@ -111,7 +116,7 @@
                 },
                 {
                     "type": "object",
-                    "required": ["@type", "size", "lengthPolicy"],
+                    "required": ["@type", "lengthPolicy"],
                     "additionalProperties": false,
                     "properties": {
                         "@type": { "const": "StringElement" },
@@ -170,6 +175,18 @@
                         "size": { "$ref": "#/$defs/LongByteSize" },
                         "signed": { "type": "boolean", "default": false },
                         "expression": { "$ref": "#/$defs/Expression" }
+                    }
+                },
+                {
+                    "type": "object",
+                    "required": ["@type", "encoding"],
+                    "additionalProperties": false,
+                    "properties": {
+                        "@type": { "const": "DynamicSizeIntElement" },
+                        "encoding": {
+                            "type": "string",
+                            "enum": [ "ULEB128" ]
+                        }
                     }
                 },
                 {
@@ -331,17 +348,17 @@
         },
         "ByteSize": {
             "oneOf": [
-                { "const": "1" },
-                { "const": "2" },
-                { "const": "4" }
+                { "const": 1 },
+                { "const": 2 },
+                { "const": 4 }
             ]
         },
         "LongByteSize": {
             "oneOf": [
-                { "const": "1" },
-                { "const": "2" },
-                { "const": "4" },
-                { "const": "8" }
+                { "const": 1 },
+                { "const": 2 },
+                { "const": 4 },
+                { "const": 8 }
             ]
         },
         "Expression": {

@@ -14,7 +14,7 @@ public record BoolElement() implements SchemaElement {
 
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, 1);
+        ByteView view = safeSubView(data, objects, 1);
         long value = view.parseInt(template.endianness());
         return new ParseStepResult(data, view, new BoolData(value != 0));
     }

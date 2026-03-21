@@ -1,12 +1,15 @@
 package com.alathreon.alahexeditor.parsing.template;
 
 import com.alathreon.alahexeditor.parsing.object.ParseObject;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 
 public class ParseObjects {
 
+    @JsonProperty
     private final Map<String, ParseObject> objects;
+    @JsonProperty
     private final List<Map<String, ParseObject>> stack;
 
     public ParseObjects(Map<String, ParseObject> result) {
@@ -29,7 +32,7 @@ public class ParseObjects {
     }
 
     public void startScope() {
-        stack.addFirst(new HashMap<>());
+        stack.addFirst(new LinkedHashMap<>());
     }
     public void endScope() {
         stack.removeFirst();

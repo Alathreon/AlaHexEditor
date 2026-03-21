@@ -26,9 +26,9 @@ public record IntRangeClassifier(int size, List<IntRangeBindingData> rangeBindin
 
     @Override
     public ClassifierResult find(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, size);
+        ByteView view = safeSubView(data, objects, size);
         long value = view.parseInt(template.endianness());
-        IntRangeBindingData binding = rangeBindings.stream().filter(b -> b.from() <= value && value < b.to()).findFirst().orElseThrow(() -> new ParseException(view, "Error in Union %s: No binding found for value %d".formatted(thisName, value)));
+        IntRangeBindingData binding = rangeBindings.stream().filter(b -> b.from() <= value && value < b.to()).findFirst().orElseThrow(() -> new ParseException(view, objects, "Error in Union %s: No binding found for value %d".formatted(thisName, value)));
         return new ClassifierResult(binding.name(), binding, new IntData(value, false, size), view, data.leftover(view));
     }
 }

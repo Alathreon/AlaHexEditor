@@ -20,4 +20,7 @@ public class CounterLengthPolicyCondition implements LengthPolicyCondition {
         return i++ < limitExclusive;
     }
 
+    public int getLimitExclusive() {
+        return limitExclusive;
+    }
 }

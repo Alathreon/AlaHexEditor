@@ -19,7 +19,7 @@ public record TypeElement(String name) implements SchemaElement {
 
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        SchemaType<?> type = findType(template, data, name);
+        SchemaType<?> type = findType(template, data, objects, name);
         SchemaType.ParseTypeResult<?> result = type.parseData(name, data, template, objects);
         return new ParseStepResult(result.parent(), result.segment(), result.data());
     }

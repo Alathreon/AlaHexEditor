@@ -21,11 +21,11 @@ public record ReferencedLengthPolicy(String sizeVarName) implements LengthPolicy
     @Override
     public PreparedLengthPolicy prepare(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
         ParseObject parseObject = objects.get(sizeVarName);
-        if(parseObject == null) throw new ParseException(data, "Expected array size data for variable %s, but got: null".formatted(sizeVarName));
+        if(parseObject == null) throw new ParseException(data, objects, "Expected array size data for variable %s, but got: null".formatted(sizeVarName));
         parseObject = parseObject.resolveReferences();
-        if(!(parseObject.data() instanceof IntData(var size, _, _))) throw new ParseException(data, "Expected array size data for variable %s, but got: %s".formatted(sizeVarName, parseObject.data().getClass().getSimpleName()));
-        if(size.compareTo(BigInteger.ZERO) < 0) throw new ParseException(data, "Array size negative: " + size);
-        if(size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) throw new ParseException(data, "Array size too large: " + size);
+        if(!(parseObject.data() instanceof IntData(var size, _, _))) throw new ParseException(data, objects, "Expected array size data for variable %s, but got: %s".formatted(sizeVarName, parseObject.data().getClass().getSimpleName()));
+        if(size.compareTo(BigInteger.ZERO) < 0) throw new ParseException(data, objects, "Array size negative: " + size);
+        if(size.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) throw new ParseException(data, objects, "Array size too large: " + size);
         int intSize = size.intValue();
         return new PreparedLengthPolicy(data, new CounterLengthPolicyCondition(intSize));
     }

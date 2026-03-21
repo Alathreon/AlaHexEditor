@@ -38,15 +38,15 @@ public record ComputedIntElement(String expression, List<String> variables) impl
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
         ParseObject parseObject = objects.get(variables.getFirst());
-        IntData value = find(parseObject, data, 1);
+        IntData value = find(parseObject, data, objects, 1);
         if(expression != null) {
             value = MathParser.evalPostfix(expression, objects, parseObject.metadata(), value);
         }
         return new ParseStepResult(data, new ParseObject(parseObject.metadata(), value));
     }
-    private IntData find(ParseObject object, ByteView data, int structIndex) throws ParseException {
+    private IntData find(ParseObject object, ByteView data, ParseObjects objects, int structIndex) throws ParseException {
         if(object == null) {
-            throw new ParseException(data, "Expected int data for variable chain %s but got: null".formatted(String.join("->", variables)));
+            throw new ParseException(data, objects, "Expected int data for variable chain %s but got: null".formatted(String.join("->", variables)));
         }
         return switch (object.data()) {
             case IntData d -> d;
@@ -64,11 +64,11 @@ public record ComputedIntElement(String expression, List<String> variables) impl
             case NullData _ -> new IntData(0, false, 1);
             case UnionData(_, var intClassifier, _) -> intClassifier;
             case StructData(var members) -> {
-                if(variables.size() <= structIndex) throw new ParseException(data, "Expected int data for variable chain %s but got nothing".formatted(String.join("->", variables)));
+                if(variables.size() <= structIndex) throw new ParseException(data, objects, "Expected int data for variable chain %s but got nothing".formatted(String.join("->", variables)));
                 ParseObject structObject = members.get(variables.get(structIndex));
-                yield find(structObject, data, structIndex+1);
+                yield find(structObject, data, objects, structIndex+1);
             }
-            default -> throw new ParseException(data, "Expected data that can be transformed into an int for variable chain %s but got: %s".formatted(String.join("->", variables), object.data().getClass().getSimpleName()));
+            default -> throw new ParseException(data, objects, "Expected data that can be transformed into an int for variable chain %s but got: %s".formatted(String.join("->", variables), object.data().getClass().getSimpleName()));
         };
     }
 }

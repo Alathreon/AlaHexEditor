@@ -31,10 +31,10 @@ public record EnumType(int size, LinkedHashMap<Integer, String> constants) imple
 
     @Override
     public ParseTypeResult<EnumData> parseData(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, size());
+        ByteView view = safeSubView(data, objects, size());
         int code = (int) view.parseInt(template.endianness());
         String constantName = constants().get(code);
-        if(constantName == null) throw new ParseException(view, "Error in Enum %s: constant %s not found".formatted(thisName, view));
+        if(constantName == null) throw new ParseException(view, objects, "Error in Enum %s: constant %s not found".formatted(thisName, view));
         return new ParseTypeResult<>(data, view, new EnumData(code, size, constantName));
     }
 }

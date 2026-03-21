@@ -1,20 +1,16 @@
 package com.alathreon.alahexeditor.parsing;
 
+import com.alathreon.alahexeditor.parsing.template.ParseObjects;
 import com.alathreon.alahexeditor.util.ByteView;
-import com.alathreon.alahexeditor.util.DataSegment;
 
 public class ParseException extends Exception {
-
     public static class PartialParseException extends Exception {
         public PartialParseException(String message) {
             super(message);
         }
 
-        public ParseException complete(ByteView view) {
-            return complete(view.toDataSegment());
-        }
-        public ParseException complete(DataSegment causeData) {
-            return new ParseException(causeData, getMessage());
+        public ParseException complete(ByteView causeData, ParseObjects objects) {
+            return new ParseException(causeData, objects, getMessage());
         }
     }
 
@@ -22,25 +18,29 @@ public class ParseException extends Exception {
         return new PartialParseException(message);
     }
 
-    private static String formatSegment(DataSegment seg) {
+    private static String formatSegment(ByteView seg) {
         if(seg.length() <= 10) {
-            return "[" + seg.offset() + ":" + seg.hex() + "]";
+            return "[" + seg.offset() + ":" + seg + "]";
         } else {
             return "[" + seg.offset() + "+" + seg.length() + "]";
         }
     }
 
-    private final DataSegment causeData;
+    private final ByteView causeData;
+    private final ParseObjects debugData;
 
-    public ParseException(ByteView view, String message) {
-        this(view.toDataSegment(), message);
-    }
-    public ParseException(DataSegment causeData, String message) {
-        super(formatSegment(causeData) + " " + message);
-        this.causeData = causeData;
+    public ParseException(ByteView view, ParseObjects debugData, String message) {
+        super(formatSegment(view) + " " + message);
+        this.causeData = view;
+        this.debugData = debugData;
     }
 
-    public DataSegment getCauseData() {
+    public ByteView getCauseData() {
         return causeData;
     }
+
+    public ParseObjects getDebugData() {
+        return debugData;
+    }
+
 }

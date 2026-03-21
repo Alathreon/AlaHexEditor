@@ -35,12 +35,12 @@ public record SelfEnumClassifier(int size, LinkedHashMap<Integer, String> consta
         if(!enumType.constants().keySet().containsAll(overrideBindings.keySet())) {
             String expected = enumType.constants().keySet().stream().map(String::valueOf).collect(Collectors.joining(", "));
             String actual = overrideBindings.keySet().stream().map(String::valueOf).collect(Collectors.joining(", "));
-            throw new ParseException(classifierResult.segment(), "Expected subset override for [%s], but got [%s]".formatted(expected, actual));
+            throw new ParseException(classifierResult.segment(), objects, "Expected subset override for [%s], but got [%s]".formatted(expected, actual));
         }
         Map<Integer, String> computedBindings = new HashMap<>(enumType.constants());
         computedBindings.putAll(overrideBindings);
         String structName = computedBindings.get(classifierResult.data().code());
-        if(structName == null) throw new ParseException(classifierResult.segment(), "No struct binding in union %s".formatted(thisName));
+        if(structName == null) throw new ParseException(classifierResult.segment(), objects, "No struct binding in union %s".formatted(thisName));
         return new ClassifierResult(structName, classifierResult.data(), new IntData(classifierResult.data().code(), false, classifierResult.data().size()), classifierResult.segment(), leftover);
     }
 

@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = ComputedStringFormatElement.class),
         @JsonSubTypes.Type(value = ComputedIntElement.class),
         @JsonSubTypes.Type(value = IntElement.class),
+        @JsonSubTypes.Type(value = DynamicSizeIntElement.class),
         @JsonSubTypes.Type(value = FloatElement.class),
         @JsonSubTypes.Type(value = BoolElement.class),
         @JsonSubTypes.Type(value = TypeElement.class),

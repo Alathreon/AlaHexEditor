@@ -1,6 +1,7 @@
 package com.alathreon.alahexeditor.util;
 
 import com.alathreon.alahexeditor.parsing.Endianness;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.nio.charset.Charset;
 import java.util.*;
@@ -81,14 +82,14 @@ public class ByteView implements Iterable<Byte> {
         return isIn(Position.positionToIndex(position));
     }
     public byte get(int i) {
-        if(!isIn(i)) throw new IllegalArgumentException();
+        if(!isIn(i)) throw new IllegalArgumentException("Index " + i + " for length " + length);
         return content[offset + i];
     }
     public byte get(Position pos) {
         return get(Position.positionToIndex(pos));
     }
     public void set(int i, byte val) {
-        if(!isIn(i)) throw new IllegalArgumentException();
+        if(!isIn(i)) throw new IllegalArgumentException("Index " + i + " for length " + length);
         content[offset + i] = val;
     }
     public void set(Position pos, byte val) {
@@ -198,12 +199,13 @@ public class ByteView implements Iterable<Byte> {
         return streamReversed().iterator();
     }
 
+    @JsonValue
     @Override
     public String toString() {
         return stream().map(b -> String.format("%02X", b)).collect(Collectors.joining(" "));
     }
     public String toBinaryString() {
-        return stream().map(b -> String.format("%8s", Integer.toBinaryString(b)).replace(' ', '0')).collect(Collectors.joining(""));
+        return stream().map(b -> String.format("%8s", Integer.toBinaryString(Byte.toUnsignedInt(b))).replace(' ', '0')).collect(Collectors.joining(""));
     }
     public String toUTF8String() {
         StringBuilder sb = new StringBuilder();
@@ -215,6 +217,24 @@ public class ByteView implements Iterable<Byte> {
             sb.append(c);
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ByteView view = (ByteView) o;
+        return offset == view.offset && length == view.length && Arrays.mismatch(content, offset, offset + length, view.content, view.offset, view.offset + view.length) == -1;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 1;
+        result = 31 * result + offset;
+        result = 31 * result + length;
+        for (int i = offset; i < offset + length; i++) {
+            result = 31 * result + content[i];
+        }
+        return result;
     }
 
     /**
@@ -272,10 +292,6 @@ public class ByteView implements Iterable<Byte> {
         byte[] result = new byte[length];
         System.arraycopy(content, offset, result, 0, length);
         return result;
-    }
-
-    public DataSegment toDataSegment() {
-        return new DataSegment(offset, length, toString());
     }
 
     public BitSet toBitset() {

@@ -31,7 +31,7 @@ public record EnumClassifier(String enumClassifierName, Map<Integer, String> ove
 
     @Override
     public ClassifierResult find(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        EnumType enumType = findType(template, data, enumClassifierName, EnumType.class);
+        EnumType enumType = findType(template, data, objects, enumClassifierName, EnumType.class);
         return SelfEnumClassifier.find(enumClassifierName, enumType, overrideBindings, data, template, objects);
     }
 }

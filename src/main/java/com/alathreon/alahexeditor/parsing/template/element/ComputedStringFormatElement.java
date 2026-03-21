@@ -27,14 +27,14 @@ public record ComputedStringFormatElement(String format, List<List<String>> vari
         Object[] formatObjects = new Object[variables().size()];
         int i = 0;
         for (List<String> entry : variables()) {
-            formatObjects[i++] = find(objects.get(entry.getFirst()), data, entry, 1);
+            formatObjects[i++] = find(objects.get(entry.getFirst()), data, objects, entry, 1);
         }
         String formatted = format.formatted(formatObjects);
         return new ParseStepResult(data, new ParseObject(objects.get(variables.getFirst().getFirst()).metadata(), new StringData(formatted)));
     }
-    private Object find(ParseObject object, ByteView data, List<String> vars, int structIndex) throws ParseException {
+    private Object find(ParseObject object, ByteView data, ParseObjects objects, List<String> vars, int structIndex) throws ParseException {
         if(object == null) {
-            throw new ParseException(data, "Expected int data for variable chain %s but got: null".formatted(String.join("->", vars)));
+            throw new ParseException(data, objects, "Expected int data for variable chain %s but got: null".formatted(String.join("->", vars)));
         }
         return switch (object.data()) {
             case StringData(var value) -> value;
@@ -47,11 +47,11 @@ public record ComputedStringFormatElement(String format, List<List<String>> vari
             case NullData _ -> null;
             case UnionData(_, var intClassifier, _) -> intClassifier;
             case StructData(var members) -> {
-                if(vars.size() <= structIndex) throw new ParseException(data, "Expected struct field for variable chain %s but got nothing".formatted(String.join("->", vars)));
+                if(vars.size() <= structIndex) throw new ParseException(data, objects, "Expected struct field for variable chain %s but got nothing".formatted(String.join("->", vars)));
                 ParseObject structObject = members.get(vars.get(structIndex));
-                yield find(structObject, data, vars, structIndex+1);
+                yield find(structObject, data, objects, vars, structIndex+1);
             }
-            default -> throw new ParseException(data, "Unexpected data type for variable chain %s but got %s".formatted(String.join("->", vars), object.data().getClass().getSimpleName()));
+            default -> throw new ParseException(data, objects, "Unexpected data type for variable chain %s but got %s".formatted(String.join("->", vars), object.data().getClass().getSimpleName()));
         };
     }
 }

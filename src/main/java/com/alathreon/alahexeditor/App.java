@@ -12,11 +12,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
@@ -42,11 +47,11 @@ public class App extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        initLoadData(controller, persistence);
+        initLoadData(controller, persistence, primaryStage);
         initEvents(primaryStage, controller, persistence);
     }
 
-    private void initLoadData(HexEditorController controller, Persistence persistence) {
+    private void initLoadData(HexEditorController controller, Persistence persistence, Stage primaryStage) {
         List<Path> recentlyOpened = persistence.recentlyOpened().read();
         controller.setRecentlyOpened(recentlyOpened);
         FileData tmp = null;
@@ -68,7 +73,7 @@ public class App extends Application {
         }
         if(tmpTemplate != null) {
             fileTemplate = tmpTemplate;
-            loadParseData(controller);
+            loadParseData(controller, persistence, primaryStage);
         }
     }
 
@@ -110,7 +115,7 @@ public class App extends Application {
             FileTemplate tmp = IOUtil.promptOpenTemplate(persistence.mapper(), primaryStage);
             if(tmp != null) {
                 fileTemplate = tmp;
-                loadParseData(controller);
+                loadParseData(controller, persistence, primaryStage);
                 addRecentlyOpenedTemplate(controller, persistence, tmp.path());
             }
         });
@@ -118,7 +123,7 @@ public class App extends Application {
             FileTemplate tmp = IOUtil.readTemplate(persistence.mapper(), path);
             if(tmp != null) {
                 fileTemplate = tmp;
-                loadParseData(controller);
+                loadParseData(controller, persistence, primaryStage);
                 addRecentlyOpenedTemplate(controller, persistence, path);
             }
         });
@@ -185,12 +190,34 @@ public class App extends Application {
         controller.setRecentlyOpenedTemplates(persistence.recentlyOpenedTemplates().add(path));
     }
 
-    private void loadParseData(HexEditorController controller) {
+    private void loadParseData(HexEditorController controller, Persistence persistence, Stage stage) {
         try {
             List<Pair<String, ParseObject>> parsed = new Parser().parse(fileTemplate.template(), fileData.data());
             controller.setParsedData(parsed);
         } catch (ParseException e) {
-            alertError("Couldn't parse data.", e);
+            ButtonType saveDebugDataButton = new ButtonType("Save debug data");
+            alertError("Couldn't parse data.", e, saveDebugDataButton)
+                    .ifPresent(type -> {
+                        if(type == saveDebugDataButton) {
+                            FileChooser fileChooser = new FileChooser();
+                            fileChooser.setTitle("Save debug data");
+                            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JSON", "*.json"));
+                            if(fileData.path() != null) {
+                                fileChooser.setInitialDirectory(fileData.path().getParent().toFile());
+                                fileChooser.setInitialFileName("debug_data.json");
+                            }
+                            File selectedFile = fileChooser.showSaveDialog(stage);
+                            if(selectedFile != null) {
+                                try {
+                                    persistence.mapper()
+                                            .writerWithDefaultPrettyPrinter()
+                                            .writeValue(selectedFile, e.getDebugData());
+                                } catch (IOException ex) {
+                                    throw new UncheckedIOException(ex);
+                                }
+                            }
+                        }
+                    });
         }
     }
 }

@@ -82,7 +82,7 @@ public record FloatElement(int size) implements SchemaElement {
 
     @Override
     public ParseStepResult parse(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, size);
+        ByteView view = safeSubView(data, objects, size);
         long bits = view.parseInt(template.endianness());
         double value = switch (size) {
             case 1 -> byteBitsToFloat((byte) bits);

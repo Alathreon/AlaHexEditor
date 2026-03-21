@@ -18,7 +18,10 @@ class BitsetTypeTest {
                             "types": {
                                 "Color": {
                                     "@type": "BitsetType",
-                                    "size": 1,
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 1
+                                    },
                                     "names": [
                                         "Black", "White"
                                     ]
@@ -40,7 +43,10 @@ class BitsetTypeTest {
                             "types": {
                                 "Color": {
                                     "@type": "BitsetType",
-                                    "size": 1,
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 1
+                                    },
                                     "names": [
                                         "Black", "White"
                                     ]
@@ -62,7 +68,10 @@ class BitsetTypeTest {
                             "types": {
                                 "Color": {
                                     "@type": "BitsetType",
-                                    "size": 1,
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 1
+                                    },
                                     "names": [
                                         "Black", "White"
                                     ]
@@ -77,6 +86,35 @@ class BitsetTypeTest {
                         }""",
                 "03",
                 List.of(Pair.of("color", new ParseObject("03", new BitsetData("00000011", List.of("Black", "White")))))
+        );
+    }
+    @Test
+    void testLongNameless() {
+        ParserTester parserTester = new ParserTester();
+        parserTester.test(
+                """
+                        {
+                            "types": {
+                                "Bin": {
+                                    "@type": "BitsetType",
+                                    "lengthPolicy": {
+                                        "@type": "FixedLengthPolicy",
+                                        "length": 39
+                                    },
+                                    "isLengthBits": true
+                                }
+                            },
+                            "schema": {
+                                "bin": {
+                                    "@type": "TypeElement",
+                                    "name": "Bin"
+                                }
+                            }
+                        }""",
+                "FFFFFFFFFE",
+                List.of(Pair.of("bin", new ParseObject("FFFFFFFFFE",
+                        new BitsetData("111111111111111111111111111111111111111",
+                                List.of()))))
         );
     }
 }

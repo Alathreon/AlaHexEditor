@@ -17,7 +17,7 @@ public record PrefixedLengthPolicy(int fieldSize) implements LengthPolicy {
 
     @Override
     public PreparedLengthPolicy prepare(String thisName, ByteView data, Template template, ParseObjects objects) throws ParseException {
-        ByteView view = safeSubView(data, fieldSize);
+        ByteView view = safeSubView(data, objects, fieldSize);
         long length = view.parseInt(template.endianness());
         return new PreparedLengthPolicy(data.leftover(view), new CounterLengthPolicyCondition((int)length));
     }

@@ -1,10 +1,10 @@
 package com.alathreon.alahexeditor.util;
 
 import com.alathreon.alahexeditor.parsing.template.Template;
-import com.alathreon.alahexeditor.persistence.Persistence;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Optional;
 
 public class IOUtil {
     public static final String TEMPLATE_EXTENSION = ".alahex.template.json";
@@ -31,6 +32,14 @@ public class IOUtil {
         alert.setHeaderText("An error happened");
         alert.setContentText(ex.getMessage());
         alert.show();
+    }
+    public static Optional<ButtonType> alertError(String title, Exception ex, ButtonType... buttons) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText("An error happened");
+        alert.setContentText(ex.getMessage());
+        alert.getButtonTypes().addAll(buttons);
+        return alert.showAndWait();
     }
     public static FileData read(Path path) {
         try {
