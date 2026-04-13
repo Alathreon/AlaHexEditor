@@ -1,0 +1,6716 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Alathreon/AlaHexEditor/refs/heads/master/src/main/resources/alahex.schema.json",
+  "references": [],
+  "endianness": "LITTLE",
+  "types": {
+        "PacketID": {
+      "@type": "EnumType",
+      "size": 2,
+      "constants": [
+        { "key": 0, "value": "MSG_HEAD" },
+        { "key": 1, "value": "MSG_SYS_reserve01" },
+        { "key": 2, "value": "MSG_SYS_reserve02" },
+        { "key": 3, "value": "MSG_SYS_reserve03" },
+        { "key": 4, "value": "MSG_SYS_reserve04" },
+        { "key": 5, "value": "MSG_SYS_reserve05" },
+        { "key": 6, "value": "MSG_SYS_reserve06" },
+        { "key": 7, "value": "MSG_SYS_reserve07" },
+        { "key": 8, "value": "MSG_SYS_ADD_OBJECT" },
+        { "key": 9, "value": "MSG_SYS_DEL_OBJECT" },
+        { "key": 10, "value": "MSG_SYS_DISP_OBJECT" },
+        { "key": 11, "value": "MSG_SYS_HIDE_OBJECT" },
+        { "key": 12, "value": "MSG_SYS_reserve0C" },
+        { "key": 13, "value": "MSG_SYS_reserve0D" },
+        { "key": 14, "value": "MSG_SYS_reserve0E" },
+        { "key": 15, "value": "MSG_SYS_EXTEND_THRESHOLD" },
+        { "key": 16, "value": "MSG_SYS_END" },
+        { "key": 17, "value": "MSG_SYS_NOP" },
+        { "key": 18, "value": "MSG_SYS_ACK" },
+        { "key": 19, "value": "MSG_SYS_TERMINAL_LOG" },
+        { "key": 20, "value": "MSG_SYS_LOGIN" },
+        { "key": 21, "value": "MSG_SYS_LOGOUT" },
+        { "key": 22, "value": "MSG_SYS_SET_STATUS" },
+        { "key": 23, "value": "MSG_SYS_PING" },
+        { "key": 24, "value": "MSG_SYS_CAST_BINARY" },
+        { "key": 25, "value": "MSG_SYS_HIDE_CLIENT" },
+        { "key": 26, "value": "MSG_SYS_TIME" },
+        { "key": 27, "value": "MSG_SYS_CASTED_BINARY" },
+        { "key": 28, "value": "MSG_SYS_GET_FILE" },
+        { "key": 29, "value": "MSG_SYS_ISSUE_LOGKEY" },
+        { "key": 30, "value": "MSG_SYS_RECORD_LOG" },
+        { "key": 31, "value": "MSG_SYS_ECHO" },
+        { "key": 32, "value": "MSG_SYS_CREATE_STAGE" },
+        { "key": 33, "value": "MSG_SYS_STAGE_DESTRUCT" },
+        { "key": 34, "value": "MSG_SYS_ENTER_STAGE" },
+        { "key": 35, "value": "MSG_SYS_BACK_STAGE" },
+        { "key": 36, "value": "MSG_SYS_MOVE_STAGE" },
+        { "key": 37, "value": "MSG_SYS_LEAVE_STAGE" },
+        { "key": 38, "value": "MSG_SYS_LOCK_STAGE" },
+        { "key": 39, "value": "MSG_SYS_UNLOCK_STAGE" },
+        { "key": 40, "value": "MSG_SYS_RESERVE_STAGE" },
+        { "key": 41, "value": "MSG_SYS_UNRESERVE_STAGE" },
+        { "key": 42, "value": "MSG_SYS_SET_STAGE_PASS" },
+        { "key": 43, "value": "MSG_SYS_WAIT_STAGE_BINARY" },
+        { "key": 44, "value": "MSG_SYS_SET_STAGE_BINARY" },
+        { "key": 45, "value": "MSG_SYS_GET_STAGE_BINARY" },
+        { "key": 46, "value": "MSG_SYS_ENUMERATE_CLIENT" },
+        { "key": 47, "value": "MSG_SYS_ENUMERATE_STAGE" },
+        { "key": 48, "value": "MSG_SYS_CREATE_MUTEX" },
+        { "key": 49, "value": "MSG_SYS_CREATE_OPEN_MUTEX" },
+        { "key": 50, "value": "MSG_SYS_DELETE_MUTEX" },
+        { "key": 51, "value": "MSG_SYS_OPEN_MUTEX" },
+        { "key": 52, "value": "MSG_SYS_CLOSE_MUTEX" },
+        { "key": 53, "value": "MSG_SYS_CREATE_SEMAPHORE" },
+        { "key": 54, "value": "MSG_SYS_CREATE_ACQUIRE_SEMAPHORE" },
+        { "key": 55, "value": "MSG_SYS_DELETE_SEMAPHORE" },
+        { "key": 56, "value": "MSG_SYS_ACQUIRE_SEMAPHORE" },
+        { "key": 57, "value": "MSG_SYS_RELEASE_SEMAPHORE" },
+        { "key": 58, "value": "MSG_SYS_LOCK_GLOBAL_SEMA" },
+        { "key": 59, "value": "MSG_SYS_UNLOCK_GLOBAL_SEMA" },
+        { "key": 60, "value": "MSG_SYS_CHECK_SEMAPHORE" },
+        { "key": 61, "value": "MSG_SYS_OPERATE_REGISTER" },
+        { "key": 62, "value": "MSG_SYS_LOAD_REGISTER" },
+        { "key": 63, "value": "MSG_SYS_NOTIFY_REGISTER" },
+        { "key": 64, "value": "MSG_SYS_CREATE_OBJECT" },
+        { "key": 65, "value": "MSG_SYS_DELETE_OBJECT" },
+        { "key": 66, "value": "MSG_SYS_POSITION_OBJECT" },
+        { "key": 67, "value": "MSG_SYS_ROTATE_OBJECT" },
+        { "key": 68, "value": "MSG_SYS_DUPLICATE_OBJECT" },
+        { "key": 69, "value": "MSG_SYS_SET_OBJECT_BINARY" },
+        { "key": 70, "value": "MSG_SYS_GET_OBJECT_BINARY" },
+        { "key": 71, "value": "MSG_SYS_GET_OBJECT_OWNER" },
+        { "key": 72, "value": "MSG_SYS_UPDATE_OBJECT_BINARY" },
+        { "key": 73, "value": "MSG_SYS_CLEANUP_OBJECT" },
+        { "key": 74, "value": "MSG_SYS_reserve4A" },
+        { "key": 75, "value": "MSG_SYS_reserve4B" },
+        { "key": 76, "value": "MSG_SYS_reserve4C" },
+        { "key": 77, "value": "MSG_SYS_reserve4D" },
+        { "key": 78, "value": "MSG_SYS_reserve4E" },
+        { "key": 79, "value": "MSG_SYS_reserve4F" },
+        { "key": 80, "value": "MSG_SYS_INSERT_USER" },
+        { "key": 81, "value": "MSG_SYS_DELETE_USER" },
+        { "key": 82, "value": "MSG_SYS_SET_USER_BINARY" },
+        { "key": 83, "value": "MSG_SYS_GET_USER_BINARY" },
+        { "key": 84, "value": "MSG_SYS_NOTIFY_USER_BINARY" },
+        { "key": 85, "value": "MSG_SYS_reserve55" },
+        { "key": 86, "value": "MSG_SYS_reserve56" },
+        { "key": 87, "value": "MSG_SYS_reserve57" },
+        { "key": 88, "value": "MSG_SYS_UPDATE_RIGHT" },
+        { "key": 89, "value": "MSG_SYS_AUTH_QUERY" },
+        { "key": 90, "value": "MSG_SYS_AUTH_DATA" },
+        { "key": 91, "value": "MSG_SYS_AUTH_TERMINAL" },
+        { "key": 92, "value": "MSG_SYS_reserve5C" },
+        { "key": 93, "value": "MSG_SYS_RIGHTS_RELOAD" },
+        { "key": 94, "value": "MSG_SYS_reserve5E" },
+        { "key": 95, "value": "MSG_SYS_reserve5F" },
+        { "key": 96, "value": "MSG_MHF_SAVEDATA" },
+        { "key": 97, "value": "MSG_MHF_LOADDATA" },
+        { "key": 98, "value": "MSG_MHF_LIST_MEMBER" },
+        { "key": 99, "value": "MSG_MHF_OPR_MEMBER" },
+        { "key": 100, "value": "MSG_MHF_ENUMERATE_DIST_ITEM" },
+        { "key": 101, "value": "MSG_MHF_APPLY_DIST_ITEM" },
+        { "key": 102, "value": "MSG_MHF_ACQUIRE_DIST_ITEM" },
+        { "key": 103, "value": "MSG_MHF_GET_DIST_DESCRIPTION" },
+        { "key": 104, "value": "MSG_MHF_SEND_MAIL" },
+        { "key": 105, "value": "MSG_MHF_READ_MAIL" },
+        { "key": 106, "value": "MSG_MHF_LIST_MAIL" },
+        { "key": 107, "value": "MSG_MHF_OPRT_MAIL" },
+        { "key": 108, "value": "MSG_MHF_LOAD_FAVORITE_QUEST" },
+        { "key": 109, "value": "MSG_MHF_SAVE_FAVORITE_QUEST" },
+        { "key": 110, "value": "MSG_MHF_REGISTER_EVENT" },
+        { "key": 111, "value": "MSG_MHF_RELEASE_EVENT" },
+        { "key": 112, "value": "MSG_MHF_TRANSIT_MESSAGE" },
+        { "key": 113, "value": "MSG_SYS_reserve71" },
+        { "key": 114, "value": "MSG_SYS_reserve72" },
+        { "key": 115, "value": "MSG_SYS_reserve73" },
+        { "key": 116, "value": "MSG_SYS_reserve74" },
+        { "key": 117, "value": "MSG_SYS_reserve75" },
+        { "key": 118, "value": "MSG_SYS_reserve76" },
+        { "key": 119, "value": "MSG_SYS_reserve77" },
+        { "key": 120, "value": "MSG_SYS_reserve78" },
+        { "key": 121, "value": "MSG_SYS_reserve79" },
+        { "key": 122, "value": "MSG_SYS_reserve7A" },
+        { "key": 123, "value": "MSG_SYS_reserve7B" },
+        { "key": 124, "value": "MSG_SYS_reserve7C" },
+        { "key": 125, "value": "MSG_CA_EXCHANGE_ITEM" },
+        { "key": 126, "value": "MSG_SYS_reserve7E" },
+        { "key": 127, "value": "MSG_MHF_PRESENT_BOX" },
+        { "key": 128, "value": "MSG_MHF_SERVER_COMMAND" },
+        { "key": 129, "value": "MSG_MHF_SHUT_CLIENT" },
+        { "key": 130, "value": "MSG_MHF_ANNOUNCE" },
+        { "key": 131, "value": "MSG_MHF_SET_LOGINWINDOW" },
+        { "key": 132, "value": "MSG_SYS_TRANS_BINARY" },
+        { "key": 133, "value": "MSG_SYS_COLLECT_BINARY" },
+        { "key": 134, "value": "MSG_SYS_GET_STATE" },
+        { "key": 135, "value": "MSG_SYS_SERIALIZE" },
+        { "key": 136, "value": "MSG_SYS_ENUMLOBBY" },
+        { "key": 137, "value": "MSG_SYS_ENUMUSER" },
+        { "key": 138, "value": "MSG_SYS_INFOKYSERVER" },
+        { "key": 139, "value": "MSG_MHF_GET_CA_UNIQUE_ID" },
+        { "key": 140, "value": "MSG_MHF_SET_CA_ACHIEVEMENT" },
+        { "key": 141, "value": "MSG_MHF_CARAVAN_MY_SCORE" },
+        { "key": 142, "value": "MSG_MHF_CARAVAN_RANKING" },
+        { "key": 143, "value": "MSG_MHF_CARAVAN_MY_RANK" },
+        { "key": 144, "value": "MSG_MHF_CREATE_GUILD" },
+        { "key": 145, "value": "MSG_MHF_OPERATE_GUILD" },
+        { "key": 146, "value": "MSG_MHF_OPERATE_GUILD_MEMBER" },
+        { "key": 147, "value": "MSG_MHF_INFO_GUILD" },
+        { "key": 148, "value": "MSG_MHF_ENUMERATE_GUILD" },
+        { "key": 149, "value": "MSG_MHF_UPDATE_GUILD" },
+        { "key": 150, "value": "MSG_MHF_ARRANGE_GUILD_MEMBER" },
+        { "key": 151, "value": "MSG_MHF_ENUMERATE_GUILD_MEMBER" },
+        { "key": 152, "value": "MSG_MHF_ENUMERATE_CAMPAIGN" },
+        { "key": 153, "value": "MSG_MHF_STATE_CAMPAIGN" },
+        { "key": 154, "value": "MSG_MHF_APPLY_CAMPAIGN" },
+        { "key": 155, "value": "MSG_MHF_ENUMERATE_ITEM" },
+        { "key": 156, "value": "MSG_MHF_ACQUIRE_ITEM" },
+        { "key": 157, "value": "MSG_MHF_TRANSFER_ITEM" },
+        { "key": 158, "value": "MSG_MHF_MERCENARY_HUNTDATA" },
+        { "key": 159, "value": "MSG_MHF_ENTRY_ROOKIE_GUILD" },
+        { "key": 160, "value": "MSG_MHF_ENUMERATE_QUEST" },
+        { "key": 161, "value": "MSG_MHF_ENUMERATE_EVENT" },
+        { "key": 162, "value": "MSG_MHF_ENUMERATE_PRICE" },
+        { "key": 163, "value": "MSG_MHF_ENUMERATE_RANKING" },
+        { "key": 164, "value": "MSG_MHF_ENUMERATE_ORDER" },
+        { "key": 165, "value": "MSG_MHF_ENUMERATE_SHOP" },
+        { "key": 166, "value": "MSG_MHF_GET_EXTRA_INFO" },
+        { "key": 167, "value": "MSG_MHF_UPDATE_INTERIOR" },
+        { "key": 168, "value": "MSG_MHF_ENUMERATE_HOUSE" },
+        { "key": 169, "value": "MSG_MHF_UPDATE_HOUSE" },
+        { "key": 170, "value": "MSG_MHF_LOAD_HOUSE" },
+        { "key": 171, "value": "MSG_MHF_OPERATE_WAREHOUSE" },
+        { "key": 172, "value": "MSG_MHF_ENUMERATE_WAREHOUSE" },
+        { "key": 173, "value": "MSG_MHF_UPDATE_WAREHOUSE" },
+        { "key": 174, "value": "MSG_MHF_ACQUIRE_TITLE" },
+        { "key": 175, "value": "MSG_MHF_ENUMERATE_TITLE" },
+        { "key": 176, "value": "MSG_MHF_ENUMERATE_GUILD_ITEM" },
+        { "key": 177, "value": "MSG_MHF_UPDATE_GUILD_ITEM" },
+        { "key": 178, "value": "MSG_MHF_ENUMERATE_UNION_ITEM" },
+        { "key": 179, "value": "MSG_MHF_UPDATE_UNION_ITEM" },
+        { "key": 180, "value": "MSG_MHF_CREATE_JOINT" },
+        { "key": 181, "value": "MSG_MHF_OPERATE_JOINT" },
+        { "key": 182, "value": "MSG_MHF_INFO_JOINT" },
+        { "key": 183, "value": "MSG_MHF_UPDATE_GUILD_ICON" },
+        { "key": 184, "value": "MSG_MHF_INFO_FESTA" },
+        { "key": 185, "value": "MSG_MHF_ENTRY_FESTA" },
+        { "key": 186, "value": "MSG_MHF_CHARGE_FESTA" },
+        { "key": 187, "value": "MSG_MHF_ACQUIRE_FESTA" },
+        { "key": 188, "value": "MSG_MHF_STATE_FESTA_U" },
+        { "key": 189, "value": "MSG_MHF_STATE_FESTA_G" },
+        { "key": 190, "value": "MSG_MHF_ENUMERATE_FESTA_MEMBER" },
+        { "key": 191, "value": "MSG_MHF_VOTE_FESTA" },
+        { "key": 192, "value": "MSG_MHF_ACQUIRE_CAFE_ITEM" },
+        { "key": 193, "value": "MSG_MHF_UPDATE_CAFEPOINT" },
+        { "key": 194, "value": "MSG_MHF_CHECK_DAILY_CAFEPOINT" },
+        { "key": 195, "value": "MSG_MHF_GET_COG_INFO" },
+        { "key": 196, "value": "MSG_MHF_CHECK_MONTHLY_ITEM" },
+        { "key": 197, "value": "MSG_MHF_ACQUIRE_MONTHLY_ITEM" },
+        { "key": 198, "value": "MSG_MHF_CHECK_WEEKLY_STAMP" },
+        { "key": 199, "value": "MSG_MHF_EXCHANGE_WEEKLY_STAMP" },
+        { "key": 200, "value": "MSG_MHF_CREATE_MERCENARY" },
+        { "key": 201, "value": "MSG_MHF_SAVE_MERCENARY" },
+        { "key": 202, "value": "MSG_MHF_READ_MERCENARY_W" },
+        { "key": 203, "value": "MSG_MHF_READ_MERCENARY_M" },
+        { "key": 204, "value": "MSG_MHF_CONTRACT_MERCENARY" },
+        { "key": 205, "value": "MSG_MHF_ENUMERATE_MERCENARY_LOG" },
+        { "key": 206, "value": "MSG_MHF_ENUMERATE_GUACOT" },
+        { "key": 207, "value": "MSG_MHF_UPDATE_GUACOT" },
+        { "key": 208, "value": "MSG_MHF_INFO_TOURNAMENT" },
+        { "key": 209, "value": "MSG_MHF_ENTRY_TOURNAMENT" },
+        { "key": 210, "value": "MSG_MHF_ENTER_TOURNAMENT_QUEST" },
+        { "key": 211, "value": "MSG_MHF_ACQUIRE_TOURNAMENT" },
+        { "key": 212, "value": "MSG_MHF_GET_ACHIEVEMENT" },
+        { "key": 213, "value": "MSG_MHF_RESET_ACHIEVEMENT" },
+        { "key": 214, "value": "MSG_MHF_ADD_ACHIEVEMENT" },
+        { "key": 215, "value": "MSG_MHF_PAYMENT_ACHIEVEMENT" },
+        { "key": 216, "value": "MSG_MHF_DISPLAYED_ACHIEVEMENT" },
+        { "key": 217, "value": "MSG_MHF_INFO_SCENARIO_COUNTER" },
+        { "key": 218, "value": "MSG_MHF_SAVE_SCENARIO_DATA" },
+        { "key": 219, "value": "MSG_MHF_LOAD_SCENARIO_DATA" },
+        { "key": 220, "value": "MSG_MHF_GET_BBS_SNS_STATUS" },
+        { "key": 221, "value": "MSG_MHF_APPLY_BBS_ARTICLE" },
+        { "key": 222, "value": "MSG_MHF_GET_ETC_POINTS" },
+        { "key": 223, "value": "MSG_MHF_UPDATE_ETC_POINT" },
+        { "key": 224, "value": "MSG_MHF_GET_MYHOUSE_INFO" },
+        { "key": 225, "value": "MSG_MHF_UPDATE_MYHOUSE_INFO" },
+        { "key": 226, "value": "MSG_MHF_GET_WEEKLY_SCHEDULE" },
+        { "key": 227, "value": "MSG_MHF_ENUMERATE_INV_GUILD" },
+        { "key": 228, "value": "MSG_MHF_OPERATION_INV_GUILD" },
+        { "key": 229, "value": "MSG_MHF_STAMPCARD_STAMP" },
+        { "key": 230, "value": "MSG_MHF_STAMPCARD_PRIZE" },
+        { "key": 231, "value": "MSG_MHF_UNRESERVE_SRG" },
+        { "key": 232, "value": "MSG_MHF_LOAD_PLATE_DATA" },
+        { "key": 233, "value": "MSG_MHF_SAVE_PLATE_DATA" },
+        { "key": 234, "value": "MSG_MHF_LOAD_PLATE_BOX" },
+        { "key": 235, "value": "MSG_MHF_SAVE_PLATE_BOX" },
+        { "key": 236, "value": "MSG_MHF_READ_GUILDCARD" },
+        { "key": 237, "value": "MSG_MHF_UPDATE_GUILDCARD" },
+        { "key": 238, "value": "MSG_MHF_READ_BEAT_LEVEL" },
+        { "key": 239, "value": "MSG_MHF_UPDATE_BEAT_LEVEL" },
+        { "key": 240, "value": "MSG_MHF_READ_BEAT_LEVEL_ALL_RANKING" },
+        { "key": 241, "value": "MSG_MHF_READ_BEAT_LEVEL_MY_RANKING" },
+        { "key": 242, "value": "MSG_MHF_READ_LAST_WEEK_BEAT_RANKING" },
+        { "key": 243, "value": "MSG_MHF_ACCEPT_READ_REWARD" },
+        { "key": 244, "value": "MSG_MHF_GET_ADDITIONAL_BEAT_REWARD" },
+        { "key": 245, "value": "MSG_MHF_GET_FIXED_SEIBATU_RANKING_TABLE" },
+        { "key": 246, "value": "MSG_MHF_GET_BBS_USER_STATUS" },
+        { "key": 247, "value": "MSG_MHF_KICK_EXPORT_FORCE" },
+        { "key": 248, "value": "MSG_MHF_GET_BREAK_SEIBATU_LEVEL_REWARD" },
+        { "key": 249, "value": "MSG_MHF_GET_WEEKLY_SEIBATU_RANKING_REWARD" },
+        { "key": 250, "value": "MSG_MHF_GET_EARTH_STATUS" },
+        { "key": 251, "value": "MSG_MHF_LOAD_PARTNER" },
+        { "key": 252, "value": "MSG_MHF_SAVE_PARTNER" },
+        { "key": 253, "value": "MSG_MHF_GET_GUILD_MISSION_LIST" },
+        { "key": 254, "value": "MSG_MHF_GET_GUILD_MISSION_RECORD" },
+        { "key": 255, "value": "MSG_MHF_ADD_GUILD_MISSION_COUNT" },
+        { "key": 256, "value": "MSG_MHF_SET_GUILD_MISSION_TARGET" },
+        { "key": 257, "value": "MSG_MHF_CANCEL_GUILD_MISSION_TARGET" },
+        { "key": 258, "value": "MSG_MHF_LOAD_OTOMO_AIROU" },
+        { "key": 259, "value": "MSG_MHF_SAVE_OTOMO_AIROU" },
+        { "key": 260, "value": "MSG_MHF_ENUMERATE_GUILD_TRESURE" },
+        { "key": 261, "value": "MSG_MHF_ENUMERATE_AIROULIST" },
+        { "key": 262, "value": "MSG_MHF_REGIST_GUILD_TRESURE" },
+        { "key": 263, "value": "MSG_MHF_ACQUIRE_GUILD_TRESURE" },
+        { "key": 264, "value": "MSG_MHF_OPERATE_GUILD_TRESURE_REPORT" },
+        { "key": 265, "value": "MSG_MHF_GET_GUILD_TRESURE_SOUVENIR" },
+        { "key": 266, "value": "MSG_MHF_ACQUIRE_GUILD_TRESURE_SOUVENIR" },
+        { "key": 267, "value": "MSG_MHF_ENUMERATE_FESTA_INTERMEDIATE_PRIZE" },
+        { "key": 268, "value": "MSG_MHF_ACQUIRE_FESTA_INTERMEDIATE_PRIZE" },
+        { "key": 269, "value": "MSG_MHF_LOAD_DECO_MYSET" },
+        { "key": 270, "value": "MSG_MHF_SAVE_DECO_MYSET" },
+        { "key": 271, "value": "MSG_MHF_reserve10F" },
+        { "key": 272, "value": "MSG_MHF_LOAD_GUILD_COOKING" },
+        { "key": 273, "value": "MSG_MHF_REGIST_GUILD_COOKING" },
+        { "key": 274, "value": "MSG_MHF_LOAD_GUILD_ADVENTURE" },
+        { "key": 275, "value": "MSG_MHF_REGIST_GUILD_ADVENTURE" },
+        { "key": 276, "value": "MSG_MHF_ACQUIRE_GUILD_ADVENTURE" },
+        { "key": 277, "value": "MSG_MHF_CHARGE_GUILD_ADVENTURE" },
+        { "key": 278, "value": "MSG_MHF_LOAD_LEGEND_DISPATCH" },
+        { "key": 279, "value": "MSG_MHF_LOAD_HUNTER_NAVI" },
+        { "key": 280, "value": "MSG_MHF_SAVE_HUNTER_NAVI" },
+        { "key": 281, "value": "MSG_MHF_REGIST_SPABI_TIME" },
+        { "key": 282, "value": "MSG_MHF_GET_GUILD_WEEKLY_BONUS_MASTER" },
+        { "key": 283, "value": "MSG_MHF_GET_GUILD_WEEKLY_BONUS_ACTIVE_COUNT" },
+        { "key": 284, "value": "MSG_MHF_ADD_GUILD_WEEKLY_BONUS_EXCEPTIONAL_USER" },
+        { "key": 285, "value": "MSG_MHF_GET_TOWER_INFO" },
+        { "key": 286, "value": "MSG_MHF_POST_TOWER_INFO" },
+        { "key": 287, "value": "MSG_MHF_GET_GEM_INFO" },
+        { "key": 288, "value": "MSG_MHF_POST_GEM_INFO" },
+        { "key": 289, "value": "MSG_MHF_GET_EARTH_VALUE" },
+        { "key": 290, "value": "MSG_MHF_DEBUG_POST_VALUE" },
+        { "key": 291, "value": "MSG_MHF_GET_PAPER_DATA" },
+        { "key": 292, "value": "MSG_MHF_GET_NOTICE" },
+        { "key": 293, "value": "MSG_MHF_POST_NOTICE" },
+        { "key": 294, "value": "MSG_MHF_GET_BOOST_TIME" },
+        { "key": 295, "value": "MSG_MHF_POST_BOOST_TIME" },
+        { "key": 296, "value": "MSG_MHF_GET_BOOST_TIME_LIMIT" },
+        { "key": 297, "value": "MSG_MHF_POST_BOOST_TIME_LIMIT" },
+        { "key": 298, "value": "MSG_MHF_ENUMERATE_FESTA_PERSONAL_PRIZE" },
+        { "key": 299, "value": "MSG_MHF_ACQUIRE_FESTA_PERSONAL_PRIZE" },
+        { "key": 300, "value": "MSG_MHF_GET_RAND_FROM_TABLE" },
+        { "key": 301, "value": "MSG_MHF_GET_CAFE_DURATION" },
+        { "key": 302, "value": "MSG_MHF_GET_CAFE_DURATION_BONUS_INFO" },
+        { "key": 303, "value": "MSG_MHF_RECEIVE_CAFE_DURATION_BONUS" },
+        { "key": 304, "value": "MSG_MHF_POST_CAFE_DURATION_BONUS_RECEIVED" },
+        { "key": 305, "value": "MSG_MHF_GET_GACHA_POINT" },
+        { "key": 306, "value": "MSG_MHF_USE_GACHA_POINT" },
+        { "key": 307, "value": "MSG_MHF_EXCHANGE_FPOINT_2_ITEM" },
+        { "key": 308, "value": "MSG_MHF_EXCHANGE_ITEM_2_FPOINT" },
+        { "key": 309, "value": "MSG_MHF_GET_FPOINT_EXCHANGE_LIST" },
+        { "key": 310, "value": "MSG_MHF_PLAY_STEPUP_GACHA" },
+        { "key": 311, "value": "MSG_MHF_RECEIVE_GACHA_ITEM" },
+        { "key": 312, "value": "MSG_MHF_GET_STEPUP_STATUS" },
+        { "key": 313, "value": "MSG_MHF_PLAY_FREE_GACHA" },
+        { "key": 314, "value": "MSG_MHF_GET_TINY_BIN" },
+        { "key": 315, "value": "MSG_MHF_POST_TINY_BIN" },
+        { "key": 316, "value": "MSG_MHF_GET_SENYU_DAILY_COUNT" },
+        { "key": 317, "value": "MSG_MHF_GET_GUILD_TARGET_MEMBER_NUM" },
+        { "key": 318, "value": "MSG_MHF_GET_BOOST_RIGHT" },
+        { "key": 319, "value": "MSG_MHF_START_BOOST_TIME" },
+        { "key": 320, "value": "MSG_MHF_POST_BOOST_TIME_QUEST_RETURN" },
+        { "key": 321, "value": "MSG_MHF_GET_BOX_GACHA_INFO" },
+        { "key": 322, "value": "MSG_MHF_PLAY_BOX_GACHA" },
+        { "key": 323, "value": "MSG_MHF_RESET_BOX_GACHA_INFO" },
+        { "key": 324, "value": "MSG_MHF_GET_SEIBATTLE" },
+        { "key": 325, "value": "MSG_MHF_POST_SEIBATTLE" },
+        { "key": 326, "value": "MSG_MHF_GET_RYOUDAMA" },
+        { "key": 327, "value": "MSG_MHF_POST_RYOUDAMA" },
+        { "key": 328, "value": "MSG_MHF_GET_TENROUIRAI" },
+        { "key": 329, "value": "MSG_MHF_POST_TENROUIRAI" },
+        { "key": 330, "value": "MSG_MHF_POST_GUILD_SCOUT" },
+        { "key": 331, "value": "MSG_MHF_CANCEL_GUILD_SCOUT" },
+        { "key": 332, "value": "MSG_MHF_ANSWER_GUILD_SCOUT" },
+        { "key": 333, "value": "MSG_MHF_GET_GUILD_SCOUT_LIST" },
+        { "key": 334, "value": "MSG_MHF_GET_GUILD_MANAGE_RIGHT" },
+        { "key": 335, "value": "MSG_MHF_SET_GUILD_MANAGE_RIGHT" },
+        { "key": 336, "value": "MSG_MHF_PLAY_NORMAL_GACHA" },
+        { "key": 337, "value": "MSG_MHF_GET_DAILY_MISSION_MASTER" },
+        { "key": 338, "value": "MSG_MHF_GET_DAILY_MISSION_PERSONAL" },
+        { "key": 339, "value": "MSG_MHF_SET_DAILY_MISSION_PERSONAL" },
+        { "key": 340, "value": "MSG_MHF_GET_GACHA_PLAY_HISTORY" },
+        { "key": 341, "value": "MSG_MHF_GET_REJECT_GUILD_SCOUT" },
+        { "key": 342, "value": "MSG_MHF_SET_REJECT_GUILD_SCOUT" },
+        { "key": 343, "value": "MSG_MHF_GET_CA_ACHIEVEMENT_HIST" },
+        { "key": 344, "value": "MSG_MHF_SET_CA_ACHIEVEMENT_HIST" },
+        { "key": 345, "value": "MSG_MHF_GET_KEEP_LOGIN_BOOST_STATUS" },
+        { "key": 346, "value": "MSG_MHF_USE_KEEP_LOGIN_BOOST" },
+        { "key": 347, "value": "MSG_MHF_GET_UD_SCHEDULE" },
+        { "key": 348, "value": "MSG_MHF_GET_UD_INFO" },
+        { "key": 349, "value": "MSG_MHF_GET_KIJU_INFO" },
+        { "key": 350, "value": "MSG_MHF_SET_KIJU" },
+        { "key": 351, "value": "MSG_MHF_ADD_UD_POINT" },
+        { "key": 352, "value": "MSG_MHF_GET_UD_MY_POINT" },
+        { "key": 353, "value": "MSG_MHF_GET_UD_TOTAL_POINT_INFO" },
+        { "key": 354, "value": "MSG_MHF_GET_UD_BONUS_QUEST_INFO" },
+        { "key": 355, "value": "MSG_MHF_GET_UD_SELECTED_COLOR_INFO" },
+        { "key": 356, "value": "MSG_MHF_GET_UD_MONSTER_POINT" },
+        { "key": 357, "value": "MSG_MHF_GET_UD_DAILY_PRESENT_LIST" },
+        { "key": 358, "value": "MSG_MHF_GET_UD_NORMA_PRESENT_LIST" },
+        { "key": 359, "value": "MSG_MHF_GET_UD_RANKING_REWARD_LIST" },
+        { "key": 360, "value": "MSG_MHF_ACQUIRE_UD_ITEM" },
+        { "key": 361, "value": "MSG_MHF_GET_REWARD_SONG" },
+        { "key": 362, "value": "MSG_MHF_USE_REWARD_SONG" },
+        { "key": 363, "value": "MSG_MHF_ADD_REWARD_SONG_COUNT" },
+        { "key": 364, "value": "MSG_MHF_GET_UD_RANKING" },
+        { "key": 365, "value": "MSG_MHF_GET_UD_MY_RANKING" },
+        { "key": 366, "value": "MSG_MHF_ACQUIRE_MONTHLY_REWARD" },
+        { "key": 367, "value": "MSG_MHF_GET_UD_GUILD_MAP_INFO" },
+        { "key": 368, "value": "MSG_MHF_GENERATE_UD_GUILD_MAP" },
+        { "key": 369, "value": "MSG_MHF_GET_UD_TACTICS_POINT" },
+        { "key": 370, "value": "MSG_MHF_ADD_UD_TACTICS_POINT" },
+        { "key": 371, "value": "MSG_MHF_GET_UD_TACTICS_RANKING" },
+        { "key": 372, "value": "MSG_MHF_GET_UD_TACTICS_REWARD_LIST" },
+        { "key": 373, "value": "MSG_MHF_GET_UD_TACTICS_LOG" },
+        { "key": 374, "value": "MSG_MHF_GET_UD_TACTICS_FOLLOWER" },
+        { "key": 375, "value": "MSG_MHF_SET_UD_TACTICS_FOLLOWER" },
+        { "key": 376, "value": "MSG_MHF_GET_UD_SHOP_COIN" },
+        { "key": 377, "value": "MSG_MHF_USE_UD_SHOP_COIN" },
+        { "key": 378, "value": "MSG_MHF_GET_ENHANCED_MINIDATA" },
+        { "key": 379, "value": "MSG_MHF_SET_ENHANCED_MINIDATA" },
+        { "key": 380, "value": "MSG_MHF_SEX_CHANGER" },
+        { "key": 381, "value": "MSG_MHF_GET_LOBBY_CROWD" },
+        { "key": 382, "value": "MSG_SYS_reserve180" },
+        { "key": 383, "value": "MSG_MHF_GUILD_HUNTDATA" },
+        { "key": 384, "value": "MSG_MHF_ADD_KOURYOU_POINT" },
+        { "key": 385, "value": "MSG_MHF_GET_KOURYOU_POINT" },
+        { "key": 386, "value": "MSG_MHF_EXCHANGE_KOURYOU_POINT" },
+        { "key": 387, "value": "MSG_MHF_GET_UD_TACTICS_BONUS_QUEST" },
+        { "key": 388, "value": "MSG_MHF_GET_UD_TACTICS_FIRST_QUEST_BONUS" },
+        { "key": 389, "value": "MSG_MHF_GET_UD_TACTICS_REMAINING_POINT" },
+        { "key": 390, "value": "MSG_SYS_reserve188" },
+        { "key": 391, "value": "MSG_MHF_LOAD_PLATE_MYSET" },
+        { "key": 392, "value": "MSG_MHF_SAVE_PLATE_MYSET" },
+        { "key": 393, "value": "MSG_SYS_reserve18B" },
+        { "key": 394, "value": "MSG_MHF_GET_RESTRICTION_EVENT" },
+        { "key": 395, "value": "MSG_MHF_SET_RESTRICTION_EVENT" },
+        { "key": 396, "value": "MSG_SYS_reserve18E" },
+        { "key": 397, "value": "MSG_SYS_reserve18F" },
+        { "key": 398, "value": "MSG_MHF_GET_TREND_WEAPON" },
+        { "key": 399, "value": "MSG_MHF_UPDATE_USE_TREND_WEAPON_LOG" },
+        { "key": 400, "value": "MSG_SYS_reserve192" },
+        { "key": 401, "value": "MSG_SYS_reserve193" },
+        { "key": 402, "value": "MSG_SYS_reserve194" },
+        { "key": 403, "value": "MSG_MHF_SAVE_RENGOKU_DATA" },
+        { "key": 404, "value": "MSG_MHF_LOAD_RENGOKU_DATA" },
+        { "key": 405, "value": "MSG_MHF_GET_RENGOKU_BINARY" },
+        { "key": 406, "value": "MSG_MHF_ENUMERATE_RENGOKU_RANKING" },
+        { "key": 407, "value": "MSG_MHF_GET_RENGOKU_RANKING_RANK" },
+        { "key": 408, "value": "MSG_MHF_ACQUIRE_EXCHANGE_SHOP" },
+        { "key": 409, "value": "MSG_SYS_reserve19B" },
+        { "key": 410, "value": "MSG_MHF_SAVE_MEZFES_DATA" },
+        { "key": 411, "value": "MSG_MHF_LOAD_MEZFES_DATA" },
+        { "key": 412, "value": "MSG_SYS_reserve19E" },
+        { "key": 413, "value": "MSG_SYS_reserve19F" },
+        { "key": 414, "value": "MSG_MHF_UPDATE_FORCE_GUILD_RANK" },
+        { "key": 415, "value": "MSG_MHF_RESET_TITLE" },
+        { "key": 416, "value": "MSG_MHF_ENUMERATE_GUILD_MESSAGE_BOARD" },
+        { "key": 417, "value": "MSG_MHF_UPDATE_GUILD_MESSAGE_BOARD" },
+        { "key": 418, "value": "MSG_SYS_reserve1A4" },
+        { "key": 419, "value": "MSG_MHF_REGIST_GUILD_ADVENTURE_DIVA" },
+        { "key": 420, "value": "MSG_SYS_reserve1A6" },
+        { "key": 421, "value": "MSG_SYS_reserve1A7" },
+        { "key": 422, "value": "MSG_SYS_reserve1A8" },
+        { "key": 423, "value": "MSG_SYS_reserve1A9" },
+        { "key": 424, "value": "MSG_SYS_reserve1AA" },
+        { "key": 425, "value": "MSG_SYS_reserve1AB" },
+        { "key": 426, "value": "MSG_SYS_reserve1AC" },
+        { "key": 427, "value": "MSG_SYS_reserve1AD" },
+        { "key": 428, "value": "MSG_SYS_reserve1AE" },
+        { "key": 429, "value": "MSG_SYS_reserve1AF" }
+      ]
+    },
+    "EMPTY": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_CA_EXCHANGE_ITEM": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_HEAD": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_ACCEPT_READ_REWARD": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_ACQUIRE_CAFE_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ItemType": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "ItemID": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Quant": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "PointCost": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_DIST_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DistributionType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DistributionID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_EXCHANGE_SHOP": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_FESTA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero1": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_FESTA_INTERMEDIATE_PRIZE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PrizeID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_FESTA_PERSONAL_PRIZE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PrizeID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_GUILD_ADVENTURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_GUILD_TRESURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "HuntID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_GUILD_TRESURE_SOUVENIR": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4
+          }
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_MONTHLY_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero2": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_MONTHLY_REWARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_TITLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero3": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "TitleIDs": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 2
+          }
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_TOURNAMENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "TournamentID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ACQUIRE_UD_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RewardType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk3": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 1,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4
+          }
+        }
+      }
+    },
+    "MSG_MHF_ADD_ACHIEVEMENT": {
+      "@type": "StructType",
+      "members": {
+        "AchievementID": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ADD_GUILD_MISSION_COUNT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MissionID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Count": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ADD_GUILD_WEEKLY_BONUS_EXCEPTIONAL_USER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "NumUsers": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ADD_KOURYOU_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "KouryouPoints": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ADD_REWARD_SONG_COUNT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_ADD_UD_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ADD_UD_TACTICS_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ANNOUNCE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IPAddress": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Port": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "_1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_2": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_3": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "FixedSizeBlobElement",
+          "size": 32
+        },
+        "Data": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 4,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_ANSWER_GUILD_SCOUT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "LeaderID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Answer": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_APPLY_BBS_ARTICLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "FixedSizeBlobElement",
+          "size": 16
+        },
+        "Name": {
+          "@type": "FixedSizeStringElement",
+          "size": 32,
+          "charset": "SJIS"
+        },
+        "Title": {
+          "@type": "FixedSizeStringElement",
+          "size": 128,
+          "charset": "SJIS"
+        },
+        "Description": {
+          "@type": "FixedSizeStringElement",
+          "size": 256,
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_APPLY_CAMPAIGN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2": {
+          "@type": "FixedSizeBlobElement",
+          "size": 16
+        }
+      }
+    },
+    "MSG_MHF_APPLY_DIST_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DistributionType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DistributionID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ARRANGE_GUILD_MEMBER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero4": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "CharIDs": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 1,
+          "schema": {
+              "@type": "IntElement",
+              "size": 4
+          }
+        }
+      }
+    },
+    "MSG_MHF_CANCEL_GUILD_MISSION_TARGET": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MissionID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_CANCEL_GUILD_SCOUT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "InvitationID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_CARAVAN_MY_RANK": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_CARAVAN_MY_SCORE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk5": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_CARAVAN_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_CHARGE_FESTA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Souls": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 2
+          }
+        },
+        "Auto": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_CHARGE_GUILD_ADVENTURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Amount": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_CHECK_DAILY_CAFEPOINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_CHECK_MONTHLY_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Type": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero5": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero6": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero7": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_CHECK_WEEKLY_STAMP": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "StampType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero8": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_CONTRACT_MERCENARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PactMercID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Op": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_CREATE_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero9": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Name": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_CREATE_JOINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero10": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Name": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_CREATE_MERCENARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_DEBUG_POST_VALUE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_DISPLAYED_ACHIEVEMENT": {
+      "@type": "StructType",
+      "members": {
+        "_zero11": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENTER_TOURNAMENT_QUEST": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_ENTRY_FESTA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero12": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENTRY_ROOKIE_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENTRY_TOURNAMENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "TournamentID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_AIROULIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_CAMPAIGN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_DIST_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DistType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk3": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 1,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_EVENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero13": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "_zero14": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_FESTA_INTERMEDIATE_PRIZE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_FESTA_MEMBER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero15": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_FESTA_PERSONAL_PRIZE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_GUACOT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero16": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Type": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Page": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Sorting": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero17": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "Data1": {
+            "@type": "FixedSizeBlobElement",
+            "size": 4
+        },
+        "_zero18": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "DataLength": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero19": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "Data2": {
+            "@type": "VariableRefSizeArrayElement",
+            "sizeVarName": "DataLength",
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_GUILD_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero20": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero21": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_GUILD_MEMBER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero22": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_1": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "AllianceID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_GUILD_MESSAGE_BOARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MaxPosts": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BoardType": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_GUILD_TRESURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MaxHunts": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_HOUSE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Method": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero23": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Name": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_INV_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Operation": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "ActiveHours": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DaysActive": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "PlayStyle": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildRequest": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "CampaignID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_MERCENARY_LOG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_ORDER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_PRICE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero24": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "_zero25": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_QUEST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "World": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Counter": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Offset": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero26": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "_zero27": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero28": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_RENGOKU_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Leaderboard": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_SHOP": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ShopType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "ShopID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Limit": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk5": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_TITLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_UNION_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero29": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero30": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_ENUMERATE_WAREHOUSE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BoxType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BoxIndex": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero31": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero32": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_EXCHANGE_FPOINT_2_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "TradeID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ItemType": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "ItemId": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Quantity": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_EXCHANGE_ITEM_2_FPOINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "TradeID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ItemType": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "ItemId": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Quantity": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_EXCHANGE_KOURYOU_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "KouryouPoints": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_EXCHANGE_WEEKLY_STAMP": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "StampType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero33": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_GENERATE_UD_GUILD_MAP": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_ACHIEVEMENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero34": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_ADDITIONAL_BEAT_REWARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_BBS_SNS_STATUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "FixedSizeBlobElement",
+          "size": 12
+        }
+      }
+    },
+    "MSG_MHF_GET_BBS_USER_STATUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "FixedSizeBlobElement",
+          "size": 12
+        }
+      }
+    },
+    "MSG_MHF_GET_BOOST_RIGHT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_BOOST_TIME": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_BOOST_TIME_LIMIT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_BOX_GACHA_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_BREAK_SEIBATU_LEVEL_REWARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_GET_CAFE_DURATION": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_CAFE_DURATION_BONUS_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_CA_ACHIEVEMENT_HIST": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_CA_UNIQUE_ID": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_COG_INFO": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_DAILY_MISSION_MASTER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_DAILY_MISSION_PERSONAL": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_DIST_DESCRIPTION": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DistributionID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_EARTH_STATUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_EARTH_VALUE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ReqType": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk5": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_ENHANCED_MINIDATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_EQUIP_SKIN_HIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_ETC_POINTS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_EXTRA_INFO": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_FIXED_SEIBATU_RANKING_TABLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_GET_FPOINT_EXCHANGE_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GACHA_PLAY_HISTORY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GACHA_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GEM_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk5": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_MANAGE_RIGHT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_MISSION_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_MISSION_RECORD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_SCOUT_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_TARGET_MEMBER_NUM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_TRESURE_SOUVENIR": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_WEEKLY_BONUS_ACTIVE_COUNT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_GUILD_WEEKLY_BONUS_MASTER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_KEEP_LOGIN_BOOST_STATUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_KIJU_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_KOURYOU_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_LOBBY_CROWD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Server": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Room": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_MYHOUSE_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_GET_NOTICE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_GET_PAPER_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_RAND_FROM_TABLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Results": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_GET_REJECT_GUILD_SCOUT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_RENGOKU_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero35": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_RENGOKU_RANKING_RANK": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_RESTRICTION_EVENT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_GET_REWARD_SONG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_RYOUDAMA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Request1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Request2": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_SEIBATTLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Type": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_GET_SENYU_DAILY_COUNT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_STEPUP_STATUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_TENROUIRAI": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_TINY_BIN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_TOWER_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "InfoType": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_TREND_WEAPON": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_BONUS_QUEST_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_DAILY_PRESENT_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_GUILD_MAP_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_MONSTER_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_MY_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_MY_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_NORMA_PRESENT_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_RANKING_REWARD_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_SCHEDULE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_SELECTED_COLOR_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_SHOP_COIN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_BONUS_QUEST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_FIRST_QUEST_BONUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_FOLLOWER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_LOG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_REMAINING_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TACTICS_REWARD_LIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_UD_TOTAL_POINT_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_WEEKLY_SCHEDULE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GET_WEEKLY_SEIBATU_RANKING_REWARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_GUILD_HUNTDATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Operation": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_INFO_FESTA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero36": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero37": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero38": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_INFO_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_INFO_JOINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "AllianceID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero39": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_INFO_SCENARIO_COUNTER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_INFO_TOURNAMENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_KICK_EXPORT_FORCE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_LIST_MAIL": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero40": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "_zero41": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_LIST_MEMBER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero42": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_LOADDATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_DECO_MYSET": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_FAVORITE_QUEST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_GUILD_ADVENTURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_GUILD_COOKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MaxMeals": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_LOAD_HOUSE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Destination": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "CheckPass": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero43": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Password": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_LOAD_HUNTER_NAVI": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_LEGEND_DISPATCH": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_MEZFES_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_OTOMO_AIROU": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_PARTNER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_PLATE_BOX": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_PLATE_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_PLATE_MYSET": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_RENGOKU_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_LOAD_SCENARIO_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_MERCENARY_HUNTDATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_OPERATE_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Action": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DataLength": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Data1": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        },
+        "Data2": {
+            "@type": "VariableRefSizeArrayElement",
+            "sizeVarName": "DataLength",
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
+        }
+      }
+    },
+    "MSG_MHF_OPERATE_GUILD_MEMBER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Action": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero44": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero45": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_OPERATE_GUILD_TRESURE_REPORT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "HuntID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "State": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_OPERATE_JOINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "AllianceID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Action": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DataLength": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Data1": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        },
+        "Data2": {
+            "@type": "VariableRefSizeArrayElement",
+            "sizeVarName": "DataLength",
+            "schema": {
+                "@type": "IntElement",
+                "size": 1
+            }
+        }
+      }
+    },
+    "MSG_MHF_OPERATE_WAREHOUSE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Operation": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BoxType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BoxIndex": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "LengthName": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero46": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Name": {
+            "@type": "VariableRefSizeStringElement",
+            "sizeVarName": "LengthName"
+        }
+      }
+    },
+    "MSG_MHF_OPERATION_INV_GUILD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Operation": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "ActiveHours": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DaysActive": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "PlayStyle": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildRequest": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_OPRT_MAIL": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "AccIndex": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Index": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero47": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "Amount": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "ItemID": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_OPR_MEMBER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Blacklist": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Operation": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "CharIDs": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 1,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4
+          }
+        }
+      }
+    },
+    "MSG_MHF_PAYMENT_ACHIEVEMENT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_PLAY_BOX_GACHA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RollType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GachaType": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_PLAY_FREE_GACHA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaType": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_PLAY_NORMAL_GACHA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RollType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GachaType": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_PLAY_STEPUP_GACHA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RollType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GachaType": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_POST_BOOST_TIME": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BoostTime": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_POST_BOOST_TIME_LIMIT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Expiration": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_POST_BOOST_TIME_QUEST_RETURN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_POST_CAFE_DURATION_BONUS_RECEIVED": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CafeBonusID": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 4,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4
+          }
+        }
+      }
+    },
+    "MSG_MHF_POST_GEM_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Op": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Gem": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Quantity": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "CID": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Message": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_POST_GUILD_SCOUT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_POST_NOTICE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_POST_RYOUDAMA": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_POST_SEIBATTLE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk5": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_POST_TENROUIRAI": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Op": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Floors": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Antiques": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Chests": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Cats": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "TRP": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Slays": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "DonatedRP": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "PreviousRP": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2_0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2_1": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2_2": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk2_3": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_POST_TINY_BIN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Data": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_POST_TOWER_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "InfoType": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Skill": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "TR": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "TRP": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Cost": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk7": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Block1": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk9": {
+          "@type": "IntElement",
+          "size": 8,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_PRESENT_BOX": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk4": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk5": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk6": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk7": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "Unk2",
+          "schema": {
+            "@type": "IntElement",
+            "size": 4
+          }
+        }
+      }
+    },
+    "MSG_MHF_READ_BEAT_LEVEL": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "ValidIDCount": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IDs": {
+            "@type": "FixedSizeArrayElement",
+            "size": 16,
+            "schema": {
+                "@type": "IntElement",
+                "size": 4
+            }
+        }
+      }
+    },
+    "MSG_MHF_READ_BEAT_LEVEL_ALL_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_READ_BEAT_LEVEL_MY_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "FixedSizeArrayElement",
+          "size": 16,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4,
+            "signed": true
+          }
+        }
+      }
+    },
+    "MSG_MHF_READ_GUILDCARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_READ_LAST_WEEK_BEAT_RANKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_READ_MAIL": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "AccIndex": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Index": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero48": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_READ_MERCENARY_M": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MercID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_READ_MERCENARY_W": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Op": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero49": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero50": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_RECEIVE_CAFE_DURATION_BONUS": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_RECEIVE_GACHA_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Max": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Freeze": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_REGISTER_EVENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "WorldID": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "LandID": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero51": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_REGIST_GUILD_ADVENTURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Destination": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_REGIST_GUILD_ADVENTURE_DIVA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Destination": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Charge": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_REGIST_GUILD_COOKING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "OverwriteID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MealID": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Success": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_REGIST_GUILD_TRESURE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Data": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        },
+        "_": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_REGIST_SPABI_TIME": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_RELEASE_EVENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RaviID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero52": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_reserve10F": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_RESET_ACHIEVEMENT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_RESET_BOX_GACHA_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GachaID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_RESET_TITLE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_SAVEDATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "AllocMemSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "SaveType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_DECO_MYSET": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_FAVORITE_QUEST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Data": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_HUNTER_NAVI": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IsDataDiff": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_MERCENARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "LengthData": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GCP": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PactMercID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MercData": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_MEZFES_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_OTOMO_AIROU": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_PARTNER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_PLATE_BOX": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IsDataDiff": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_PLATE_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IsDataDiff": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_PLATE_MYSET": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_RENGOKU_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SAVE_SCENARIO_DATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_SEND_MAIL": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RecipientID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "SubjectLength": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "BodyLength": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "_zero53": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Quantity": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "ItemID": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Subject": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        },
+        "Body": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_SERVER_COMMAND": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_SET_CA_ACHIEVEMENT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_SET_CA_ACHIEVEMENT_HIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_SET_DAILY_MISSION_PERSONAL": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_SET_ENHANCED_MINIDATA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "FixedSizeBlobElement",
+          "size": "0x400"
+        }
+      }
+    },
+    "MSG_MHF_SET_GUILD_MANAGE_RIGHT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Allowed": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero54": {
+          "@type": "FixedSizeBlobElement",
+          "size": 3
+        }
+      }
+    },
+    "MSG_MHF_SET_GUILD_MISSION_TARGET": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MissionID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_SET_KIJU": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_SET_LOGINWINDOW": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_SET_REJECT_GUILD_SCOUT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Reject": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_SET_RESTRICTION_EVENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk3": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_SET_UD_TACTICS_FOLLOWER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_SEX_CHANGER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Gender": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_SHUT_CLIENT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_STAMPCARD_PRIZE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_STAMPCARD_STAMP": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "HR": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "GR": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Stamps": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "_zero55": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Reward1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Reward2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Item1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Item2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Quantity1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Quantity2": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_START_BOOST_TIME": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_STATE_CAMPAIGN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CampaignID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_STATE_FESTA_G": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero56": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_STATE_FESTA_U": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero57": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_TRANSFER_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero58": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_TRANSIT_MESSAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero59": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "SearchType": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "MessageData": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_MHF_UNRESERVE_SRG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_BEAT_LEVEL": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk2": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Data1": {
+          "@type": "FixedSizeArrayElement",
+          "size": 16,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4,
+            "signed": true
+          }
+        },
+        "Data2": {
+          "@type": "FixedSizeArrayElement",
+          "size": 16,
+          "schema": {
+            "@type": "IntElement",
+            "size": 4,
+            "signed": true
+          }
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_CAFEPOINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero60": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "_zero61": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_EQUIP_SKIN_HIST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MogType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "ArmourID": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_ETC_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PointType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Delta": {
+          "@type": "IntElement",
+          "size": 2,
+          "signed": true
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_FORCE_GUILD_RANK": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_UPDATE_GUACOT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "EntryCount": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "_zero62": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_GUILD": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_UPDATE_GUILDCARD": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_UPDATE_GUILD_ICON": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero63": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero64": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_GUILD_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero65": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero66": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_GUILD_MESSAGE_BOARD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "MessageOp": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PostType": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "StampID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "TitleLength": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BodyLength": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PostID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero67": {
+          "@type": "FixedSizeBlobElement",
+          "size": 8
+        },
+        "_zero68": {
+          "@type": "FixedSizeBlobElement",
+          "size": 8
+        },
+        "_zero69": {
+          "@type": "FixedSizeBlobElement",
+          "size": 8
+        },
+        "LikeState": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_HOUSE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "State": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero70": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero71": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "PasswordLength": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Password": {
+          "@type": "NullEndStringElement",
+          "charset": "SJIS"
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_INTERIOR": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "InteriorData": {
+          "@type": "FixedSizeBlobElement",
+          "size": 20
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_MYHOUSE_INFO": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Data": {
+          "@type": "FixedSizeBlobElement",
+          "size": 362
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_UNION_ITEM": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero72": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero73": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_USE_TREND_WEAPON_LOG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "WeaponType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "WeaponID": {
+          "@type": "IntElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_MHF_UPDATE_WAREHOUSE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BoxType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BoxIndex": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero74": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero75": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_USE_GACHA_POINT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "TrialCoins": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "PremiumCoins": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_USE_KEEP_LOGIN_BOOST": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BoostWeekUsed": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_MHF_USE_REWARD_SONG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_MHF_USE_UD_SHOP_COIN": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_MHF_VOTE_FESTA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "FestaID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "GuildID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "TrialID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_ACK": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IsBufferResponse": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "ErrorCode": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "AckData": {
+          "@type": "FixedSizeBlobElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_ACQUIRE_SEMAPHORE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "SemaphoreID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_ADD_OBJECT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_AUTH_DATA": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_AUTH_QUERY": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_AUTH_TERMINAL": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_BACK_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_CASTED_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BroadcastType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "MessageType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RawDataPayload": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_SYS_CAST_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "Unk": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BroadcastType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "MessageType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "RawDataPayload": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 2,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_SYS_CHECK_SEMAPHORE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "SemaphoreID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_CLEANUP_OBJECT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_CLOSE_MUTEX": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_COLLECT_BINARY": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_CREATE_ACQUIRE_SEMAPHORE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "PlayerCount": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "SemaphoreID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_CREATE_MUTEX": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_CREATE_OBJECT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "X": {
+          "@type": "FloatElement",
+          "size": 4
+        },
+        "Y": {
+          "@type": "FloatElement",
+          "size": 4
+        },
+        "Z": {
+          "@type": "FloatElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_CREATE_OPEN_MUTEX": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_CREATE_SEMAPHORE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "PlayerCount": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "SemaphoreID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_CREATE_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "PlayerCount": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_DELETE_MUTEX": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_DELETE_OBJECT": {
+      "@type": "StructType",
+      "members": {
+        "ObjID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_DELETE_SEMAPHORE": {
+      "@type": "StructType",
+      "members": {
+        "SemaphoreID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_DELETE_USER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_DEL_OBJECT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_DISP_OBJECT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_DUPLICATE_OBJECT": {
+      "@type": "StructType",
+      "members": {
+        "ObjID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "X": {
+          "@type": "FloatElement",
+          "size": 4
+        },
+        "Y": {
+          "@type": "FloatElement",
+          "size": 4
+        },
+        "Z": {
+          "@type": "FloatElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "OwnerCharID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_ECHO": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_END": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_ENTER_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_ENUMERATE_CLIENT": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Get": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_ENUMERATE_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StagePrefix": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_ENUMLOBBY": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_ENUMUSER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_EXTEND_THRESHOLD": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_GET_FILE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "IsScenario": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_SYS_GET_OBJECT_BINARY": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_GET_OBJECT_OWNER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_GET_STAGE_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BinaryType0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BinaryType1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_GET_STATE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_GET_USER_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BinaryType": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_SYS_HIDE_CLIENT": {
+      "@type": "StructType",
+      "members": {
+        "Hide": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero76": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero77": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero78": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_SYS_HIDE_OBJECT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_INFOKYSERVER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_INSERT_USER": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_ISSUE_LOGKEY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "_zero79": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_SYS_LEAVE_STAGE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_LOAD_REGISTER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "RegisterID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Values": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_zero80": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "_zero81": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_SYS_LOCK_GLOBAL_SEMA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "UserIDLength": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "ServerChannelIDLength": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "UserIDString": {
+            "@type": "VariableRefSizeStringElement",
+            "sizeVarName": "UserIDLength"
+        },
+        "ServerChannelIDString": {
+            "@type": "VariableRefSizeStringElement",
+            "sizeVarName": "ServerChannelIDLength"
+        }
+      }
+    },
+    "MSG_SYS_LOCK_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "_1_1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_LOGIN": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "CharID0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "LoginTokenNumber": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "HardcodedZero0": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RequestVersion": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "CharID1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero82": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "_11": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "LoginTokenString": {
+          "@type": "NullEndStringElement"
+        }
+      }
+    },
+    "MSG_SYS_LOGOUT": {
+      "@type": "StructType",
+      "members": {
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_SYS_MOVE_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "UnkBool": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_NOP": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_NOTIFY_REGISTER": {
+      "@type": "StructType",
+      "members": {
+        "RegisterID": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_NOTIFY_USER_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "CharID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BinaryType": {
+          "@type": "IntElement",
+          "size": 1
+        }
+      }
+    },
+    "MSG_SYS_OPEN_MUTEX": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_OPERATE_REGISTER": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "SemaphoreID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero83": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "VariableSizeBlobElement",
+          "fieldSize": 2
+        }
+      }
+    },
+    "MSG_SYS_PING": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_POSITION_OBJECT": {
+      "@type": "StructType",
+      "members": {
+        "ObjID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "X": {
+          "@type": "FloatElement",
+          "size": 32
+        },
+        "Y": {
+          "@type": "FloatElement",
+          "size": 32
+        },
+        "Z": {
+          "@type": "FloatElement",
+          "size": 32
+        }
+      }
+    },
+    "MSG_SYS_RECORD_LOG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero84": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        },
+        "Length": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Data": {
+          "@type": "VariableRefSizeBlobElement",
+          "sizeVarName": "Length"
+        }
+      }
+    },
+    "MSG_SYS_RELEASE_SEMAPHORE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_reserve01": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve02": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve03": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve04": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve05": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve06": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve07": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve0C": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve0D": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve0E": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve180": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve188": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_reserve18B": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_reserve18E": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve18F": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve192": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve193": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve194": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve19B": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve19E": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve19F": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1A4": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1A6": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1A7": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1A8": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1A9": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1AA": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1AB": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1AC": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1AD": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1AE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve1AF": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve4A": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve4B": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve4C": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve4D": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve4E": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve4F": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve55": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve56": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve57": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve5C": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve5E": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve5F": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve71": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve72": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve73": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve74": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve75": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve76": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve77": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve78": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve79": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve7A": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve7B": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve7C": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_reserve7E": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_RESERVE_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Ready": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_RIGHTS_RELOAD": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk0": {
+          "@type": "VariableSizeArrayElement",
+          "fieldSize": 1,
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_SYS_ROTATE_OBJECT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_SERIALIZE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_SET_OBJECT_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "ObjID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_SYS_SET_STAGE_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "BinaryType0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BinaryType1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "StageIDLength": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "StageID": {
+          "@type": "VariableRefSizeStringElement",
+          "sizeVarName": "StageIDLength"
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeBlobElement",
+          "sizeVarName": "DataSize"
+        }
+      }
+    },
+    "MSG_SYS_SET_STAGE_PASS": {
+      "@type": "StructType",
+      "members": {
+        "_zero85": {
+          "@type": "FixedSizeBlobElement",
+          "size": 1
+        },
+        "Password": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    },
+    "MSG_SYS_SET_STATUS": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_SET_USER_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "BinaryType": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "DataSize": {
+          "@type": "IntElement",
+          "size": 2
+        },
+        "RawDataPayload": {
+          "@type": "VariableRefSizeArrayElement",
+          "sizeVarName": "DataSize",
+          "schema": {
+            "@type": "IntElement",
+            "size": 1
+          }
+        }
+      }
+    },
+    "MSG_SYS_STAGE_DESTRUCT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_TERMINAL_LOG": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "LogID": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "_zero86": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_SYS_TIME": {
+      "@type": "StructType",
+      "members": {
+        "GetRemoteTime": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Timestamp": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_TRANS_BINARY": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_UNLOCK_GLOBAL_SEMA": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_UNLOCK_STAGE": {
+      "@type": "StructType",
+      "members": {
+        "_zero87": {
+          "@type": "FixedSizeBlobElement",
+          "size": 2
+        }
+      }
+    },
+    "MSG_SYS_UNRESERVE_STAGE": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_UPDATE_OBJECT_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "Unk1": {
+          "@type": "IntElement",
+          "size": 4
+        }
+      }
+    },
+    "MSG_SYS_UPDATE_RIGHT": {
+      "@type": "StructType",
+      "members": {}
+    },
+    "MSG_SYS_WAIT_STAGE_BINARY": {
+      "@type": "StructType",
+      "members": {
+        "AckHandle": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "BinaryType0": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "BinaryType1": {
+          "@type": "IntElement",
+          "size": 1
+        },
+        "Unk0": {
+          "@type": "IntElement",
+          "size": 4
+        },
+        "StageID": {
+          "@type": "VariableSizeStringElement",
+          "fieldSize": 1
+        }
+      }
+    }
+  },
+  "schema": {}
+}
